@@ -1,0 +1,178 @@
+{{section}}
+{{column}}
+----
+
+**Table of Content**
+
+{{toc}}{{/toc}}
+
+----
+
+**Children Pages**
+
+{{children}}{{/children}}
+
+----
+{{/column}}
+
+{{column width="40%"}}
+{{info title="Information :"}}
+{{excerpt}}
+Accessibility Report on productversion_origin
+{{/excerpt}}
+
+* Product Version: productversion_origin
+
+Build  productbuild_origin
+{{/info}}
+
+{{info title="Latest edition"}}
+* week_origin
+{{/info}}
+
+{{tip}}
+* [[**Check Procedure**>>https://wiki-int.exoplatform.org/display/PCROSS/ACCESS+Weekly+Reports#ACCESSWeeklyReports-AccessibilityEvaluationTools]]
+* **TESTS DONE on Firefox 4.0  Linux Ubuntu 11.04**
+{{/tip}}
+{{/column}}
+{{/section}}
+
+=== Explanations ===
+
+{{panel}}
+* Rule Sets:
+** WCAG 2.0 Level AA
+** Section 508 Checklist
+* Indicators and explain
+** Fail Rules: With each Use-case/page tested, how many individual rules are broken.
+** Passed Rules: Total Rules set with specified Level - Fail Rules, with each Use-case/page tested.
+** Known Problems: Number of problems met, this kind of problem can be validate by mechanism/ programs.
+** Potential Problems: Number of Problems met, this kind of problem must validate by human ability which still un-programmable.(e.g Alternative Text must bring same information as image).
+{{/panel}}
+
+**Use-Cases**
+
+|= No |= Key |= URL |= Details 
+| 1 | ACME-1 | [[root_origin/portal/acme/overview]] | "ACME Demo Homepage (not login) target = ECMS " 
+| 2 | PLF-1 | [[root_origin/portal/default/]] | "PLF Homepage (not login) target = PLF " 
+| 3 | INT-1 | [[root_origin/portal/intranet/welcome]] | "INTRANET Demo Homepage (not login) target = SOCIAL" 
+| 4 | ACME-NEWS | [[root_origin/portal/acme/news]] | 
+| 5 | ACME-PRODUCTS | [[root_origin/portal/acme/products]] | 
+| 6 | ACME-PRODUCTS-EARTH | [[root_origin/portal/acme/products?folder-id=repository:collaboration:/sites%20content/live/acme/events/All/Earth]] | 
+| 7 | ACME-CATALOG-VISION | [[root_origin/portal/acme/catalog?folder-id=repository:collaboration:/sites%20content/live/acme/categories/acme/Defense/Vision]] | 
+| 8 | ACME-PRODUCT-SPEED | [[root_origin/portal/acme/detail?content-id=/repository/collaboration/sites%20content/live/acme/categories/acme/Movement/Speed]] | 
+| 9 | ACME-NEWSLETTER | [[root_origin/portal/acme/newsletters]] | 
+| 10 | ACME-CONTACTUS | [[root_origin/portal/acme/contactus]] | 
+| 11 | ACME-FORUM | [[root_origin/portal/acme/forum]] | 
+| 12 | ACME-FORUM-THREAD | [[root_origin/portal/acme/forum/topic]] | 
+| 13 | INT-PRIV-HOME | /portal/intranet/home | 
+| 14 | INT-PRIV-FORUM-HOME | /portal/intranet/forum | 
+| 15 | INT-PRIV-SPACE-HOME | /portal/g/:spaces:access/access | 
+| 16 | INT-PRIV-SPACE-FORUM | /portal/g/:spaces:access/access/forum | 
+| 17 | INT-PRIV-SPACE-FORUM-THREAD | /portal/g/:spaces:access/access/forum | 
+| 18 | INT-PRIV-SPACE-WIKI | /portal/g/:spaces:access/access/wiki | 
+| 19 | INT-PRIV-SPACE-MEMBERS | /portal/g/:spaces:access/access/members | 
+| {{color value="#000000"}}18{{/color}} | {{color value="#000000"}}INT-PRIV-SPACE-CALENDAR{{/color}} | {{color value="#000000"}}/portal/g/:spaces:access/access/calendar{{/color}} | 
+| 20 | INT-PRIV-SPACE-DOCUMENT | /portal/g/:spaces:access/access/documents | 
+| 21 | INT-PRIV-SPACE-DASHBOARD | /portal/g/:spaces:access/access/dashboard | 
+| 22 | ACME-PRIV-HOME | /portal/acme/home | 
+| 23 | ACME-PRIV-NEWS | /portal/acme/news | 
+| 24 | ACME-PRIV-PRODUCTS | /portal/acme/products | 
+| 25 | ACME-PRIV-PRODUCTS-EARTH | /portal/acme/products?folder-id=repository:collaboration:/sites%20content/live/acme/events/All/Earth | 
+| 26 | ACME-PRIV-CATALOG-VISION | /portal/acme/catalog?folder-id=repository:collaboration:/sites%20content/live/acme/categories/acme/Defense/Vision | 
+| 28 | ACME-PRIV-PRODUCT-SPEED | /portal/acme/detail?content-id=/repository/collaboration/sites%20content/live/acme/categories/acme/Movement/Speed | 
+| 29 | ACME-PRIV-NEWSLETTER | /portal/acme/newsletters | 
+| 30 | ACME-PRIV-CONTACTUS | /portal/acme/contactus | 
+
+|= No |= Key |= Details 
+| 1 | GROUP-ACME-PUBLIC | ACME-1,ACME-NEWS,ACME-PRODUCTS,ACME-PRODUCTS-EARTH,ACME-CATALOG-VISION,ACME-PRODUCT-SPEED,ACME-NEWSLETTER,ACME-CONTACTUS,ACME-FORUM,ACME-FORUM-THREAD 
+
+=== High Level Indicators ===
+
+{{panel}}
+This page contain average data of Accessibility problems meet in eXo's products with 4 Accessibility standards as listed above.
+{{/panel}}
+
+
+==== WCAG2.0 Level AA ====
+
+{{info}}
+WCAG2.0 Level AA: Total Rules = 258  Coverage = 100%. Level AA cover Level A 
+{{/info}}
+
+{{column width="50%"}}
+ [[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=22&zx=qijd1760dw7p]]
+{{/column}}
+
+{{column width="50%"}}
+ [[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=67&zx=38xv6t8f7rr6]]
+{{/column}}
+
+{{column width="50%"}}
+ [[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=24&zx=is4nbhjs0xr5]]
+{{/column}}
+
+{{column width="50%"}}
+ [[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=25&zx=4e0pxgthchu]]
+{{/column}}
+
+==== Section 508 ====
+
+{{info}}
+Section 508: Total Rules 96  Coverage = 100%. 
+{{/info}}
+
+{{column width="50%"}}
+ [[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=30&zx=eb6qh9ctm9xv]]
+{{/column}}
+
+{{column width="50%"}}
+ [[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=65&zx=4vmbe6d8ylwj]]
+{{/column}}
+
+{{column width="50%"}}
+ [[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=32&zx=5oe1y86yckei]]
+{{/column}}
+
+{{column width="50%"}}
+ [[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=33&zx=9fcmrdfkr0fy]]
+{{/column}}
+
+
+==== Achecker ID Known/Potential ====
+{{info}}
+WCAG2.0 Level AA: Total Rules = 258  Coverage = 100%. Level AA cover Level A 
+{{/info}}
+
+GLOBAL ALL USECASES
+
+{{column width="50%"}}
+[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=462&zx=rbk8bfwhnvcf]]
+{{/column}}
+
+{{column width="50%"}}
+[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=410&zx=tzouec1lcqhs]]
+{{/column}}
+
+
+{{info}}
+Section 508: Total Rules 96  Coverage = 100%. 
+{{/info}}
+
+GLOBAL ALL USECASES
+
+{{column width="50%"}}
+[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=413&zx=sdumy1qclkmr]]
+{{/column}}
+
+{{column width="50%"}}
+[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=414&zx=941eus6q3xgv]]
+{{/column}}
+
+
+
+=== More Details... ===
+
+{{panel}}
+Link: [[https://docs.google.com/a/exoplatform.com/spreadsheet/ccc?key=KEYGOOGLEDOC&hl=fr#gid=0]]
+{{/panel}}

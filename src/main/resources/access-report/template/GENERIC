@@ -1,0 +1,94 @@
+{{section}}
+{{column}}
+{{info title="Information :"}}
+{{excerpt}}
+Accessibility Report Detail - PLATFORM_ORIGIN - USECASE_ORIGIN usecase
+{{/excerpt}}
+
+\\
+
+* Product Version: productversion_origin - productbuild_origin
+{{/info}}
+
+\\
+
+----
+
+{{toc}}{{/toc}}
+
+\\
+
+----
+{{/column}}
+
+\\
+
+{{column width="40%"}}
+{{info title="Latest edition"}}
+* week_origin
+{{/info}}
+
+\\
+
+{{tip}}
+* [[**Check Procedure**>>http://int.exoplatform.org/portal/g/:spaces:team_cross/team_cross/wiki/group/spaces/team_cross/ACCESS_Weekly_Reports#HAccessibilityEvaluationTools]]
+* **TESTS DONE on Firefox 10.0  Linux Ubuntu 11.04**
+{{/tip}}
+
+\\
+{{/column}}
+
+\\
+{{/section}}
+
+**Use-Cases**
+
+|= No |= Key |= URL |= Details 
+|  ICASE_ORIGIN | USECASE_ORIGIN | [[SITE_ORIGIN>>SITE_ORIGIN]] |  
+
+=== Indicators ===
+
+==== WCAG2.0 Level AA ====
+
+{{info}}
+WCAG2.0 Level AA: Total Rules = 258   Coverage = 100% 
+{{/info}}
+
+
+{{column width="50%"}}
+[[image:FailedPassed_LEVELTWO]]
+{{/column}}
+
+{{column width="50%"}}
+[[image:Percentage_LEVELTWO]]
+{{/column}}
+
+{{column width="50%"}}
+[[image:PotentialKnown_LEVELTWO]]
+{{/column}}
+
+{{column width="50%"}}{{/column}}
+
+
+
+==== Section 508 ====
+
+{{info}}
+Section 508: Total Rules = 96   Coverage = 100% 
+{{/info}}
+
+
+{{column width="50%"}}
+[[image:FailedPassed_origin508]]
+{{/column}}
+
+{{column width="50%"}}
+[[image:Percentage_origin508]]
+{{/column}}
+
+{{column width="50%"}}
+[[image:PotentialKnown_origin508]]
+{{/column}}
+
+{{column width="50%"}}{{/column}}
+

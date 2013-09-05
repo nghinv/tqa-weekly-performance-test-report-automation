@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- informations generals when parse templates -->
+	<infogeneral>
+		<root_origin>root_origin</root_origin>
+		<root_replace>http://plf-3.5.5-SNAPSHOT.acceptance.exoplatform.org</root_replace>
+		
+		<productversion_origin>productversion_origin</productversion_origin>
+		<productversion_replace>PLF 3.5.5-SNAPSHOT</productversion_replace>
+
+		<!-- also use for folder name of templates , DO NOT USE ESCAPE for platform_replace-->
+		<platform_origin>PLATFORM_ORIGIN</platform_origin>
+		<platform_replace>PLF3.5.5-SNAPSHOT</platform_replace>
+
+		<productbuild_origin>productbuild_origin</productbuild_origin>
+		<productbuild_replace>3.5.5-20120831.090722-83</productbuild_replace>
+		
+
+		<week_origin>week_origin</week_origin>
+		<week_replace>2012/10/29</week_replace>
+
+		<pathTemplate>/home/quyennt/java/eXoProjects/report/</pathTemplate>
+		<outputsuffix>_reportGenerated.txt</outputsuffix>
+		<spacesvalues>access</spacesvalues>
+		<keygoogledoc>0AvHsEG_fazNJdHppbEhpOHdDaG5TT25uWFotbk9KaHc</keygoogledoc>
+		
+		<!-- use to send template through WEBDAV -->
+		<webdavTemplate>http://int.exoplatform.org/rest/private/jcr/repository/collaboration/Groups/spaces/team_tqa/ApplicationData/eXoWiki/WikiHome/PERFORMANCE/Weekly_Performance_Tests</webdavTemplate>
+		<webdavLogin>quyennt</webdavLogin>
+			<!-- use EncryptService to generate pass -->
+		<webdavPass>e0ad711a79e90e7caaf27cf209d0709f</webdavPass>
+	</infogeneral>
+	<!-- definition files path -->
+	<!-- definition uses cases, each use case has -name -charts and type of -->		
+	<cases>
+		<case>
+			<name>ACME-1</name>
+			<site key="ACME-1">/portal/acme/overview</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=56&zx=fa1k3kc5uj5s" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=59&zx=acikqcuiivz7" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=62&zx=6v8g5uelegdy" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=101&zx=hckihsktw2r9" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=98&zx=typ2ufb6mgbl" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=103&zx=80j177gtgm1t" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=131&zx=of9a25xekbkn" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=132&zx=mhhvbot2temg" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=129&zx=9b2lbzp25r9i" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=168&zx=l5mpshoenwem" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=171&zx=wolt8ifaiddi" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=166&zx=4jw2ymhq6pww" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-1</name>
+			<site key="INT-1">/portal/intranet/welcome</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=57&zx=qubrxg6izk99" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=61&zx=v9uy1chhri4d" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=64&zx=nmhzzdgu4rr0" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=100&zx=7mklwyp9dnqt" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=104&zx=9k2mqvnwa0oi" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=106&zx=8rssa1x8qs2t" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=130&zx=5firc7yxud2b" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=140&zx=ar4w0tfgv708" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=138&zx=2lzrkblsf3z0" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=169&zx=cte15bw3q82p" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=163&zx=ubcsug9g7ft3" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=161&zx=v89rncieledk" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>PLF-1</name>
+			<site key="PLF-1">/portal/default/</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=58&zx=811jb42qpsun" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=60&zx=n3qehq23dzq6" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=63&zx=8z9a4q5878al" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=99&zx=9xks7gnai2fe" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=105&zx=3io12m1jxxwy" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=102&zx=cat5kvic2d2l" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=133&zx=vfeaq0tiy9w" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=141&zx=feppigytqe2a" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=128&zx=owl99uf052uu" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=170&zx=npvu4kpzwx3e" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=162&zx=5a4rfqwa1tbd" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=167&zx=solgk46glebx" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-NEWS</name>
+			<site key="ACME-NEWS">/portal/acme/news</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=79&zx=ngrz3d7kz2g9" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=90&zx=tjeviz1uoydu" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=91&zx=rvmh00lod7mi" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=109&zx=uo5j192rmuea" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=125&zx=5is9x78we4j4" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=124&zx=o6pxpwjybi4y" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=137&zx=cxxiwzm5i2qr" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=152&zx=m78ubk3hlzjv" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=153&zx=fnm8ztliy1cr" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=158&zx=eajuse5jbdiy" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=174&zx=arwjgg5uwcdl" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=175&zx=bootw0jzdlfq" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRODUCTS</name>
+			<site key="ACME-PRODUCTS">/portal/acme/products</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=77&zx=iwvjcwgvl599" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=89&zx=6voqv61dhr3b" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=92&zx=qvqz4s9psbp6" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=107&zx=9l3i50grz37f" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=122&zx=wkx7pgtkly8k" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=119&zx=a7bsnqdor4d1" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=139&zx=xo0vxodzxxac" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=155&zx=mdfmomiyx4z6" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=142&zx=nr1bsk9zutie" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=160&zx=knbiav9upkw0" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=177&zx=97hp2yl2rccf" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=165&zx=5yh6pkofrio9" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRODUCTS-EARTH</name>
+			<site key="ACME-PRODUCTS-EARTH">/portal/acme/products?folder-id=repository:collaboration:/sites%20content/live/acme/events/All/Earth</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=78&zx=8h1qee11ho78" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=88&zx=s0ri4ilc8jdr" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=97&zx=gdongzvoqqsl" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=108&zx=9hhfez7t76zy" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=123&zx=kn4y1tltr6sz" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=127&zx=obc5pfwbbzvq" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=136&zx=e01lk2jv2yqu" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=154&zx=a8wsphj6sdh" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=150&zx=cczyp610he0o" />]]></PotentialKnown_replaceAAA>
+								
+				
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=159&zx=c2umkj6i8vs9" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=176&zx=a37s4d1n04gh" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=186&zx=fssr6rfmkkxy" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-CATALOG-VISION</name>
+			<site key="ACME-CATALOG-VISION">/portal/acme/catalog?folder-id=repository:collaboration:/sites%20content/live/acme/categories/acme/Defense/Vision</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=80&zx=e1zphs2uthgr" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=87&zx=kqzddjeuynsi" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=96&zx=7lsfz1axzbi2" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=115&zx=zf7254qm7sux" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=112&zx=qa1ngpqthu74" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=126&zx=98cep2bbqdq" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=146&zx=dzm6kviw9qbs" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=149&zx=qxl5ebf8t46w" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=151&zx=29b3wz3tz2jo" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=182&zx=ni0dv8v4ya4v" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=185&zx=kk3lrmwqbi69" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=187&zx=ipmy6669a1f6" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRODUCT-SPEED</name>
+			<site key="ACME-PRODUCT-SPEED">/portal/acme/detail?content-id=/repository/collaboration/sites%20content/live/acme/categories/acme/Movement/Speed</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=81&zx=u905ftg2l9ts" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=86&zx=gbvv47rgmjmk" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=94&zx=6qaixy6hf3d" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=114&zx=u83qhfzedq36" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=113&zx=5kn1bfp9il0z" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=121&zx=z0rdbpo9dpi" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=147&zx=8khoi6lcnrjo" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=148&zx=nmipabicl4u3" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=156&zx=t2fys7d0hs4n" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=183&zx=ywphaarz2030" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=184&zx=vi8vgrb6o3d5" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=178&zx=ocbj1ij21hoy" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-NEWSLETTER</name>
+			<site key="ACME-NEWSLETTER">/portal/acme/newsletters</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=82&zx=c6lnfd6k8fec" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=85&zx=6boh2a1mts95" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=95&zx=bpxfmkmjitnn" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=117&zx=dnojle5pouxy" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=110&zx=4uh46oa69nk9" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=120&zx=p6v9i11ut4es" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=144&zx=wqo4lkk0addb" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=134&zx=yqcl3u7d1gfz" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=157&zx=7y9bog43rqhc" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=180&zx=lkyzs1777wgu" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=173&zx=kpkuvazfwc8f" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=179&zx=et7idxdd0afp" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+		<case>
+			<name>ACME-CONTACTUS</name>
+			<site key="ACME-CONTACTUS">/portal/acme/contactus</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=83&zx=gu1tldjz1dkh" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=84&zx=1oeo2aefd052" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=93&zx=ily4icrd4sbh" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=116&zx=48y3s2en8nv6" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=111&zx=9pnf8mta2ry8" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=118&zx=g0tu9oq8m1w9" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=145&zx=wtp46gx2xn6o" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=135&zx=1ah31buv3kp7" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=143&zx=3tql1wp3nxoi" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=181&zx=7h0n6d1jhe0a" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=172&zx=5pjah57m64xb" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=164&zx=21esi9j3de7u" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+		<case>
+			<name>ACME-FORUM</name>
+			<site key="ACME-FORUM">/portal/acme/forum</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=83&zx=gu1tldjz1dkh" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=84&zx=1oeo2aefd052" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=93&zx=ily4icrd4sbh" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=439&zx=fqddamw33uo9" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=442&zx=bcldvllkmxqu" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=441&zx=xa7928l2rkhe" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=145&zx=wtp46gx2xn6o" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=135&zx=1ah31buv3kp7" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=143&zx=3tql1wp3nxoi" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=445&zx=f3p08scb67vb" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=447&zx=wcd0qhcu4d1e" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=449&zx=ganppny59esb" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+		<case>
+			<name>ACME-FORUM-THREAD</name>
+			<site key="ACME-FORUM-THREAD">/portal/acme/topic/topic04a681bf2e697665003b307e7d015edf</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=83&zx=gu1tldjz1dkh" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=84&zx=1oeo2aefd052" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=93&zx=ily4icrd4sbh" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=440&zx=4czzqap0zopq" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=443&zx=6n5uva1d09qy" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=444&zx=r4nw6g8gjsiv" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=145&zx=wtp46gx2xn6o" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=135&zx=1ah31buv3kp7" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=143&zx=3tql1wp3nxoi" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=446&zx=i5jwjpplmvgi" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=448&zx=ng72xizi1p9p" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=450&zx=vtt00lum8b07" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>				
+		<case>
+			<name>INT-PRIV-HOME</name>
+			<site key="INT-PRIV-HOME">/portal/intranet/home</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=188&zx=821cwfy39274" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=190&zx=7c8m4ty50v6d" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=191&zx=r1tiy1ixah0i" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=241&zx=bifzi1wdsc0z" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=239&zx=y6bhktqwwne9" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=240&zx=t3nsroneo6ej" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=306&zx=9vc99inoi64u" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=290&zx=vu8o54t71u92" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=305&zx=a4mpydbife7f" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-FORUM-HOME</name>
+			<site key="INT-PRIV-FORUM-HOME">/portal/intranet/forum</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=192&zx=clzgghxlx9w8" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=189&zx=g4j67uo89ml9" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=193&zx=wbbbe04ab9q" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=256&zx=poiz4p7awxtp" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=242&zx=6f6jwvtee7bj" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=255&zx=g500jgf4zy8p" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=325&zx=qryx1un9a5i9" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=303&zx=9lbowt4vl2s6" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=292&zx=46a8mszb5tek" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=344&zx=l8439abm6o3c" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=357&zx=u7b4acjq5int" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=341&zx=j3tehibvwbmg" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-SPACE-HOME</name>
+			<site key="INT-PRIV-SPACE-HOME">/portal/g/:spaces:spacesvalues/spacesvalues</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=194&zx=ggjh8pyny2g3" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=195&zx=uoois2tbsyr2" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=196&zx=om2fo4ts06v7" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=258&zx=je9z9u6f11y9" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=257&zx=gfrc9hyqono2" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=252&zx=xyc0a2cvr0bh" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=323&zx=hp3jw4nkpfvb" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=326&zx=rjcd38knn1il" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=293&zx=doc5arpsd2b7" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=381&zx=6yy67uhnvrw5" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=376&zx=a18pd1n44180" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=360&zx=blfaszh3oq45" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-SPACE-FORUM</name>
+			<site key="INT-PRIV-SPACE-FORUM">/portal/g/:spaces:spacesvalues/spacesvalues/forum</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=194&zx=ef4qstg1wnf7" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=195&zx=7pgv4hqlavv" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=196&zx=73xy7viius1" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=251&zx=kep7y8kvliwy" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=254&zx=k5fiewvqlv23" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=253&zx=uwve8rrxtnfl" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=296&zx=fn0zkg7e5w2n" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=291&zx=rpc8wu9nc0tb" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=294&zx=v0xaejuj86vl" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=363&zx=ggg29at9ud5b" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=358&zx=2fmow6hx2xli" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=361&zx=83ustgg77irc" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-SPACE-FORUM-THREAD</name>
+			<site key="INT-PRIV-SPACE-FORUM-THREAD">/portal/intranet/forum/topic/topic04a681bf2e697665003b307e7d015edf</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=200&zx=jz63gcsvs3zw" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=201&zx=pfa9dixh6je8" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=202&zx=ksjz71hwacr2" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=248&zx=wf9lmsmo7uvv" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=247&zx=q97r9n834rjk" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=250&zx=2xyr3falgyi7" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=297&zx=8lfkpaf4z6tf" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=300&zx=g3nzcodlqpep" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=295&zx=4zjfqw6bttu2" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=364&zx=nfdroqxddjsz" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=367&zx=scesws3uwj2z" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=362&zx=wlh8can0qe6" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-SPACE-WIKI</name>
+			<site key="INT-PRIV-SPACE-WIKI">/portal/g/:spaces:spacesvalues/spacesvalues/wiki</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=203&zx=gztrzfmyimb4" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=204&zx=v2jgo7seqe1l" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=204&zx=h1u5culbv6w" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=249&zx=mfv42ilm3sbk" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=244&zx=xs52o39zq672" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=243&zx=7m4zdl7kgrjh" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=298&zx=eenzoxde0ofx" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=301&zx=8uwzv6owxj83" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=304&zx=1qqkycxpqp4q" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=365&zx=3ih6tz228b6y" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=368&zx=q85s05vmyrxc" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=342&zx=fu8l01wh2c5z" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-SPACE-MEMBERS</name>
+			<site key="INT-PRIV-SPACE-MEMBERS">/portal/g/:spaces:spacesvalues/spacesvalues/members</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=206&zx=f578c1m9x6ai" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=207&zx=oana4z3x42rs" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=208&zx=ksu5gv709tvs" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=246&zx=t4jgkawr2de" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=245&zx=ihyrzbltfthp" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=271&zx=r5ey6dfx89n8" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=299&zx=loqexr5cut3w" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=302&zx=6lc7dhxopp4f" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=336&zx=tk022p9pwuuf" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=366&zx=myiziwrm28n" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=369&zx=sn8wt6y5t9i3" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=375&zx=jcmvu0xfc6fm" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-SPACE-CALENDAR</name>
+			<site key="INT-PRIV-SPACE-CALENDAR">/portal/g/:spaces:spacesvalues/spacesvalues/calendar</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=393&zx=8kbx72gfnljh" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=210&zx=inoxzjxjwhr3" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=211&zx=pqotyx1v9jij" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=272&zx=qvrgnwrjzm4" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=273&zx=jr9p931enx6k" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=274&zx=ytyd0r9derh6" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=310&zx=2pyl214evhxs" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=309&zx=wq3ymvsxr9oe" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=308&zx=3mtd5yxpruxf" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=348&zx=ohztwu9c5npi" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=345&zx=lyuq6qeiwmem" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=346&zx=9smb9g7odjzi" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-SPACE-DOCUMENT</name>
+			<site key="INT-PRIV-SPACE-DOCUMENT">/portal/g/:spaces:spacesvalues/spacesvalues/documents</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=212&zx=kyqt0e11933x" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=213&zx=9bgfse64qrq4" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=214&zx=dgz2tumrpmn0" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=267&zx=aatp5wc7wjtg" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=268&zx=bdbacofbr6eg" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=269&zx=ovew2hql92p5" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=332&zx=p2ezel1i90bk" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=337&zx=9zpda5holtr7" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=338&zx=pucf4y2maaed" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=386&zx=5k1gxxvzwyal" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=374&zx=whdia526s7qu" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=373&zx=tl3znn5m8vx8" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>INT-PRIV-SPACE-DASHBOARD</name>
+			<site key="INT-PRIV-SPACE-DASHBOARD">/portal/g/:spaces:spacesvalues/spacesvalues/dashboard</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=215&zx=65xcu01wqp9x" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=216&zx=v4kcf468lxdu" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=217&zx=57a5utf4h53p" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=270&zx=ysicx0jllj1m" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=263&zx=yq5sy8ks20ov" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=264&zx=3m7py6uyznm7" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=335&zx=g5x6us7uhvoe" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=328&zx=ftypb8vrc1r" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=333&zx=j8dqshcyomrw" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=385&zx=8n7lmfnpp44" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=390&zx=coxhwqjvrzal" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=387&zx=9i2gotxpkilq" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRIV-HOME</name>
+			<site key="ACME-PRIV-HOME">/portal/acme/home</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=218&zx=j7zd8mg0reon" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=219&zx=4h2g2la4t9ab" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=220&zx=8em67j1xi1do" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=265&zx=kbh91gcxgur8" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=266&zx=up05hyy4xl80" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=259&zx=8wx9mhxalyqy" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=334&zx=edjuwiu29vr2" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=331&zx=smqf2sgx7ui1" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=324&zx=thpe50g21hwe" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=384&zx=bq6r0ngn83eg" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=389&zx=oqods0chz2lq" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=378&zx=c3b2ow1dflpo" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRIV-NEWS</name>
+			<site key="ACME-PRIV-NEWS">/portal/acme/news</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=221&zx=cce93912r8f6" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=222&zx=hnk5ilbaannr" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=223&zx=z8hwboqr8vnh" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=260&zx=a1hrchnxf8et" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=261&zx=nypljjd2uydp" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=262&zx=13a9y6rb646s" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=329&zx=8kat4v6zfb5g" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=330&zx=k9j4mqqf1og6" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=327&zx=v2fleiykwe4a" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=391&zx=l0rmwatx4njc" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=388&zx=hoy6lgw30i2e" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=377&zx=7ldfoetovhgn" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRIV-PRODUCTS</name>
+			<site key="ACME-PRIV-PRODUCTS">/portal/acme/products</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=224&zx=841ptg828aj1" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=225&zx=nhfmt7k9n1j" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=226&zx=uc1az1maz71" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=289&zx=tdjvlksfoiee" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=288&zx=6df7wplxho07" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=287&zx=ft0brzlm9p9h" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=340&zx=ktjo1pz3e59h" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=339&zx=q3x33efus93x" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=319&zx=ppxqzhyhifw2" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=371&zx=n2aqpkkhw6ho" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=372&zx=viieihif4kub" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=355&zx=5dx98qm0fxfc" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRIV-PRODUCTS-EARTH</name>
+			<site key="ACME-PRIV-PRODUCTS-EARTH">/portal/acme/products?folder-id=repository:collaboration:/sites%20content/live/acme/events/All/Earth</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=227&zx=dk7faflp0f88" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=228&zx=bazcwxv6ptx1" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=229&zx=dstgs3br156r" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=286&zx=816vkwxiq3m2" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=285&zx=1e1q0it9wx3n" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=284&zx=re5ljavq0eiy" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=320&zx=9j3vzuntp581" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=321&zx=avypxwxi24qt" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=322&zx=v6if8fn6gj58" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=382&zx=2av179r1h3dq" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=383&zx=k4trxu3fakpe" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=380&zx=650h7sbpe1cz" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRIV-CATALOG-VISION</name>
+			<site key="ACME-PRIV-CATALOG-VISION">/portal/acme/catalog?folder-id=repository:collaboration:/sites%20content/live/acme/categories/acme/Defense/Vision</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=230&zx=a9wftqsizfp6" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=231&zx=hw400ygg4y4i" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=232&zx=d2kcezem9msv" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=283&zx=43wosj49o1i3" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=282&zx=pvcnusxfzmu" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=281&zx=b59pnrk7bpy5" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=315&zx=qhksah57cmdl" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=316&zx=285obqvglkx7" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=317&zx=k4kkz3rqb4ae" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=351&zx=58xgwkntcyzj" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=354&zx=qn3qd06cos0w" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=353&zx=u2mho0cc4e72" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRIV-PRODUCT-SPEED</name>
+			<site key="ACME-PRIV-PRODUCT-SPEED">/portal/acme/detail?content-id=/repository/collaboration/sites%20content/live/acme/categories/acme/Movement/Speed</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=392&zx=qc46kkhczc3g" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=397&zx=2a21uo5tnb9n" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=235&zx=62gjkmew2k7v" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=280&zx=b2ho0vl905g" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=279&zx=qztudnz6tal2" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=278&zx=7b1z0wjybvez" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=318&zx=id9bk4px5mwm" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=311&zx=2bwmm8cq9zv1" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=312&zx=ms3423d1pbsn" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=356&zx=9o20k9cfstgn" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=347&zx=irgos4l3vd12" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=350&zx=2ftgyoqzsel6" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRIV-NEWSLETTER</name>
+			<site key="ACME-PRIV-NEWSLETTER">/portal/acme/newsletters</site>
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=233&zx=ofs4ozvstq4e" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=234&zx=1zs27qxsy3sl" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=238&zx=k0wst8nhxa5k" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=277&zx=eaj77usevv01" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=276&zx=wytp7bfu7vd9" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=275&zx=cbl2an2b1kyf" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=313&zx=obxfhn72yjpv" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=314&zx=ljts2bwcrbks" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=307&zx=8ntcm657oayg" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=349&zx=9obvstxqag6k" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=352&zx=cjno6q3aycgx" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=343&zx=vlqk0c4sp6wr" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+				<case>
+			<name>ACME-PRIV-CONTACTUS</name>
+			<site key="ACME-PRIV-CONTACTUS">/portal/acme/contactus</site>	
+			<!-- from Google doc, publish a chart by image then copy all string to 
+				this charts tag -->
+			<charts>
+				<!-- LEVEL A -->				
+				<FailedPassed_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=236&zx=h8g0jjb0mp4u" />]]></FailedPassed_replaceA>
+				<Percentage_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=237&zx=fvmi7xhn3do6" />]]></Percentage_replaceA>
+				<PotentialKnown_replaceA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=398&zx=40w30kgpgy0s" />]]></PotentialKnown_replaceA>
+
+				<!-- LEVEL AA -->
+				<FailedPassed_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=399&zx=2lndqlnn11e5" />]]></FailedPassed_replaceAA>
+				<Percentage_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=400&zx=8rlianm2539" />]]></Percentage_replaceAA>
+				<PotentialKnown_replaceAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=401&zx=idf769x1qrg6" />]]></PotentialKnown_replaceAA>
+
+				<!-- LEVEL AAA -->
+				<FailedPassed_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=402&zx=3aociqk8vpbk" />]]></FailedPassed_replaceAAA>
+				<Percentage_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=403&zx=ewfa59z12d14" />]]></Percentage_replaceAAA>
+				<PotentialKnown_replaceAAA><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=404&zx=296z3dngyolg" />]]></PotentialKnown_replaceAAA>
+
+				<!-- LEVEL 508 -->
+				<FailedPassed_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=394&zx=zhlo8etcg6p9" />]]></FailedPassed_replace508>
+				<Percentage_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=395&zx=a5ubbdd21bvz" />]]></Percentage_replace508>
+				<PotentialKnown_replace508><![CDATA[<img src="https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=KEYGOOGLEDOC&oid=396&zx=qduidiwoakmm" />]]></PotentialKnown_replace508>
+			</charts>
+		</case>
+	</cases>		
+		
+</config>
