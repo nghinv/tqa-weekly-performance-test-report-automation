@@ -51,10 +51,12 @@ public class TemplateReport {
   // map of general configuration
   HashMap<String, String> mapGeneralConfig;
 
-  String                  ACCESS_REPORT = "ACCESS_Reports_";
+  String                  WEEKLY_REPORT = "WEEKLY_Reports_";
 
   // list of use cases
-  ArrayList<String>       listUseCase;
+//  ArrayList<String>       listUseCase;
+  
+  ArrayList<String>       listSenario;
 
   // list of use cases
   ArrayList<String>       listSite;
@@ -106,46 +108,37 @@ public class TemplateReport {
 
     // read configuration file
     readConfig(configFileXml);
+    
+    // write a general report- Level 1 page
+    logger.info("Generating GENERAL report");
+    File generalReport = new File(mapGeneralConfig.get("pathTemplate") + "template/GENERAL");
+    String templateGeneralReport = readTemplate(generalReport);
+    templateGeneralReport = replaceSenarioInfo(templateGeneralReport);
+//    templateGeneralReport = replaceGeneralInfo(templateGeneralReport);
+//    templateGeneralReport = generatePulishChart(templateGeneralReport);
+    String writeFileGeneralReport = getMapGeneralConfig().get("pathTemplate") + "/"
+        + mapGeneralConfig.get("platform_replace");
+    writeTemplateReplaced(templateGeneralReport, writeFileGeneralReport);
+    
+    
+    
     // for each use case : read template file, replace and write a new
     // report file
-    for (int iCase = 0; iCase < getListUseCase().size(); iCase++) {
+    for (int iCase = 0; iCase < getListSenario().size(); iCase++) {
 
       File templateFile = listTemplateFile.get(iCase);
       String templateToString = readTemplate(templateFile);
       templateToString = replaceGeneralInfo(templateToString);
-      templateToString = replaceChart(templateToString, iCase);
+//      templateToString = replaceChart(templateToString, iCase);
 
       String platformVersion = mapGeneralConfig.get("platform_replace");
 
-      String writeFile = getMapGeneralConfig().get("pathTemplate") + ACCESS_REPORT
-          + mapGeneralConfig.get("platform_replace") + "/" + ACCESS_REPORT + platformVersion + "_"
-          + getListUseCase().get(iCase);
+      String writeFile = getMapGeneralConfig().get("pathTemplate") + WEEKLY_REPORT
+          + mapGeneralConfig.get("platform_replace") + "/" + WEEKLY_REPORT + platformVersion + "_"
+          + getListSenario().get(iCase);
 
       writeTemplateReplaced(templateToString, writeFile);
     }
-
-    // write a general report
-    logger.info("GENERAL report generated");
-    File generalReport = new File(mapGeneralConfig.get("pathTemplate") + "template/GENERAL");
-    String templateGeneralReport = readTemplate(generalReport);
-    templateGeneralReport = replaceGeneralInfo(templateGeneralReport);
-    templateGeneralReport = generatePulishChart(templateGeneralReport);
-    String writeFileGeneralReport = getMapGeneralConfig().get("pathTemplate") + ACCESS_REPORT
-        + mapGeneralConfig.get("platform_replace");
-    writeTemplateReplaced(templateGeneralReport, writeFileGeneralReport);
-
-//    // write w3c report
-//    logger.info("W3C report generated");
-//    File w3cReport = new File(mapGeneralConfig.get("pathTemplate") + "template/W3C");
-//    String templatew3cGeneralReport = readTemplate(w3cReport);
-//    templatew3cGeneralReport = replaceGeneralInfo(templatew3cGeneralReport);
-//    templatew3cGeneralReport = generatePulishChart(templatew3cGeneralReport);
-//    String platformVersion = mapGeneralConfig.get("platform_replace");
-//
-//    String writew3cFileGeneralReport = getMapGeneralConfig().get("pathTemplate") + ACCESS_REPORT
-//        + mapGeneralConfig.get("platform_replace") + "/" + ACCESS_REPORT + platformVersion + "_W3C";
-//
-//    writeTemplateReplaced(templatew3cGeneralReport, writew3cFileGeneralReport);
 
   }
 
@@ -160,30 +153,15 @@ public class TemplateReport {
     // map of general configuration
     mapGeneralConfig = new HashMap<String, String>();
     // list of use cases
-    listUseCase = new ArrayList<String>();
+//    listUseCase = new ArrayList<String>();
+    listSenario = new ArrayList<String>();
+    
     // list of site
     listSite = new ArrayList<String>();
 
     // list of template files
     listTemplateFile = new ArrayList<File>();
 
-    // list of Passed-Failed rules image chart
-    listFailedPassedImgA_replace = new ArrayList<String>();
-    listFailedPassedImgAA_replace = new ArrayList<String>();
-    listFailedPassedImgAAA_replace = new ArrayList<String>();
-    listFailedPassedImg508_replace = new ArrayList<String>();
-
-    // list of Percentage image chart
-    listPercentageImgA_replace = new ArrayList<String>();
-    listPercentageImgAA_replace = new ArrayList<String>();
-    listPercentageImgAAA_replace = new ArrayList<String>();
-    listPercentageImg508_replace = new ArrayList<String>();
-
-    // list of Known-Potential image chart
-    listPotentialKnownImgA_replace = new ArrayList<String>();
-    listPotentialKnownImgAA_replace = new ArrayList<String>();
-    listPotentialKnownImgAAA_replace = new ArrayList<String>();
-    listPotentialKnownImg508_replace = new ArrayList<String>();
 
     // read config file
     // read Accessibility.xml file
@@ -214,29 +192,29 @@ public class TemplateReport {
       NodeList listInfoGeneralWEBDAVTemplate = root.getElementsByTagName("webdavTemplate");
 
       
-      NodeList listUseCaseNode = root.getElementsByTagName("name");
-
-      NodeList listSiteNode = root.getElementsByTagName("site");
-
-      // LEVEL A
-      NodeList listFailedPassed_replaceA = root.getElementsByTagName("FailedPassed_replaceA");
-      NodeList listPercentage_replaceA = root.getElementsByTagName("Percentage_replaceA");
-      NodeList listPotentialKnown_replaceA = root.getElementsByTagName("PotentialKnown_replaceA");
-
-      // LEVEL AA
-      NodeList listFailedPassed_replaceAA = root.getElementsByTagName("FailedPassed_replaceAA");
-      NodeList listPercentage_replaceAA = root.getElementsByTagName("Percentage_replaceAA");
-      NodeList listPotentialKnown_replaceAA = root.getElementsByTagName("PotentialKnown_replaceAA");
-
-      // LEVEL AAA
-      NodeList listFailedPassed_replaceAAA = root.getElementsByTagName("FailedPassed_replaceAAA");
-      NodeList listPercentage_replaceAAA = root.getElementsByTagName("Percentage_replaceAA");
-      NodeList listPotentialKnown_replaceAAA = root.getElementsByTagName("PotentialKnown_replaceAAA");
-
-      // LEVEL 508
-      NodeList listFailedPassed_replace508 = root.getElementsByTagName("FailedPassed_replace508");
-      NodeList listPercentage_replace508 = root.getElementsByTagName("Percentage_replace508");
-      NodeList listPotentialKnown_replace508 = root.getElementsByTagName("PotentialKnown_replace508");
+      NodeList listSenarioNode = root.getElementsByTagName("name");
+//
+//      NodeList listSiteNode = root.getElementsByTagName("site");
+//
+//      // LEVEL A
+//      NodeList listFailedPassed_replaceA = root.getElementsByTagName("FailedPassed_replaceA");
+//      NodeList listPercentage_replaceA = root.getElementsByTagName("Percentage_replaceA");
+//      NodeList listPotentialKnown_replaceA = root.getElementsByTagName("PotentialKnown_replaceA");
+//
+//      // LEVEL AA
+//      NodeList listFailedPassed_replaceAA = root.getElementsByTagName("FailedPassed_replaceAA");
+//      NodeList listPercentage_replaceAA = root.getElementsByTagName("Percentage_replaceAA");
+//      NodeList listPotentialKnown_replaceAA = root.getElementsByTagName("PotentialKnown_replaceAA");
+//
+//      // LEVEL AAA
+//      NodeList listFailedPassed_replaceAAA = root.getElementsByTagName("FailedPassed_replaceAAA");
+//      NodeList listPercentage_replaceAAA = root.getElementsByTagName("Percentage_replaceAA");
+//      NodeList listPotentialKnown_replaceAAA = root.getElementsByTagName("PotentialKnown_replaceAAA");
+//
+//      // LEVEL 508
+//      NodeList listFailedPassed_replace508 = root.getElementsByTagName("FailedPassed_replace508");
+//      NodeList listPercentage_replace508 = root.getElementsByTagName("Percentage_replace508");
+//      NodeList listPotentialKnown_replace508 = root.getElementsByTagName("PotentialKnown_replace508");
 
       // add to general list
       String valueSpacesValues = listInfoGeneralroot_replace.item(0).getFirstChild().getNodeValue();
@@ -275,79 +253,82 @@ public class TemplateReport {
 
       // usecase and read file template
       logger.info("Read GENERIC file");
-      for (int iLevel = 0; iLevel < listUseCaseNode.getLength(); iLevel++) {
-        Node noditem = listUseCaseNode.item(iLevel);
-        listUseCase.add(noditem.getTextContent());
+      for (int iLevel = 0; iLevel < listSenarioNode.getLength(); iLevel++) {
+        Node noditem = listSenarioNode.item(iLevel);
+        
+        System.out.println("Senario - node item:" + noditem.getTextContent());
+        
+        listSenario.add(noditem.getTextContent());
         // replace for generic template
         File newFile = new File(mapGeneralConfig.get("pathTemplate") + "template/GENERIC");
         listTemplateFile.add(newFile);
       }
 
-      // site
-      for (int iSite = 0; iSite < listSiteNode.getLength(); iSite++) {
-        Node noditem = listSiteNode.item(iSite);
-        listSite.add(noditem.getTextContent());
-      }
-
-      /**
-       * listFailedPassed
-       */
-      for (int iLevel = 0; iLevel < listFailedPassed_replaceA.getLength(); iLevel++) {
-        Node noditem = listFailedPassed_replaceA.item(iLevel);
-        listFailedPassedImgA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listFailedPassed_replaceAA.getLength(); iLevel++) {
-        Node noditem = listFailedPassed_replaceAA.item(iLevel);
-        listFailedPassedImgAA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listFailedPassed_replaceAAA.getLength(); iLevel++) {
-        Node noditem = listFailedPassed_replaceAAA.item(iLevel);
-        listFailedPassedImgAAA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listFailedPassed_replace508.getLength(); iLevel++) {
-        Node noditem = listFailedPassed_replace508.item(iLevel);
-        listFailedPassedImg508_replace.add(noditem.getTextContent());
-      }
-
-      /**
-       * Percentage_replace
-       */
-      for (int iLevel = 0; iLevel < listPercentage_replaceA.getLength(); iLevel++) {
-        Node noditem = listPercentage_replaceA.item(iLevel);
-        listPercentageImgA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listPercentage_replaceAA.getLength(); iLevel++) {
-        Node noditem = listPercentage_replaceAA.item(iLevel);
-        listPercentageImgAA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listPercentage_replaceAAA.getLength(); iLevel++) {
-        Node noditem = listPercentage_replaceAAA.item(iLevel);
-        listPercentageImgAAA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listPercentage_replace508.getLength(); iLevel++) {
-        Node noditem = listPercentage_replace508.item(iLevel);
-        listPercentageImg508_replace.add(noditem.getTextContent());
-      }
-
-      /**
-       * PotentialKnown_replace
-       */
-      for (int iLevel = 0; iLevel < listPotentialKnown_replaceA.getLength(); iLevel++) {
-        Node noditem = listPotentialKnown_replaceA.item(iLevel);
-        listPotentialKnownImgA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listPotentialKnown_replaceAA.getLength(); iLevel++) {
-        Node noditem = listPotentialKnown_replaceAA.item(iLevel);
-        listPotentialKnownImgAA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listPotentialKnown_replaceAAA.getLength(); iLevel++) {
-        Node noditem = listPotentialKnown_replaceAAA.item(iLevel);
-        listPotentialKnownImgAAA_replace.add(noditem.getTextContent());
-      }
-      for (int iLevel = 0; iLevel < listPotentialKnown_replace508.getLength(); iLevel++) {
-        Node noditem = listPotentialKnown_replace508.item(iLevel);
-        listPotentialKnownImg508_replace.add(noditem.getTextContent());
-      }
+//      // site
+//      for (int iSite = 0; iSite < listSiteNode.getLength(); iSite++) {
+//        Node noditem = listSiteNode.item(iSite);
+//        listSite.add(noditem.getTextContent());
+//      }
+//
+//      /**
+//       * listFailedPassed
+//       */
+//      for (int iLevel = 0; iLevel < listFailedPassed_replaceA.getLength(); iLevel++) {
+//        Node noditem = listFailedPassed_replaceA.item(iLevel);
+//        listFailedPassedImgA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listFailedPassed_replaceAA.getLength(); iLevel++) {
+//        Node noditem = listFailedPassed_replaceAA.item(iLevel);
+//        listFailedPassedImgAA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listFailedPassed_replaceAAA.getLength(); iLevel++) {
+//        Node noditem = listFailedPassed_replaceAAA.item(iLevel);
+//        listFailedPassedImgAAA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listFailedPassed_replace508.getLength(); iLevel++) {
+//        Node noditem = listFailedPassed_replace508.item(iLevel);
+//        listFailedPassedImg508_replace.add(noditem.getTextContent());
+//      }
+//
+//      /**
+//       * Percentage_replace
+//       */
+//      for (int iLevel = 0; iLevel < listPercentage_replaceA.getLength(); iLevel++) {
+//        Node noditem = listPercentage_replaceA.item(iLevel);
+//        listPercentageImgA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listPercentage_replaceAA.getLength(); iLevel++) {
+//        Node noditem = listPercentage_replaceAA.item(iLevel);
+//        listPercentageImgAA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listPercentage_replaceAAA.getLength(); iLevel++) {
+//        Node noditem = listPercentage_replaceAAA.item(iLevel);
+//        listPercentageImgAAA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listPercentage_replace508.getLength(); iLevel++) {
+//        Node noditem = listPercentage_replace508.item(iLevel);
+//        listPercentageImg508_replace.add(noditem.getTextContent());
+//      }
+//
+//      /**
+//       * PotentialKnown_replace
+//       */
+//      for (int iLevel = 0; iLevel < listPotentialKnown_replaceA.getLength(); iLevel++) {
+//        Node noditem = listPotentialKnown_replaceA.item(iLevel);
+//        listPotentialKnownImgA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listPotentialKnown_replaceAA.getLength(); iLevel++) {
+//        Node noditem = listPotentialKnown_replaceAA.item(iLevel);
+//        listPotentialKnownImgAA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listPotentialKnown_replaceAAA.getLength(); iLevel++) {
+//        Node noditem = listPotentialKnown_replaceAAA.item(iLevel);
+//        listPotentialKnownImgAAA_replace.add(noditem.getTextContent());
+//      }
+//      for (int iLevel = 0; iLevel < listPotentialKnown_replace508.getLength(); iLevel++) {
+//        Node noditem = listPotentialKnown_replace508.item(iLevel);
+//        listPotentialKnownImg508_replace.add(noditem.getTextContent());
+//      }
 
     } catch (FileNotFoundException e) {
       logger.error("ReportInfo readConfig FileNotFoundException error: " + e.getMessage());
@@ -367,11 +348,11 @@ public class TemplateReport {
     String webdavPass = mapGeneralConfig.get("webdavPass");
     String webdavURL = mapGeneralConfig.get("webdavTemplate");    
     
-//    folderLocal = "/home/annb/java/eXoProjects/access-project/cross-access/target/access-report/ACCESS_Reports_PLF3.5.6-SNAPSHOT/";    
-    String folderLocal = getMapGeneralConfig().get("pathTemplate") + ACCESS_REPORT
+//    folderLocal = "/home/annb/java/eXoProjects/access-project/cross-access/target/access-report/WEEKLY_REPORTs_PLF3.5.6-SNAPSHOT/";    
+    String folderLocal = getMapGeneralConfig().get("pathTemplate") + WEEKLY_REPORT
         + mapGeneralConfig.get("platform_replace") +"/";
     
-    String nameParentFolder = ACCESS_REPORT + mapGeneralConfig.get("platform_replace");
+    String nameParentFolder = WEEKLY_REPORT + mapGeneralConfig.get("platform_replace");
 
     SenderWebdav.sendTemlate(webdavLogin, webdavPass, webdavURL, folderLocal, nameParentFolder);
     logger.info("template send by WEBDAV done !");    
@@ -462,7 +443,7 @@ public class TemplateReport {
                                   generatePulishChart(getListPotentialKnownImg508_replace().get(useCase)));
 
     // replace USECASE_ORIGIN
-    sTemplate = sTemplate.replace("USECASE_ORIGIN", getListUseCase().get(useCase));
+    sTemplate = sTemplate.replace("USECASE_ORIGIN", getListSenario().get(useCase));
     // replace ICASE
     sTemplate = sTemplate.replace("ICASE_ORIGIN", useCase + 1 + "");
 
@@ -473,6 +454,16 @@ public class TemplateReport {
     return sTemplate;
   }
 
+  String replaceSenarioInfo(String sTemplate) {
+	  for (int iCase = 0; iCase < getListSenario().size(); iCase++) {
+		  sTemplate = sTemplate.replace("senario_number", "1");
+		  sTemplate = sTemplate.replace("senario_name", "TEST SENARIO NAME");		  
+	  }
+
+    return sTemplate;
+  }  
+  
+  
   /**
    * replace general informations
    * 
@@ -480,6 +471,8 @@ public class TemplateReport {
    * @param useCase
    */
   String replaceGeneralInfo(String sTemplate) {
+	  sTemplate = sTemplate.replace("senario_number", "1");
+	  sTemplate = sTemplate.replace("senario_name", "TEST SENARIO NAME");
     // replace root information
     sTemplate = sTemplate.replace("root_origin", getMapGeneralConfig().get("root_replace"));
     // replace root information
@@ -520,20 +513,21 @@ public class TemplateReport {
   public void setMapGeneralConfig(HashMap<String, String> mapGeneralConfig) {
     this.mapGeneralConfig = mapGeneralConfig;
   }
-
-  public ArrayList<String> getListUseCase() {
-    return listUseCase;
-  }
-
-  public void setListUseCase(ArrayList<String> listUseCase) {
-    this.listUseCase = listUseCase;
-  }
+  
 
   public ArrayList<File> getListTemplateFile() {
     return listTemplateFile;
   }
 
-  public void setListTemplateFile(ArrayList<File> listTemplateFile) {
+  public ArrayList<String> getListSenario() {
+	return listSenario;
+}
+
+public void setListSenario(ArrayList<String> listSenario) {
+	this.listSenario = listSenario;
+}
+
+public void setListTemplateFile(ArrayList<File> listTemplateFile) {
     this.listTemplateFile = listTemplateFile;
   }
 

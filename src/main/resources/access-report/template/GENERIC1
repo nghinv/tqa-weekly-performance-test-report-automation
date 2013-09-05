@@ -1,0 +1,82 @@
+{{info}}
+
+Platform 4.0.3 Weekly Test Report 2013-08-30. The newest package: [[PLF 4.0.3 **SNAPSHOT** @W34>>plf-enterprise-tomcat-standalone-4.0.x-20130821.054909-260.zip]].
+* **News:**
+** **Package**: the newest package under test: plf-enterprise-tomcat-standalone-4.0.x-20130821.054909-260, the previous week package: plf-enterprise-tomcat-standalone-4.0.x-20130815.054806-253. PLF 4.0.2 release is the weekly test report BASE package.
+** **Scenarios**: none of new scenario has been added for this week yet
+** **Performance changes**: **PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME** shows BETTER performance in comparison to the package PLF 4.0.x-SNAPSHOT @Aug-15-2013. Meanwhile, performance of **PERF_PLF_ENT_INTRANET_LOGIN_SERVICE**, **PERF_PLF_ENT_INTRANET_SOCIAL_READ_PROFILE** and **PERF_PLF_ENT_INTRANET_WIKI_READ_PAGE** decrease.
+** **Source code changes collected**: please see [[Source code changes from 2013-08-15 to 2013-08-21>>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/Source_code_changes_from_2013-08-15_to_2013-08-21]]
+** **Exception**: [[SOC-3298>>https://jira.exoplatform.org/browse/SOC-3698]] appears while injecting spaces into PLF
+** **Next package under test**: plf-enterprise-tomcat-standalone-4.0.3 @W35 (20130829.081653-274)
+** **Notes**: Platform 4.1.x Weekly Test is in process. Implement dataset injectors as weekly test writing scenarios is planned to do next to improve weekly test.
+
+
+{{/info}}
+
+----
+
+{{toc/}}
+
+= STATUS OF WEEK =
+
+|= |= |=Compare to previous week |= |=Compare to BASE |=\\
+|= - |= Scenario |= 90% line of response time: difference ~(%) |= PERF change status |= 90% line of response time: difference ~(%) |= PERF change status 
+| 1 | [[**PERF_PLF_ENT_INTRANET_LOGIN_SERVICE**>>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/WP_PLF_4.0.x_-_2013-W34_-_PERF_PLF_ENT_INTRANET_LOGIN_SERVICE]] |(% style="text-align:right;color:red" %)61.81% |(% style="color:red" %)WORSE |(% style="text-align:right;color:red" %)66.62% |(% style="color:red" %)WORSE
+| 2 | [[**PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME**>>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/WP_PLF_4.0.x_-_2013-W34_-_PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME]] |(% style="text-align:right;color:blue" %)-48.45% |(% style="color:blue" %)BETTER |(% style="text-align:right;color:blue" %)-56.14% |(% style="color:blue" %)BETTER
+| 3 | [[**PERF_PLF_ENT_INTRANET_SOCIAL_READ_PROFILE**>>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/WP_PLF_4.0.x_-_2013-W34_-_PERF_PLF_ENT_INTRANET_SOCIAL_READ_PROFILE]] |(% style="text-align:right;color:red" %)27.27% |(% style="color:red" %)WORSE |(% style="text-align:right;color:red" %)33.33% |(% style="color:red" %)WORSE
+| 4 | [[**PERF_PLF_ENT_INTRANET_SOCIAL_READ_SPACE_HOME**>>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/WP_PLF_4.0.x_-_2013-W34_-_PERF_PLF_ENT_INTRANET_SOCIAL_READ_SPACE_HOME]]|(% style="text-align:right" %)-7.26% |THE SAME |(% style="text-align:right;color:red" %)20.86% |(% style="color:red" %)WORSE
+| 5 | [[**PERF_PLF_ENT_INTRANET_FORUM_READ_TOPIC**>>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/WP_PLF_4.0.x_-_2013-W34_-_PERF_PLF_ENT_INTRANET_FORUM_READ_TOPIC]]|(% style="text-align:right" %)5.25% |THE SAME |(% style="text-align:right" %)3.15% |THE SAME
+| 6 | [[**PERF_PLF_ENT_INTRANET_ECMS_READ_FILE_EXPLORER_BROWSE**>>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/WP_PLF_4.0.x_-_2013-W34_-_PERF_PLF_ENT_INTRANET_ECMS_READ_FILE_EXPLORER_BROWSE]]|(% style="text-align:right" %)0.31% |THE SAME |(% style="text-align:right" %)-0.41% |THE SAME
+| 7 | [[**PERF_PLF_ENT_INTRANET_WIKI_READ_PAGE**>>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/WP_PLF_4.0.x_-_2013-W34_-_PERF_PLF_ENT_INTRANET_WIKI_READ_PAGE]]|(% style="text-align:right;color:red" %)28.51% |(% style="color:red" %)WORSE |(% style="text-align:right" %)-0.35% |THE SAME
+
+= STATISTICS CHARTS =
+
+=== PERF_PLF_ENT_INTRANET_LOGIN_SERVICE ===
+
+|[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdHU2QkFtOEp6TnVCTG9DV0pKZDFlcVE&oid=214&zx=43g0nuvnzvq2 ||width="600" height="400" alt="90% line of response time (ms) over weeks - from google docs"]] |[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdHU2QkFtOEp6TnVCTG9DV0pKZDFlcVE&oid=215&zx=s22pf7phv8u5 ||width="600" height="400" alt="Throughput (requests) over weeks - from google docs"]]
+
+=== PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME ===
+
+|[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdDNtX2hDZERaM09MT1pmdDZNbHpLQnc&oid=214&zx=z65iktck8qlk ||width="600" height="400" alt="90% line of response time (ms) over weeks - from google docs"]] |[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdDNtX2hDZERaM09MT1pmdDZNbHpLQnc&oid=215&zx=232k8ofr11c9 ||width="600" height="400" alt="Throughput (requests) over weeks - from google docs"]]
+
+=== PERF_PLF_ENT_INTRANET_SOCIAL_READ_PROFILE ===
+
+|[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdHNBQjllakxyd1YwbnhJcDcyY080bWc&oid=214&zx=fwnt7xi48m31 ||width="600" height="400" alt="90% line of response time (ms) over weeks - from google docs"]] |[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdHNBQjllakxyd1YwbnhJcDcyY080bWc&oid=215&zx=op8mkah6enmm ||width="600" height="400" alt="Throughput (requests) over weeks - from google docs"]]
+
+=== PERF_PLF_ENT_INTRANET_SOCIAL_READ_SPACE_HOME ===
+
+|[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdHBiNjVoVWRYaUM5eFR4Vm1tUml5MHc&oid=214&zx=7xebcrsfz7j8 ||width="600" height="400" alt="90% line of response time (ms) over weeks - from google docs"]] |[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdHBiNjVoVWRYaUM5eFR4Vm1tUml5MHc&oid=214&zx=7xebcrsfz7j8 ||width="600" height="400" alt="Throughput (requests) over weeks - from google docs"]]
+
+=== PERF_PLF_ENT_INTRANET_FORUM_READ_TOPIC ===
+
+|[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdFlqNEc5cnc4S0RpOXVad0w2ZXlLU0E&oid=214&zx=60cz2kwmxjw4 ||width="600" height="400" alt="90% line of response time (ms) over weeks - from google docs"]] |[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdFlqNEc5cnc4S0RpOXVad0w2ZXlLU0E&oid=215&zx=kyiiw2kw4qfj ||width="600" height="400" alt="Throughput (requests) over weeks - from google docs"]]
+
+=== PERF_PLF_ENT_INTRANET_ECMS_READ_FILE_EXPLORER_BROWSE ===
+
+|[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdDJwQWVkNDdXTWFhQ3hBc3VWaXZ6a2c&oid=214&zx=vj1mg884j7jy ||width="600" height="400" alt="90% line of response time (ms) over weeks - from google docs"]] |[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdDJwQWVkNDdXTWFhQ3hBc3VWaXZ6a2c&oid=215&zx=vla80hfq2xkq ||width="600" height="400" alt="Throughput (requests) over weeks - from google docs"]]
+
+=== PERF_PLF_ENT_INTRANET_WIKI_READ_PAGE ===
+
+|[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdGxCVHlrQ0YyanJuSmZZVll4VnV0eWc&oid=214&zx=lnxcee7l4vof ||width="600" height="400" alt="90% line of response time (ms) over weeks - from google docs"]] |[[image:https://docs.google.com/a/exoplatform.com/spreadsheet/oimg?key=0Av_XVTr8s9HpdGxCVHlrQ0YyanJuSmZZVll4VnV0eWc&oid=215&zx=nyntyopw6f2x||width="600" height="400" alt="Throughput (requests) over weeks - from google docs"]]
+
+== NOTE ==
+
+{{note}}
+
+* Some explanations that help to understand the charts easily:
+** **Error bars**: a range to which the next test value will be compared to be considered as an improvement/deterioration if it be out of the range.
+*** Error bars of **throughput** value is [-5%; 5%]
+*** Error bars of **90% line of response time** value is [-10%; 10%]
+** **Worse and Better than BASE range** are error bars made with a test result on BASE package. They should be 2 straight lines.
+** [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/Weekly_Performance_Tests/WEEKLY_TEST_CHART_EXPLAINATION.png]]
+** In web application performance testing **90% line of response time** is more reliable than **Throughput**
+*** **90% line of response time**: a value which 90% of response time values are less than or equal to.
+*** **Throughput**: number of test requests done.
+
+{{/note}}
+
+----
+
+= DETAIL PAGES =
+
+{{pagetree/}}

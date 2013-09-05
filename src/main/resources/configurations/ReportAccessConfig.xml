@@ -19,7 +19,7 @@
 		<week_origin>week_origin</week_origin>
 		<week_replace>2012/10/29</week_replace>
 
-		<pathTemplate>/home/quyennt/java/eXoProjects/report/</pathTemplate>
+		<pathTemplate>/home/quyennt/workspace/TQA/report/</pathTemplate>
 		<outputsuffix>_reportGenerated.txt</outputsuffix>
 		<spacesvalues>access</spacesvalues>
 		<keygoogledoc>0AvHsEG_fazNJdHppbEhpOHdDaG5TT25uWFotbk9KaHc</keygoogledoc>

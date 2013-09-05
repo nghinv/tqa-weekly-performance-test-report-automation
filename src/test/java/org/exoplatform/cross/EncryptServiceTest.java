@@ -19,7 +19,7 @@ package org.exoplatform.cross;
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
-import org.exoplatform.cross.accessibility.connector.EncryptService;
+import org.exoplatform.tqa.accessibility.connector.EncryptService;
 import org.junit.Test;
 
 /**

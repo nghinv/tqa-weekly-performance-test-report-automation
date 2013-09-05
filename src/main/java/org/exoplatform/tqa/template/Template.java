@@ -37,7 +37,7 @@ public class Template {
     reportInfo.generateReport(configFileXml); 
     
     //send template through WEBDAV
-    reportInfo.useSenderWebdav();   
+//    reportInfo.useSenderWebdav();   
   
   }
   
@@ -47,7 +47,7 @@ public class Template {
    */
   public static void main(String[] args) {
       try {
-        new Template(args[1]);
+        new Template(args[0]);
         logger.info("report done !");
       } catch (FileNotFoundException e) {
         logger.error("FileNotFoundException" + e.getMessage());
@@ -55,6 +55,5 @@ public class Template {
         logger.error("FileNotFoundException" + e.getMessage());
       }
       System.exit(0);
-
     }
 }
