@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- informations generals when parse templates -->
+	<infogeneral>
+		<root_origin>root_origin</root_origin>
+		<root_replace>http://plf-3.5.5-SNAPSHOT.acceptance.exoplatform.org
+		</root_replace>
+
+		<wiki_link>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/
+		</wiki_link>
+		<weekReportName>WP_PLF 4.0.x - 2013-W34</weekReportName>
+
+		<generatedPath>/home/quyennt/workspace/TQA/report</generatedPath>
+		<dataResourcePath>/home/quyennt/workspace/TQA/one</dataResourcePath>
+
+		<!-- use to send template through WEBDAV -->
+		<webdavPath>http://int.exoplatform.org/rest/private/jcr/repository/collaboration/Groups/spaces/team_tqa/ApplicationData/eXoWiki/WikiHome/PERFORMANCE/Weekly_Performance_Tests
+		</webdavPath>
+		<webdavLogin>quyennt</webdavLogin>
+		<!-- use EncryptService to generate pass -->
+		<webdavPass>e0ad711a79e90e7caaf27cf209d0709f</webdavPass>
+	</infogeneral>
+
+    <weeks>
+      <base>W32</base>
+      <previous>W33</previous>
+      <this>W34</this>
+    </weeks>
+
+	<scenarios>
+		<scenario>
+			<name>
+				PERF_PLF_ENT_INTRANET_LOGIN_SERVICE
+			</name>
+			<alias>
+				LOGIN SERVICE
+			</alias>
+			<data_path>/mnt/nfs4/performancetest-data/results/group_view/PERF_PLF_ENT_INTRANET_LOGIN_SERVICE/W35-20130829
+			</data_path>
+			<url>https://github.com/exoplatform/qa-performance-testsuite/blob/master/performance/src/test/jmeter/plf_4.0.x/enterprise-weekly-test/PERF_PLF_ENT_INTRANET_LOGIN_SERVICE.jmx
+			</url>
+			<responsetime_label>1000. ++Login_Load home page
+			</responsetime_label>
+			<responsetime_label_alias>
+				Login then Load home page
+			</responsetime_label_alias>
+			<throughput_label>TOTAL</throughput_label>
+			<test>
+				<duration>3600</duration>
+				<VU>20</VU>
+			</test>
+		</scenario>
+		<scenario>
+			<name>PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME</name>
+			<alias>
+				SOCIAL READ HOME
+			</alias>
+			<data_path>/mnt/nfs4/performancetest-data/results/PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME/W35-20130829
+			</data_path>
+			<url>https://github.com/exoplatform/qa-performance-testsuite/blob/master/performance/src/test/jmeter/plf_4.0.x/enterprise-weekly-test/PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME.jmx
+			</url>
+			<responsetime_label>3000. ++Goto Intranet Home</responsetime_label>
+			<responsetime_label_alias>
+				Load Intranet Home
+			</responsetime_label_alias>
+			<throughput_label>TOTAL</throughput_label>
+			<test>
+				<duration>3600</duration>
+				<VU>10</VU>
+			</test>
+			<analysis_boundaries>
+				<responsetime>
+					<top>0.1</top>
+					<upper>0.05</upper>
+					<lower>-0.05</lower>
+					<bottom>-0.1</bottom>
+				</responsetime>
+				<throughput>
+					<top>0.5</top>
+					<upper>0.03</upper>
+					<lower>-0.03</lower>
+					<bottom>-0.5</bottom>
+				</throughput>
+			</analysis_boundaries>
+		</scenario>
+	</scenarios>
+
+</config>
