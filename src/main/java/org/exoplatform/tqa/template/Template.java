@@ -21,18 +21,12 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
-/**
- * Created by The eXo Platform SAS
- * Author : eXoPlatform
- *          annb@exoplatform.com
- * May 7, 2012  
- */
 public class Template {
   static Logger           logger = Logger.getLogger("org.exoplatform.cross.accessibility.report.Template");
   TemplateReport reportInfo;
 
   
-  public Template(String configFileXml) throws IOException{
+  public Template(String configFileXml) throws IOException{	  
     reportInfo = new TemplateReport();
     reportInfo.generateReport(configFileXml); 
     
@@ -46,8 +40,8 @@ public class Template {
    * @param args
    */
   public static void main(String[] args) {
-      try {
-        new Template(args[0]);
+	   try {
+        new Template(args[0]);    	  
         logger.info("report done !");
       } catch (FileNotFoundException e) {
         logger.error("FileNotFoundException" + e.getMessage());
