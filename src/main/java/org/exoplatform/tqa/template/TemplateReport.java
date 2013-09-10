@@ -16,14 +16,7 @@
  */
 package org.exoplatform.tqa.template;
 
-/**
- * Created by The eXo Platform SAS
- * Author : eXoPlatform
- *          annb@exoplatform.com
- * Apr 2, 2012  
- */
-
-import java.awt.List;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,46 +42,10 @@ import org.xml.sax.SAXException;
 public class TemplateReport {
 
 	final static Logger logger = Logger.getLogger(TemplateReport.class);
+	
+	private final static String ANALYSIS_FOLDER = "analysis";
 
 	Configurations configurations;
-
-	String WEEKLY_REPORT = "WEEKLY_Reports_";
-
-	// list of senarios
-	ArrayList<String> listSenario;
-
-	// list of template files
-	ArrayList<File> listTemplateFile;
-
-	// list of Passed-Failed rules image chart
-
-	ArrayList<String> listFailedPassedImgA_replace;
-
-	ArrayList<String> listFailedPassedImgAA_replace;
-
-	ArrayList<String> listFailedPassedImgAAA_replace;
-
-	ArrayList<String> listFailedPassedImg508_replace;
-
-	// list of Percentage image chart
-
-	ArrayList<String> listPercentageImgA_replace;
-
-	ArrayList<String> listPercentageImgAA_replace;
-
-	ArrayList<String> listPercentageImgAAA_replace;
-
-	ArrayList<String> listPercentageImg508_replace;
-
-	// list of Known-Potential image chart
-
-	ArrayList<String> listPotentialKnownImgA_replace;
-
-	ArrayList<String> listPotentialKnownImgAA_replace;
-
-	ArrayList<String> listPotentialKnownImgAAA_replace;
-
-	ArrayList<String> listPotentialKnownImg508_replace;
 
 	public TemplateReport() {
 
@@ -105,39 +62,68 @@ public class TemplateReport {
 		// read configuration file
 		readConfig(configFileXml);
 
-		// write a general report- Level 1 page
-		logger.info("Generating GENERAL report");
-		File generalReport = new File(configurations.getGeneratedPath()
-				+ "/template/GENERAL");
-		String templateGeneralReport = readTemplate(generalReport);
-		templateGeneralReport = replaceL1Info(templateGeneralReport);
-		// templateGeneralReport = replaceGeneralInfo(templateGeneralReport);
-		// templateGeneralReport = generatePulishChart(templateGeneralReport);
+		// Generate report
+		logger.info("Generating report");
+		buildL1Page();
+		buildL2Page();
+	}
+	
+	/**
+	 * 
+	 * Created on: Sep 9, 2013,10:57:01 AM
+	 * Author: QuyenNT
+	 */
+	public void buildL1Page(){
+		File l1Folder = new File(configurations.getGeneratedPath() + "/" + configurations.getWeekReportName());
+		l1Folder.mkdir();
+		
+		File generalReport = new File(configurations.getGeneratedPath()	+ "/template/GENERAL");
+		String templateGeneralReport;
+		try {
+			templateGeneralReport = readTemplate(generalReport);
+			templateGeneralReport = replaceL1Info(templateGeneralReport);
+			// templateGeneralReport = replaceGeneralInfo(templateGeneralReport);
+			// templateGeneralReport = generatePulishChart(templateGeneralReport);
+			
+			writeTemplateReplaced(templateGeneralReport, l1Folder.toString());			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();			
+		} catch (Exception ex){
+			ex.printStackTrace();
+		}		
+	}
+	
+	/**
+	 * 
+	 * Created on: Sep 9, 2013,10:56:43 AM
+	 * Author: QuyenNT
+	 */
+	public void buildL2Page(){		
+		List scenarioList = configurations.getScenariosList();
+		String l1Folder = configurations.getGeneratedPath() + "/"+ configurations.getWeekReportName();
+		
+        File templateFile = new File(configurations.getGeneratedPath() + "/template/GENERIC");
 
-		String writeFileGeneralReport = configurations.getGeneratedPath() + "/"
-				+ configurations.getWeekReportName();
-		writeTemplateReplaced(templateGeneralReport, writeFileGeneralReport);
-
-		// for each use case : read template file, replace and write a new
-		// report file
-		// for (int iCase = 0; iCase < getListSenario().size(); iCase++) {
-		//
-		// File templateFile = listTemplateFile.get(iCase);
-		// String templateToString = readTemplate(templateFile);
-		// templateToString = replaceGeneralInfo(templateToString);
-		// // templateToString = replaceChart(templateToString, iCase);
-		//
-		// String platformVersion = mapGeneralConfig.get("platform_replace");
-		//
-		// String writeFile = getMapGeneralConfig().get("pathTemplate") +
-		// WEEKLY_REPORT
-		// + mapGeneralConfig.get("platform_replace") + "/" + WEEKLY_REPORT +
-		// platformVersion + "_"
-		// + getListSenario().get(iCase);
-		//
-		// writeTemplateReplaced(templateToString, writeFile);
-		// }
-
+//		 for each scnario : read template file, replace and write a new report file
+		 for (int i = 0; i < scenarioList.size(); i++) {		
+			 String templateToString;
+			try {
+				templateToString = readTemplate(templateFile);
+				 templateToString = replaceL2Info(templateToString);
+				 // templateToString = replaceChart(templateToString, iCase);
+				
+				 //Create L2 folder under L1 folder
+				 File l2Folder = new File(l1Folder +"/" +configurations.getWeekReportName() +
+						 								"_-_" + scenarioList.get(i).toString().trim());
+				 l2Folder.mkdir();
+				
+				 writeTemplateReplaced(templateToString, l2Folder.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+		 }		
 	}
 
 	/**
@@ -147,14 +133,10 @@ public class TemplateReport {
 	 * @throws IOException
 	 */
 	void readConfig(String configFileXml) {
+		// list of scenarios
+		ArrayList listScenario = new ArrayList<String>();
 
 		configurations = new Configurations();
-
-		// list of senarios
-		listSenario = new ArrayList<String>();
-
-		// list of template files
-		listTemplateFile = new ArrayList<File>();
 
 		// read config file
 		logger.info("Start loading configuration file..");
@@ -172,17 +154,17 @@ public class TemplateReport {
 
 			// Read config file
 			NodeList weekReportName = root
-					.getElementsByTagName("weekReportName");
-			NodeList generatedPath = root.getElementsByTagName("generatedPath");
+					.getElementsByTagName("weekly_report_name");
+			NodeList generatedPath = root.getElementsByTagName("generated_path");
 			NodeList dataResourcePath = root
-					.getElementsByTagName("dataResourcePath");
+					.getElementsByTagName("data_resource_path");
 
 			// WEBDAV
-			NodeList webdavLogin = root.getElementsByTagName("webdavLogin");
-			NodeList webdavPass = root.getElementsByTagName("webdavPass");
-			NodeList webdavPath = root.getElementsByTagName("webdavPath");
+			NodeList webdavLogin = root.getElementsByTagName("webdav_login");
+			NodeList webdavPass = root.getElementsByTagName("webdav_pass");
+			NodeList webdavPath = root.getElementsByTagName("webdav_path");
 
-			NodeList listSenarioNode = root.getElementsByTagName("name");
+			NodeList listScenarioNode = root.getElementsByTagName("name");
 			NodeList listWikiLink = root.getElementsByTagName("wiki_link");
 
 			// set values to configurations
@@ -210,43 +192,17 @@ public class TemplateReport {
 					.getNodeValue();
 			configurations.setWebdavPath(valueSpacesValues);
 
-			valueSpacesValues = listSenarioNode.item(0).getFirstChild()
-					.getNodeValue();
-			for (int iLevel = 0; iLevel < listSenarioNode.getLength(); iLevel++) {
-				Node noditem = listSenarioNode.item(iLevel);
-				listSenario.add(noditem.getTextContent());
-
-				// replace for generic template
-				File newFile = new File(configurations.getGeneratedPath()
-						+ "/template/GENERIC");
-				listTemplateFile.add(newFile);
+			valueSpacesValues = listScenarioNode.item(0).getFirstChild().getNodeValue();
+			
+			for (int iLevel = 0; iLevel < listScenarioNode.getLength(); iLevel++) {
+				Node noditem = listScenarioNode.item(iLevel);
+				listScenario.add(noditem.getTextContent());
 			}
-			configurations.setSenariosList(listSenario);
+			configurations.setScenariosList(listScenario);
 
 			valueSpacesValues = listWikiLink.item(0).getFirstChild()
 					.getNodeValue();
 			configurations.setWikiLink(valueSpacesValues);
-
-			// Create folder
-			// File report = new File(mapGeneralConfig.get("pathTemplate") +
-			// mapGeneralConfig.get("platform_replace"));
-			File report = new File(configurations.getGeneratedPath()
-					+ configurations.getWeekReportName());
-
-			report.mkdir();
-
-			// // usecase and read file template
-			// logger.info("Read GENERIC file");
-			// for (int iLevel = 0; iLevel < listSenarioNode.getLength();
-			// iLevel++) {
-			// Node noditem = listSenarioNode.item(iLevel);
-			//
-			// listSenario.add(noditem.getTextContent());
-			// // replace for generic template
-			// File newFile = new File(configurations.getGeneratedPath() +
-			// "/template/GENERIC");
-			// listTemplateFile.add(newFile);
-			// }
 
 		} catch (FileNotFoundException e) {
 			logger.error("ReportInfo readConfig FileNotFoundException error: "
@@ -266,31 +222,34 @@ public class TemplateReport {
 	}
 
 	//Read CSV file and process data
+	///home/quyennt/workspace/TQA/one/PERF_PLF_ENT_INTRANET_LOGIN_SERVICE/W33-20130815/analysis
 	public ScenarioObject processData() {
 		ScenarioObject returnObj = new ScenarioObject();
 
 		BufferedReader br = null;
+		String dataResourcePath = configurations.getDataResourcePath();
+		List scenarioList = configurations.getScenariosList();
 
 		try {
-			for(int i = 0; i < configurations.getSenariosList().size(); i++){
-				
+			for(int i = 0; i < scenarioList.size(); i++){
+				String sCurrentLine;
+				String[] arr;
+
+				br = new BufferedReader(new FileReader(dataResourcePath + "/" + 
+									scenarioList.get(i).toString().trim()));
+
+				while ((sCurrentLine = br.readLine()) != null) {
+					System.out.println(sCurrentLine);
+
+					arr = sCurrentLine.split(",");
+					for (int i = 0; i < arr.length; i++) {
+						System.out.println("Item " + i + ":" + arr[i]);
+					}
+					System.out
+							.println("_____________________________________________");
+				}				
 			}
-			String sCurrentLine;
-			String[] arr;
-
-			br = new BufferedReader(
-					new FileReader(configurations.getDataResourcePath() + "/"));
-
-			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
-
-				arr = sCurrentLine.split(",");
-				for (int i = 0; i < arr.length; i++) {
-					System.out.println("Item " + i + ":" + arr[i]);
-				}
-				System.out
-						.println("_____________________________________________");
-			}
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -306,9 +265,9 @@ public class TemplateReport {
 		return returnObj;
 	}
 	
-	public List listFiles(String senarioName){
+	public List listFiles(String scenarioName){
 		try {
-			String path = configurations.getDataResourcePath() + "/" + senarioName;
+			String path = configurations.getDataResourcePath() + "/" + scenarioName;
 
 			String files;
 			File folder = new File(path);
@@ -378,14 +337,12 @@ public class TemplateReport {
 	 * @param sTemplate
 	 * @param fileTemplateReplacedName
 	 */
-	private void writeTemplateReplaced(String sTemplate,
-			String fileTemplateReplacedName) {
+	private void writeTemplateReplaced(String sTemplate,String fileTemplateReplacedName) {
 		try {
 			File folderfile = new File(fileTemplateReplacedName);
 			folderfile.mkdir();
 			logger.info("Create folder" + fileTemplateReplacedName);
-			FileOutputStream os = new FileOutputStream(fileTemplateReplacedName
-					+ "/content");
+			FileOutputStream os = new FileOutputStream(fileTemplateReplacedName	+ "/content");
 			for (int i = 0; i < sTemplate.length(); i++) {
 				os.write(sTemplate.charAt(i));
 			}
@@ -408,69 +365,69 @@ public class TemplateReport {
 	 * @param level
 	 */
 	String replaceChart(String sTemplate, int useCase) {
-		// replace chart type FailedPassed
-		// LEVELONE A originA
-		// LEVELTWO AA originAA
-		// LEVELTREE AAA originAAA
-		//
-
-		sTemplate = sTemplate.replace(
-				"FailedPassed_LEVELONE",
-				generatePulishChart(getListFailedPassedImgA_replace().get(
-						useCase)));
-		sTemplate = sTemplate.replace(
-				"FailedPassed_LEVELTWO",
-				generatePulishChart(getListFailedPassedImgAA_replace().get(
-						useCase)));
-		sTemplate = sTemplate.replace(
-				"FailedPassed_LEVELTREE",
-				generatePulishChart(getListFailedPassedImgAAA_replace().get(
-						useCase)));
-		sTemplate = sTemplate.replace(
-				"FailedPassed_origin508",
-				generatePulishChart(getListFailedPassedImg508_replace().get(
-						useCase)));
-
-		// replace chart type Percentage
-		sTemplate = sTemplate.replace("Percentage_LEVELONE",
-				generatePulishChart(getListPercentageImgA_replace()
-						.get(useCase)));
-		sTemplate = sTemplate.replace(
-				"Percentage_LEVELTWO",
-				generatePulishChart(getListPercentageImgAA_replace().get(
-						useCase)));
-		sTemplate = sTemplate.replace(
-				"Percentage_LEVELTREE",
-				generatePulishChart(getListPercentageImgAAA_replace().get(
-						useCase)));
-		sTemplate = sTemplate.replace(
-				"Percentage_origin508",
-				generatePulishChart(getListPercentageImg508_replace().get(
-						useCase)));
-
-		// replace chart type PotentialKnown
-		sTemplate = sTemplate.replace(
-				"PotentialKnown_LEVELONE",
-				generatePulishChart(getListPotentialKnownImgA_replace().get(
-						useCase)));
-		sTemplate = sTemplate.replace(
-				"PotentialKnown_LEVELTWO",
-				generatePulishChart(getListPotentialKnownImgAA_replace().get(
-						useCase)));
-		sTemplate = sTemplate.replace(
-				"PotentialKnown_LEVELTREE",
-				generatePulishChart(getListPotentialKnownImgAAA_replace().get(
-						useCase)));
-		sTemplate = sTemplate.replace(
-				"PotentialKnown_origin508",
-				generatePulishChart(getListPotentialKnownImg508_replace().get(
-						useCase)));
-
-		// replace USECASE_ORIGIN
-		sTemplate = sTemplate.replace("USECASE_ORIGIN",
-				getListSenario().get(useCase));
-		// replace ICASE
-		sTemplate = sTemplate.replace("ICASE_ORIGIN", useCase + 1 + "");
+//		// replace chart type FailedPassed
+//		// LEVELONE A originA
+//		// LEVELTWO AA originAA
+//		// LEVELTREE AAA originAAA
+//		//
+//
+//		sTemplate = sTemplate.replace(
+//				"FailedPassed_LEVELONE",
+//				generatePulishChart(getListFailedPassedImgA_replace().get(
+//						useCase)));
+//		sTemplate = sTemplate.replace(
+//				"FailedPassed_LEVELTWO",
+//				generatePulishChart(getListFailedPassedImgAA_replace().get(
+//						useCase)));
+//		sTemplate = sTemplate.replace(
+//				"FailedPassed_LEVELTREE",
+//				generatePulishChart(getListFailedPassedImgAAA_replace().get(
+//						useCase)));
+//		sTemplate = sTemplate.replace(
+//				"FailedPassed_origin508",
+//				generatePulishChart(getListFailedPassedImg508_replace().get(
+//						useCase)));
+//
+//		// replace chart type Percentage
+//		sTemplate = sTemplate.replace("Percentage_LEVELONE",
+//				generatePulishChart(getListPercentageImgA_replace()
+//						.get(useCase)));
+//		sTemplate = sTemplate.replace(
+//				"Percentage_LEVELTWO",
+//				generatePulishChart(getListPercentageImgAA_replace().get(
+//						useCase)));
+//		sTemplate = sTemplate.replace(
+//				"Percentage_LEVELTREE",
+//				generatePulishChart(getListPercentageImgAAA_replace().get(
+//						useCase)));
+//		sTemplate = sTemplate.replace(
+//				"Percentage_origin508",
+//				generatePulishChart(getListPercentageImg508_replace().get(
+//						useCase)));
+//
+//		// replace chart type PotentialKnown
+//		sTemplate = sTemplate.replace(
+//				"PotentialKnown_LEVELONE",
+//				generatePulishChart(getListPotentialKnownImgA_replace().get(
+//						useCase)));
+//		sTemplate = sTemplate.replace(
+//				"PotentialKnown_LEVELTWO",
+//				generatePulishChart(getListPotentialKnownImgAA_replace().get(
+//						useCase)));
+//		sTemplate = sTemplate.replace(
+//				"PotentialKnown_LEVELTREE",
+//				generatePulishChart(getListPotentialKnownImgAAA_replace().get(
+//						useCase)));
+//		sTemplate = sTemplate.replace(
+//				"PotentialKnown_origin508",
+//				generatePulishChart(getListPotentialKnownImg508_replace().get(
+//						useCase)));
+//
+//		// replace USECASE_ORIGIN
+//		sTemplate = sTemplate.replace("USECASE_ORIGIN",
+//				getListSenario().get(useCase));
+//		// replace ICASE
+//		sTemplate = sTemplate.replace("ICASE_ORIGIN", useCase + 1 + "");
 
 		return sTemplate;
 	}
@@ -479,31 +436,31 @@ public class TemplateReport {
 	String replaceL1Info(String sTemplate) {
 		// String statusStrTemplate =
 		// "| SENA_NUMBER | [[**SENA_NAME**>>SENA_LINK]] |(% style=\"text-align:right;color:PRE_RES_COLOR\" %)PRE_RES_PERCENT% |(% style=\"color:PRE_STATUS_COLOR\" %)PRE_STATUS_RESULT |(% style=\"text-align:right;color:BASE_RES_COLOR\" %)BASE_RES_PERCENT% |(% style=\"color:BASE_STATUS_COLOR\" %)BASE_STATUS_RESULT";
-		String statusStrTemplate = "| SENA_NUMBER | [[**SENA_NAME**>>SENA_LINK]] |";
-		String staticChartStrTemplate = "=== CHART_SENA_NAME ===";
+		String statusStrTemplate = "| SCENA_NUMBER | [[**SCENA_NAME**>>SCENA_LINK]] |";
+		String staticChartStrTemplate = "=== CHART_SCENA_NAME ===";
 		StringBuffer senaStatusBuf = new StringBuffer();
 		StringBuffer senaChartBuf = new StringBuffer();
 		int x = 1;
 
-		for (int i = 0; i < getListSenario().size(); i++) {
+		for (int i = 0; i < configurations.getScenariosList().size(); i++) {
 			// Build content for STATUS OF WEEK part
 			String tmp = statusStrTemplate;
-			tmp = tmp.replace("SENA_NUMBER", x + "");
-			tmp = tmp.replace("SENA_NAME", listSenario.get(i).trim());
-			tmp = tmp.replace("SENA_LINK", configurations.getWikiLink()
+			tmp = tmp.replace("SCENA_NUMBER", x + "");
+			tmp = tmp.replace("SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
+			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()
 					+ configurations.getWeekReportName() + "_"
-					+ listSenario.get(i).trim());
+					+ configurations.getScenariosList().get(i).toString().trim());
 
 			senaStatusBuf.append(tmp + "\n");
 			x++;
 
 			// Build content for STATISTICS CHARTS part
 			tmp = staticChartStrTemplate;
-			tmp = tmp.replace("CHART_SENA_NAME", listSenario.get(i).trim());
+			tmp = tmp.replace("CHART_SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
 
 			senaChartBuf.append(tmp + "\n");
 		}
-		sTemplate = sTemplate.replace("@@SENARIO_STATUS@@",
+		sTemplate = sTemplate.replace("@@SCENARIO_STATUS@@",
 				senaStatusBuf.toString());
 
 		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",
@@ -514,6 +471,45 @@ public class TemplateReport {
 
 		return sTemplate;
 	}
+	
+	String replaceL2Info(String sTemplate) {
+		// String statusStrTemplate =
+		// "| SENA_NUMBER | [[**SENA_NAME**>>SENA_LINK]] |(% style=\"text-align:right;color:PRE_RES_COLOR\" %)PRE_RES_PERCENT% |(% style=\"color:PRE_STATUS_COLOR\" %)PRE_STATUS_RESULT |(% style=\"text-align:right;color:BASE_RES_COLOR\" %)BASE_RES_PERCENT% |(% style=\"color:BASE_STATUS_COLOR\" %)BASE_STATUS_RESULT";
+		String statusStrTemplate = "| SCENA_NUMBER | [[**SCENA_NAME**>>SCENA_LINK]] |";
+		String staticChartStrTemplate = "=== CHART_SCENA_NAME ===";
+		StringBuffer senaStatusBuf = new StringBuffer();
+		StringBuffer senaChartBuf = new StringBuffer();
+		int x = 1;
+
+		for (int i = 0; i < configurations.getScenariosList().size(); i++) {
+			// Build content for STATUS OF WEEK part
+			String tmp = statusStrTemplate;
+			tmp = tmp.replace("SCENA_NUMBER", x + "");
+			tmp = tmp.replace("SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
+			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()
+					+ configurations.getWeekReportName() + "_"
+					+ configurations.getScenariosList().get(i).toString().trim());
+
+			senaStatusBuf.append(tmp + "\n");
+			x++;
+
+			// Build content for STATISTICS CHARTS part
+			tmp = staticChartStrTemplate;
+			tmp = tmp.replace("CHART_SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
+
+			senaChartBuf.append(tmp + "\n");
+		}
+		sTemplate = sTemplate.replace("@@SCENARIO_STATUS@@",
+				senaStatusBuf.toString());
+
+		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",
+				senaChartBuf.toString());
+
+		System.out.println("replaceSenarioInfo-replace string:\n"
+				+ senaStatusBuf.toString());
+
+		return sTemplate;
+	}	
 
 	/**
 	 * replace general informations
@@ -556,128 +552,5 @@ public class TemplateReport {
 		sGoogleChart = sGoogleChart.replace("<img src=\"", "");
 		sGoogleChart = sGoogleChart.replace("\" />", "");
 		return sGoogleChart;
-	}
-
-	public ArrayList<File> getListTemplateFile() {
-		return listTemplateFile;
-	}
-
-	public ArrayList<String> getListSenario() {
-		return listSenario;
-	}
-
-	public void setListSenario(ArrayList<String> listSenario) {
-		this.listSenario = listSenario;
-	}
-
-	public void setListTemplateFile(ArrayList<File> listTemplateFile) {
-		this.listTemplateFile = listTemplateFile;
-	}
-
-	public ArrayList<String> getListFailedPassedImgA_replace() {
-		return listFailedPassedImgA_replace;
-	}
-
-	public void setListFailedPassedImgA_replace(
-			ArrayList<String> listFailedPassedImgA_replac) {
-		this.listFailedPassedImgA_replace = listFailedPassedImgA_replac;
-	}
-
-	public ArrayList<String> getListFailedPassedImgAA_replace() {
-		return listFailedPassedImgAA_replace;
-	}
-
-	public void setListFailedPassedImgAA_replace(
-			ArrayList<String> listPotentialKnownImgAA_replac) {
-		this.listFailedPassedImgAA_replace = listPotentialKnownImgAA_replac;
-	}
-
-	public ArrayList<String> getListFailedPassedImgAAA_replace() {
-		return listFailedPassedImgAAA_replace;
-	}
-
-	public void setListFailedPassedImgAAA_replace(
-			ArrayList<String> listPotentialKnownImgAAA_replac) {
-		this.listFailedPassedImgAAA_replace = listPotentialKnownImgAAA_replac;
-	}
-
-	public ArrayList<String> getListFailedPassedImg508_replace() {
-		return listFailedPassedImg508_replace;
-	}
-
-	public void setListFailedPassedImg508_replace(ArrayList<String> list) {
-		this.listFailedPassedImg508_replace = list;
-	}
-
-	public ArrayList<String> getListPercentageImgA_replace() {
-		return listPercentageImgA_replace;
-	}
-
-	public void setListPercentageImgA_replace(
-			ArrayList<String> listPercentageImgA_replace) {
-		this.listPercentageImgA_replace = listPercentageImgA_replace;
-	}
-
-	public ArrayList<String> getListPercentageImgAA_replace() {
-		return listPercentageImgAA_replace;
-	}
-
-	public void setListPercentageImgAA_replace(
-			ArrayList<String> listPercentageImgAA_replace) {
-		this.listPercentageImgAA_replace = listPercentageImgAA_replace;
-	}
-
-	public ArrayList<String> getListPercentageImgAAA_replace() {
-		return listPercentageImgAAA_replace;
-	}
-
-	public void setListPercentageImgAAA_replace(
-			ArrayList<String> listPercentageImgAAA_replace) {
-		this.listPercentageImgAAA_replace = listPercentageImgAAA_replace;
-	}
-
-	public ArrayList<String> getListPercentageImg508_replace() {
-		return listPercentageImg508_replace;
-	}
-
-	public void setListPercentageImg508_replace(
-			ArrayList<String> listPercentageImg508_replace) {
-		this.listPercentageImg508_replace = listPercentageImg508_replace;
-	}
-
-	public ArrayList<String> getListPotentialKnownImgA_replace() {
-		return listPotentialKnownImgA_replace;
-	}
-
-	public void setListPotentialKnownImgA_replace(
-			ArrayList<String> listPotentialKnownImgA_replace) {
-		this.listPotentialKnownImgA_replace = listPotentialKnownImgA_replace;
-	}
-
-	public ArrayList<String> getListPotentialKnownImgAA_replace() {
-		return listPotentialKnownImgAA_replace;
-	}
-
-	public void setListPotentialKnownImgAA_replace(
-			ArrayList<String> listPotentialKnownImgAA_replace) {
-		this.listPotentialKnownImgAA_replace = listPotentialKnownImgAA_replace;
-	}
-
-	public ArrayList<String> getListPotentialKnownImgAAA_replace() {
-		return listPotentialKnownImgAAA_replace;
-	}
-
-	public void setListPotentialKnownImgAAA_replace(
-			ArrayList<String> listPotentialKnownImgAAA_replace) {
-		this.listPotentialKnownImgAAA_replace = listPotentialKnownImgAAA_replace;
-	}
-
-	public ArrayList<String> getListPotentialKnownImg508_replace() {
-		return listPotentialKnownImg508_replace;
-	}
-
-	public void setListPotentialKnownImg508_replace(
-			ArrayList<String> listPotentialKnownImg508_replace) {
-		this.listPotentialKnownImg508_replace = listPotentialKnownImg508_replace;
 	}
 }

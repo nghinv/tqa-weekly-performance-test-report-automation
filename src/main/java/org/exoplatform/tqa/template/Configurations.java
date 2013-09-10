@@ -5,7 +5,7 @@ import java.util.List;
 public class Configurations {
 	private String generatedPath;
 	private String dataResourcePath;
-	private List senariosList;
+	private List scenariosList;
 	private String wikiLink;
 	private String webdavLogin;
 	private String webdavPass;
@@ -25,11 +25,12 @@ public class Configurations {
 	public void setDataResourcePath(String dataResourcePath) {
 		this.dataResourcePath = dataResourcePath;
 	}
-	public List getSenariosList() {
-		return senariosList;
+	
+	public List getScenariosList() {
+		return scenariosList;
 	}
-	public void setSenariosList(List senariosList) {
-		this.senariosList = senariosList;
+	public void setScenariosList(List scenariosList) {
+		this.scenariosList = scenariosList;
 	}
 	public String getWikiLink() {
 		return wikiLink;
