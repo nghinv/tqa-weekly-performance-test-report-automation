@@ -16,7 +16,6 @@
  */
 package org.exoplatform.tqa.template;
 
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +25,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,8 +44,10 @@ public class TemplateReport {
 	final static Logger logger = Logger.getLogger(TemplateReport.class);
 	
 	private final static String ANALYSIS_FOLDER = "analysis";
-
+	private final static String ANALYSIS_FILE = "MERGE3-AggregateReport.csv";
+	
 	Configurations configurations;
+	ScenarioConfiguration scenarioConfig;
 
 	public TemplateReport() {
 
@@ -74,7 +76,7 @@ public class TemplateReport {
 	 * Author: QuyenNT
 	 */
 	public void buildL1Page(){
-		File l1Folder = new File(configurations.getGeneratedPath() + "/" + configurations.getWeekReportName());
+		File l1Folder = new File(configurations.getGeneratedPath() + "/" + configurations.getPrefix());
 		l1Folder.mkdir();
 		
 		File generalReport = new File(configurations.getGeneratedPath()	+ "/template/GENERAL");
@@ -101,7 +103,7 @@ public class TemplateReport {
 	 */
 	public void buildL2Page(){		
 		List scenarioList = configurations.getScenariosList();
-		String l1Folder = configurations.getGeneratedPath() + "/"+ configurations.getWeekReportName();
+		String l1Folder = configurations.getGeneratedPath() + "/"+ configurations.getPrefix();
 		
         File templateFile = new File(configurations.getGeneratedPath() + "/template/GENERIC");
 
@@ -110,11 +112,11 @@ public class TemplateReport {
 			 String templateToString;
 			try {
 				templateToString = readTemplate(templateFile);
-				 templateToString = replaceL2Info(templateToString);
+				templateToString = replaceL2Info(templateToString);
 				 // templateToString = replaceChart(templateToString, iCase);
 				
 				 //Create L2 folder under L1 folder
-				 File l2Folder = new File(l1Folder +"/" +configurations.getWeekReportName() +
+				 File l2Folder = new File(l1Folder +"/" +configurations.getPrefix() +
 						 								"_-_" + scenarioList.get(i).toString().trim());
 				 l2Folder.mkdir();
 				
@@ -137,7 +139,7 @@ public class TemplateReport {
 		ArrayList listScenario = new ArrayList<String>();
 
 		configurations = new Configurations();
-
+		
 		// read config file
 		logger.info("Start loading configuration file..");
 		File file = new File(configFileXml);
@@ -153,57 +155,118 @@ public class TemplateReport {
 			Element root = dom.getDocumentElement();
 
 			// Read config file
-			NodeList weekReportName = root
-					.getElementsByTagName("weekly_report_name");
+			NodeList prefix = root.getElementsByTagName("prefix");
 			NodeList generatedPath = root.getElementsByTagName("generated_path");
-			NodeList dataResourcePath = root
-					.getElementsByTagName("data_resource_path");
+			NodeList dataPath = root.getElementsByTagName("data_path");
 
 			// WEBDAV
 			NodeList webdavLogin = root.getElementsByTagName("webdav_login");
 			NodeList webdavPass = root.getElementsByTagName("webdav_pass");
 			NodeList webdavPath = root.getElementsByTagName("webdav_path");
-
+			NodeList wikiLink = root.getElementsByTagName("wiki_link");
+			
+			NodeList dataDelimiter = root.getElementsByTagName("data_delimiter");
+			
+			NodeList weekBase = root.getElementsByTagName("base");
+			NodeList weekPrevious = root.getElementsByTagName("previous");
+			NodeList weekThis = root.getElementsByTagName("this");
+			
+			NodeList responseColumn = root.getElementsByTagName("responsetime");
+			NodeList throughputColumn = root.getElementsByTagName("throughput");
+			NodeList responseAvgColumn = root.getElementsByTagName("responsetime_avg");
+			NodeList errorColumn = root.getElementsByTagName("error");
+			
 			NodeList listScenarioNode = root.getElementsByTagName("name");
-			NodeList listWikiLink = root.getElementsByTagName("wiki_link");
+			NodeList listResponseLabelIdNode = root.getElementsByTagName("responsetime_label_id");
+			NodeList listResponseLabelNode = root.getElementsByTagName("responsetime_label");
+			NodeList listThroughputLabelNode = root.getElementsByTagName("throughput_label");
 
 			// set values to configurations
-			String valueSpacesValues = weekReportName.item(0).getFirstChild()
-					.getNodeValue();
-			configurations.setWeekReportName(valueSpacesValues);
+			//Prefix
+			String valueSpacesValues = prefix.item(0).getFirstChild().getNodeValue();
+			configurations.setPrefix(valueSpacesValues);
 
-			valueSpacesValues = generatedPath.item(0).getFirstChild()
-					.getNodeValue();
+			//generated Path
+			valueSpacesValues = generatedPath.item(0).getFirstChild().getNodeValue();
 			configurations.setGeneratedPath(valueSpacesValues);
+			
+			//data path
+			valueSpacesValues = dataPath.item(0).getFirstChild().getNodeValue();
+			configurations.setDataPath(valueSpacesValues);
 
-			valueSpacesValues = dataResourcePath.item(0).getFirstChild()
-					.getNodeValue();
-			configurations.setDataResourcePath(valueSpacesValues);
-
-			valueSpacesValues = webdavLogin.item(0).getFirstChild()
-					.getNodeValue();
+			//webdav login
+			valueSpacesValues = webdavLogin.item(0).getFirstChild().getNodeValue();
 			configurations.setWebdavLogin(valueSpacesValues);
 
-			valueSpacesValues = webdavPass.item(0).getFirstChild()
-					.getNodeValue();
+			//webdav pass 
+			valueSpacesValues = webdavPass.item(0).getFirstChild().getNodeValue();
 			configurations.setWebdavPass(valueSpacesValues);
 
-			valueSpacesValues = webdavPath.item(0).getFirstChild()
-					.getNodeValue();
+			//webdav path
+			valueSpacesValues = webdavPath.item(0).getFirstChild().getNodeValue();
 			configurations.setWebdavPath(valueSpacesValues);
 
+			//scenario list
 			valueSpacesValues = listScenarioNode.item(0).getFirstChild().getNodeValue();
 			
 			for (int iLevel = 0; iLevel < listScenarioNode.getLength(); iLevel++) {
+				scenarioConfig = new ScenarioConfiguration();
+				//name
 				Node noditem = listScenarioNode.item(iLevel);
-				listScenario.add(noditem.getTextContent());
+				scenarioConfig.setScenarioName(noditem.getTextContent().trim());
+
+				noditem = listResponseLabelIdNode.item(iLevel);
+				scenarioConfig.setResponseLabelId(noditem.getTextContent().trim());
+				
+				//responseLabel
+				noditem = listResponseLabelNode.item(iLevel);
+				scenarioConfig.setResponseLabel(noditem.getTextContent().trim());
+
+				//throughputLabel
+				noditem = listThroughputLabelNode.item(iLevel);
+				scenarioConfig.setThroughputLabel(noditem.getTextContent().trim());
+				
+				listScenario.add(scenarioConfig);
 			}
 			configurations.setScenariosList(listScenario);
 
-			valueSpacesValues = listWikiLink.item(0).getFirstChild()
-					.getNodeValue();
+			//wiki link
+			valueSpacesValues = wikiLink.item(0).getFirstChild().getNodeValue();
 			configurations.setWikiLink(valueSpacesValues);
+			
+			//data delimiter
+			valueSpacesValues = dataDelimiter.item(0).getFirstChild().getNodeValue();
+			configurations.setDataDelimiter(valueSpacesValues);
+			
+			//week base
+			valueSpacesValues = weekBase.item(0).getFirstChild().getNodeValue();
+			configurations.setWeekBase(valueSpacesValues);
 
+			
+			//week previous
+			valueSpacesValues = weekPrevious.item(0).getFirstChild().getNodeValue();
+			configurations.setWeekPrevious(valueSpacesValues);
+
+			//week this
+			valueSpacesValues = weekThis.item(0).getFirstChild().getNodeValue();
+			configurations.setWeekThis(valueSpacesValues);
+			
+			//responseColumn
+			valueSpacesValues = responseColumn.item(0).getFirstChild().getNodeValue();
+			configurations.setResponseColumn(Integer.parseInt(valueSpacesValues));		
+			
+			//throughput
+			valueSpacesValues = throughputColumn.item(0).getFirstChild().getNodeValue();
+			configurations.setThroughputColumn(Integer.parseInt(valueSpacesValues));	
+			
+			//responseAvgColumn
+			valueSpacesValues = responseAvgColumn.item(0).getFirstChild().getNodeValue();
+			configurations.setResponseAvgColumn(Integer.parseInt(valueSpacesValues));	
+			
+			//error
+			valueSpacesValues = errorColumn.item(0).getFirstChild().getNodeValue();
+			configurations.setErrorColumn(Integer.parseInt(valueSpacesValues));	
+			
 		} catch (FileNotFoundException e) {
 			logger.error("ReportInfo readConfig FileNotFoundException error: "
 					+ e.getMessage());
@@ -221,37 +284,166 @@ public class TemplateReport {
 
 	}
 
-	//Read CSV file and process data
-	///home/quyennt/workspace/TQA/one/PERF_PLF_ENT_INTRANET_LOGIN_SERVICE/W33-20130815/analysis
-	public ScenarioObject processData() {
-		ScenarioObject returnObj = new ScenarioObject();
+	/**
+	 * Read CSV file and process data
+	 * Created on: Sep 10, 2013,9:53:19 AM
+	 * Author: QuyenNT
+	 * @return
+	 */
+	public List<ScenarioObject> processData() {
+		List<ScenarioObject> returnList = new ArrayList<ScenarioObject>();
 
-		BufferedReader br = null;
-		String dataResourcePath = configurations.getDataResourcePath();
-		List scenarioList = configurations.getScenariosList();
-
+		BufferedReader br = null;		
+		List scenarioList = configurations.getScenariosList();		
+		ScenarioConfiguration scenarioConfig;
+		
 		try {
 			for(int i = 0; i < scenarioList.size(); i++){
-				String sCurrentLine;
-				String[] arr;
+				scenarioConfig = (ScenarioConfiguration)scenarioList.get(i);
+				returnList.add(processDataForEachScenario(scenarioConfig));
+			}			
 
-				br = new BufferedReader(new FileReader(dataResourcePath + "/" + 
-									scenarioList.get(i).toString().trim()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)
+					br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 
-				while ((sCurrentLine = br.readLine()) != null) {
-					System.out.println(sCurrentLine);
+		return returnList;
+	}
+	
+	/**
+	 * 
+	 * Created on: Sep 10, 2013,1:57:53 PM
+	 * Author: QuyenNT
+	 * @param scenarioConfig
+	 * @return
+	 */
+	public ScenarioObject processDataForEachScenario(ScenarioConfiguration scenarioConfig) {
+		ScenarioObject returnObj = new ScenarioObject();
+		String dataFile;
+		BufferedReader br = null;	
+		String currentLine;
+		String[] dataArr;
+				
+		//List of test run through weeks of each scenario
+		List<String> scenarioWeekList = listDirNames(scenarioConfig.getScenarioName());
+		
+		int responseIndex = configurations.getResponseColumn() - 1;
+		int throughputIndex = configurations.getThroughputColumn() - 1;
+		
+		double baseResDiff;
+		double preResDiff;
+		double baseThruDiff;
+		double preThruDiff;
 
-					arr = sCurrentLine.split(",");
-					for (int i = 0; i < arr.length; i++) {
-						System.out.println("Item " + i + ":" + arr[i]);
-					}
-					System.out
-							.println("_____________________________________________");
+		try {		
+			for(int j = 0; j < scenarioWeekList.size();j ++){
+				//Base
+				if(scenarioWeekList.contains(configurations.getWeekBase())){					
+					dataFile = configurations.getDataPath() + "/" + scenarioConfig.getScenarioName() + "/" + 
+								configurations.getWeekBase() + "/" + ANALYSIS_FOLDER + "/" + ANALYSIS_FILE;
+					
+					br = new BufferedReader(new FileReader(dataFile));
+					br.readLine();//by pass the first line
+					
+					while ((currentLine = br.readLine()) != null) {
+						dataArr = currentLine.split(configurations.getDataDelimiter());						
+						for (int i = 0; i < dataArr.length; i++) {
+						
+							//base throughput
+							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioConfig.getThroughputLabel())){
+								returnObj.setBaseThroughput(Integer.parseInt(dataArr[throughputIndex]));
+							}							
+							
+							//base responsetime
+							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioConfig.getResponseLabelId())){
+								returnObj.setBaseResponseTime(Integer.parseInt(dataArr[responseIndex]));
+							}							
+						}						
+					}								
+				}
+				
+				//Previous
+				if(scenarioWeekList.contains(configurations.getWeekPrevious())){					
+					dataFile = configurations.getDataPath() + "/" + scenarioConfig.getScenarioName() + "/" + 
+								configurations.getWeekPrevious() + "/" + ANALYSIS_FOLDER + "/" + ANALYSIS_FILE;
+					
+					br = new BufferedReader(new FileReader(dataFile));
+					br.readLine();//by pass the first line
+					
+					while ((currentLine = br.readLine()) != null) {
+						dataArr = currentLine.split(configurations.getDataDelimiter());						
+						for (int i = 0; i < dataArr.length; i++) {
+						
+							//previous throughput
+							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioConfig.getThroughputLabel())){
+								returnObj.setPreThroughput(Integer.parseInt(dataArr[throughputIndex]));
+							}							
+							
+							//previous responsetime
+							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioConfig.getResponseLabelId())){
+								returnObj.setPreResponseTime(Integer.parseInt(dataArr[responseIndex]));
+							}
+						}						
+					}						
+				}
+				
+				//This
+				if(scenarioWeekList.contains(configurations.getWeekThis())){					
+					dataFile = configurations.getDataPath() + "/" + scenarioConfig.getScenarioName() + "/" + 
+								configurations.getWeekThis() + "/" + ANALYSIS_FOLDER + "/" + ANALYSIS_FILE;
+					
+					br = new BufferedReader(new FileReader(dataFile));
+					br.readLine();//by pass the first line
+					
+					while ((currentLine = br.readLine()) != null) {
+						dataArr = currentLine.split(configurations.getDataDelimiter());						
+						for (int i = 0; i < dataArr.length; i++) {
+						
+							//this throughput
+							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioConfig.getThroughputLabel())){
+								returnObj.setCurrentThroughput(Integer.parseInt(dataArr[throughputIndex]));
+							}							
+							
+							//this responsetime
+							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioConfig.getResponseLabelId())){
+								returnObj.setCurrentResponseTime(Integer.parseInt(dataArr[responseIndex]));
+							}
+						}
+						
+					}					
 				}				
 			}
+			//Caculate
+			baseResDiff =  (double)(100*(returnObj.getCurrentResponseTime() - returnObj.getBaseResponseTime()))/returnObj.getBaseResponseTime();
+			preResDiff  =  (double)(100*(returnObj.getCurrentResponseTime() - returnObj.getPreResponseTime()))/returnObj.getPreResponseTime();
 			
-
-		} catch (IOException e) {
+			baseThruDiff =  (double)(100*(returnObj.getCurrentThroughput() - returnObj.getBaseThroughput()))/returnObj.getBaseThroughput();
+			preThruDiff  =  (double)(100*(returnObj.getCurrentThroughput() - returnObj.getPreThroughput()))/returnObj.getPreThroughput();
+			
+			returnObj.setBaseResponseDiff(baseResDiff);
+			returnObj.setPreResponseDiff(preResDiff);	
+			
+			returnObj.setBaseThroughputDiff(baseThruDiff);
+			returnObj.setPreThroughputDiff(preThruDiff);	
+			
+			
+			System.out.println("processDataForEachScenario - name=" + scenarioConfig.getScenarioName());
+			System.out.println("processDataForEachScenario - res base=" + returnObj.getBaseResponseTime());
+			System.out.println("processDataForEachScenario - res pre =" + returnObj.getPreResponseTime());
+			System.out.println("processDataForEachScenario - res this=" + returnObj.getCurrentResponseTime());
+			System.out.println("processDataForEachScenario - res base diff=" + returnObj.getBaseResponseDiff());
+			System.out.println("processDataForEachScenario - res pre diff=" + returnObj.getPreResponseDiff());
+			System.out.println("processDataForEachScenario - thru base diff=" + returnObj.getBaseThroughputDiff());
+			System.out.println("processDataForEachScenario - thru pre diff=" + returnObj.getPreThroughputDiff());
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -263,36 +455,37 @@ public class TemplateReport {
 		}
 
 		return returnObj;
-	}
+	}	
 	
-	public List listFiles(String scenarioName){
+	/**
+	 * Get list of folders of test run over weeks under a scenario folder
+	 * Created on: Sep 10, 2013,9:23:52 AM
+	 * Author: QuyenNT
+	 * @param scenarioName
+	 * @return
+	 */
+	public List<String> listDirNames(String scenarioName){
 		try {
-			String path = configurations.getDataResourcePath() + "/" + scenarioName;
+			ArrayList<String> dirNameList = new ArrayList<String>();
+			String dirName;
+			
+			String path = configurations.getDataPath() + "/" + scenarioName;
+			File scenarioFolder = new File(path);
+			File[] fileList = scenarioFolder.listFiles();
 
-			String files;
-			File folder = new File(path);
-			File[] listOfFiles = folder.listFiles();
+			for (int i = 0; i < fileList.length; i++) {
 
-			for (int i = 0; i < listOfFiles.length; i++) {
-
-//				if (listOfFiles[i].isFile()) {
-					files = listOfFiles[i].getName();
-					System.out.println(files);
-//				}
+				if (fileList[i].isDirectory()) {
+					dirName = fileList[i].getName();
+					dirNameList.add(dirName);					
+				}
 			}
+			return dirNameList;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-//				if (br != null)
-//					br.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return null;
-		
+			return null;
+		} 
 	}
 
 	public void useSenderWebdav() {
@@ -448,7 +641,7 @@ public class TemplateReport {
 			tmp = tmp.replace("SCENA_NUMBER", x + "");
 			tmp = tmp.replace("SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
 			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()
-					+ configurations.getWeekReportName() + "_"
+					+ configurations.getPrefix() + "_"
 					+ configurations.getScenariosList().get(i).toString().trim());
 
 			senaStatusBuf.append(tmp + "\n");
@@ -487,7 +680,7 @@ public class TemplateReport {
 			tmp = tmp.replace("SCENA_NUMBER", x + "");
 			tmp = tmp.replace("SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
 			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()
-					+ configurations.getWeekReportName() + "_"
+					+ configurations.getPrefix() + "_"
 					+ configurations.getScenariosList().get(i).toString().trim());
 
 			senaStatusBuf.append(tmp + "\n");
@@ -507,6 +700,8 @@ public class TemplateReport {
 
 		System.out.println("replaceSenarioInfo-replace string:\n"
 				+ senaStatusBuf.toString());
+		
+		processData();
 
 		return sTemplate;
 	}	

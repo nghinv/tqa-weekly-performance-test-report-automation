@@ -1,94 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<!-- informations generals when parse templates -->
-	<infogeneral>
-		<root_origin>root_origin</root_origin>
-		<root_replace>http://plf-3.5.5-SNAPSHOT.acceptance.exoplatform.org
-		</root_replace>
-
-		<wiki_link>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/
-		</wiki_link>
-		<weekly_report_name>WP_PLF 4.0.x - 2013-W34</weekly_report_name>
+	<generalinfo>
+		<data_delimiter>,</data_delimiter>
+		<prefix>WP_PLF 4.0.x - 2013-W34</prefix>
+		<data_path>/home/quyennt/workspace/TQA/one</data_path>
+		<weeks>
+			<base>W32-20130807-BASE</base>
+			<previous>W33-20130815</previous>
+			<this>W34-20130821</this>
+		</weeks>
 		
+		<wiki_link>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/</wiki_link>
+				
 		<version_week>PLF40x</version_week>
 		<version_base>PLF402</version_base>		
 
-		<generated_path>/home/quyennt/workspace/TQA/report</generated_path>
-		<data_resource_path>/home/quyennt/workspace/TQA/one</data_resource_path>
-
+		<generated_path>/home/quyennt/workspace/TQA/report</generated_path>			
+		
 		<!-- use to send template through WEBDAV -->
 		<webdav_path>http://int.exoplatform.org/rest/private/jcr/repository/collaboration/Groups/spaces/team_tqa/ApplicationData/eXoWiki/WikiHome/PERFORMANCE/Weekly_Performance_Tests
 		</webdav_path>
 		<webdav_login>quyennt</webdav_login>
 		<!-- use EncryptService to generate pass -->
-		<webdav_pass>e0ad711a79e90e7caaf27cf209d0709f</webdav_pass>
-	</infogeneral>	
-
-    <weeks>
-      <base>W32</base>
-      <previous>W33</previous>
-      <this>W34</this>
-    </weeks>
-
+		<webdav_pass>e0ad711a79e90e7caaf27cf209d0709f</webdav_pass>		
+		
+		<data_column_indexes>
+			<responsetime>5</responsetime>
+			<throughput>2</throughput>
+			<responsetime_avg>5</responsetime_avg>
+			<error>8</error>
+		</data_column_indexes>
+		
+		<analysis_boundaries>
+			<responsetime>
+				<top>0.1</top>
+				<upper>0.05</upper>
+				<lower>-0.05</lower>
+				<bottom>-0.1</bottom>
+			</responsetime>
+			<throughput>
+				<top>0.5</top>
+				<upper>0.03</upper>
+				<lower>-0.03</lower>
+				<bottom>-0.5</bottom>
+			</throughput>
+		</analysis_boundaries>
+		
+		<analysis_indicators>
+			<image_source>http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/
+			</image_source>
+			<bug>bug.png</bug>
+			<weather_clear>weather_clear.png</weather_clear>
+			<weather_storm>weather_storm.png</weather_storm>
+			<weather_severe_alert>weatherseverealert.png</weather_severe_alert>
+		</analysis_indicators>
+		
+		<graphs>
+			<responsetime_comparison_percent>
+				<file_name>responsetime_comparison_percent.png</file_name>
+				<image_label>[90% line of response time] comparison - % negative is
+					better</image_label>
+			</responsetime_comparison_percent>
+			<responsetime_comparison_value>
+				<file_name>responsetime_comparison_value.png</file_name>
+				<image_label>[90% line of response time] comparison - lower is
+					better</image_label>
+			</responsetime_comparison_value>
+			<responsetime_overtime>
+				<file_name>responsetime_overtime.png</file_name>
+				<image_label>[90% line of response time] overtime comparison
+				</image_label>
+			</responsetime_overtime>
+			<responsetime_through_weeks>
+				<file_name>responsetime_through_weeks.png</file_name>
+				<image_label>[90% line of response time] through weeks</image_label>
+			</responsetime_through_weeks>
+			<throughput_comparison_percent>
+				<file_name>throughput_comparison_percent.png</file_name>
+				<image_label>[throughput] comparison - % negative is better
+				</image_label>
+			</throughput_comparison_percent>
+			<throughput_comparison_value>
+				<file_name>throughput_comparison_value.png</file_name>
+				<image_label>[throughput] comparison - lower is better</image_label>
+			</throughput_comparison_value>
+			<throughput_overtime>
+				<file_name>throughput_overtime.png</file_name>
+				<image_label>[throughput] overtime comparison</image_label>
+			</throughput_overtime>
+			<throughput_through_weeks>
+				<file_name>throughput_through_weeks.png</file_name>
+				<image_label>[throughput] through weeks</image_label>
+			</throughput_through_weeks>
+		</graphs>
+	</generalinfo>
+	
+	
 	<scenarios>
 		<scenario>
-			<name>
-				PERF_PLF_ENT_INTRANET_LOGIN_SERVICE
-			</name>
-			<alias>
-				LOGIN SERVICE
-			</alias>
-			<data_path>/mnt/nfs4/performancetest-data/results/group_view/PERF_PLF_ENT_INTRANET_LOGIN_SERVICE/W35-20130829
-			</data_path>
+			<name>PERF_PLF_ENT_INTRANET_LOGIN_SERVICE</name>
+			<alias>LOGIN SERVICE</alias>
 			<url>https://github.com/exoplatform/qa-performance-testsuite/blob/master/performance/src/test/jmeter/plf_4.0.x/enterprise-weekly-test/PERF_PLF_ENT_INTRANET_LOGIN_SERVICE.jmx
 			</url>
-			<responsetime_label>1000. ++Login_Load home page
-			</responsetime_label>
-			<responsetime_label_alias>
-				Login then Load home page
-			</responsetime_label_alias>
-			<request_page>Load default page </request_page>
+			<responsetime_label_id>1000</responsetime_label_id>
+			<responsetime_label>1000. ++Login_Load home page</responsetime_label>
+			<responsetime_label_alias>Login then Load home page</responsetime_label_alias>
 			<throughput_label>TOTAL</throughput_label>
 			<test>
 				<duration>3600</duration>
 				<VU>20</VU>
 			</test>
 		</scenario>
-		
 		<scenario>
-			<name>PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME</name>
-			<alias>
-				SOCIAL READ HOME
-			</alias>
-			<data_path>/mnt/nfs4/performancetest-data/results/PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME/W35-20130829
-			</data_path>
-			<url>https://github.com/exoplatform/qa-performance-testsuite/blob/master/performance/src/test/jmeter/plf_4.0.x/enterprise-weekly-test/PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME.jmx
+			<name>PERF_PLF_ENT_INTRANET_WIKI_READ_PAGE</name>
+			<alias>WIKI READ PAGE</alias>
+			<url>https://github.com/exoplatform/qa-performance-testsuite/blob/master/performance/src/test/jmeter/plf_4.0.x/enterprise-weekly-test/PERF_PLF_ENT_INTRANET_WIKI_READ_PAGE.jmx
 			</url>
-			<responsetime_label>3000. ++Goto Intranet Home</responsetime_label>
-			<responsetime_label_alias>
-				Load Intranet Home
-			</responsetime_label_alias>
-			<request_page>Goto Intranet Home</request_page>
+			<responsetime_label_id>3000</responsetime_label_id>
+			<responsetime_label>Goto WikiPage</responsetime_label>
+			<responsetime_label_alias>View Wiki Page</responsetime_label_alias>
 			<throughput_label>TOTAL</throughput_label>
 			<test>
 				<duration>3600</duration>
-				<VU>10</VU>
+				<VU>5</VU>
 			</test>
 			<analysis_boundaries>
 				<responsetime>
-					<top>0.1</top>
-					<upper>0.05</upper>
-					<lower>-0.05</lower>
-					<bottom>-0.1</bottom>
+					<top>0.3</top>
+					<upper>0.15</upper>
+					<lower>-0.15</lower>
+					<bottom>-0.3</bottom>
 				</responsetime>
 				<throughput>
-					<top>0.5</top>
-					<upper>0.03</upper>
-					<lower>-0.03</lower>
-					<bottom>-0.5</bottom>
+					<top>0.2</top>
+					<upper>0.1</upper>
+					<lower>-0.1</lower>
+					<bottom>-0.2</bottom>
 				</throughput>
 			</analysis_boundaries>
+			<enabled>false</enabled>
 		</scenario>
 	</scenarios>
-
 </config>

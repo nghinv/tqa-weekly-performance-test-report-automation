@@ -4,13 +4,22 @@ import java.util.List;
 
 public class Configurations {
 	private String generatedPath;
-	private String dataResourcePath;
+	private String dataPath;
 	private List scenariosList;
 	private String wikiLink;
 	private String webdavLogin;
 	private String webdavPass;
 	private String webdavPath;
-	private String weekReportName;
+	private String prefix;
+	private String dataDelimiter;
+	private String weekBase;
+	private String weekPrevious;
+	private String weekThis;
+	
+	private int responseColumn;
+	private int throughputColumn;
+	private int responseAvgColumn;
+	private int errorColumn;
 	
 	
 	public String getGeneratedPath() {
@@ -19,13 +28,15 @@ public class Configurations {
 	public void setGeneratedPath(String generatedPath) {
 		this.generatedPath = generatedPath;
 	}
-	public String getDataResourcePath() {
-		return dataResourcePath;
-	}
-	public void setDataResourcePath(String dataResourcePath) {
-		this.dataResourcePath = dataResourcePath;
-	}
 	
+	
+	
+	public String getDataPath() {
+		return dataPath;
+	}
+	public void setDataPath(String dataPath) {
+		this.dataPath = dataPath;
+	}
 	public List getScenariosList() {
 		return scenariosList;
 	}
@@ -56,12 +67,58 @@ public class Configurations {
 	public void setWebdavPath(String webdavPath) {
 		this.webdavPath = webdavPath;
 	}
-	public String getWeekReportName() {
-		return weekReportName;
+	public String getPrefix() {
+		return prefix;
 	}
-	public void setWeekReportName(String weekReportName) {
-		this.weekReportName = weekReportName;
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
-	
-	
+	public String getDataDelimiter() {
+		return dataDelimiter;
+	}
+	public void setDataDelimiter(String dataDelimiter) {
+		this.dataDelimiter = dataDelimiter;
+	}
+	public String getWeekBase() {
+		return weekBase;
+	}
+	public void setWeekBase(String weekBase) {
+		this.weekBase = weekBase;
+	}
+	public String getWeekPrevious() {
+		return weekPrevious;
+	}
+	public void setWeekPrevious(String weekPrevious) {
+		this.weekPrevious = weekPrevious;
+	}
+	public String getWeekThis() {
+		return weekThis;
+	}
+	public void setWeekThis(String weekThis) {
+		this.weekThis = weekThis;
+	}
+	public int getResponseColumn() {
+		return responseColumn;
+	}
+	public void setResponseColumn(int responseColumn) {
+		this.responseColumn = responseColumn;
+	}
+	public int getThroughputColumn() {
+		return throughputColumn;
+	}
+	public void setThroughputColumn(int throughputColumn) {
+		this.throughputColumn = throughputColumn;
+	}
+	public int getResponseAvgColumn() {
+		return responseAvgColumn;
+	}
+	public void setResponseAvgColumn(int responseAvgColumn) {
+		this.responseAvgColumn = responseAvgColumn;
+	}
+	public int getErrorColumn() {
+		return errorColumn;
+	}
+	public void setErrorColumn(int errorColumn) {
+		this.errorColumn = errorColumn;
+	}
 }

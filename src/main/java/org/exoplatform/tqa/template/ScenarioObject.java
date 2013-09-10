@@ -1,13 +1,13 @@
 package org.exoplatform.tqa.template;
 
 public class ScenarioObject {
-	private double baseResponseTime;
-	private double preResponseTime;
-	private double currentResponseTime;
+	private int baseResponseTime;
+	private int preResponseTime;
+	private int currentResponseTime;
 	
-	private double baseThroughput;
-	private double preThroughput;
-	private double currentThroughput;
+	private int baseThroughput;
+	private int preThroughput;
+	private int currentThroughput;
 	
 	private double preResponseDiff;
 	private double baseResponseDiff;
@@ -19,42 +19,78 @@ public class ScenarioObject {
 	private String throughputResult;
 	
 	
-	public double getBaseResponseTime() {
+	public int getBaseResponseTime() {
 		return baseResponseTime;
 	}
-	public void setBaseResponseTime(double baseResponseTime) {
-		this.baseResponseTime = baseResponseTime;
-	}
-	public double getPreResponseTime() {
+
+
+
+	public int getPreResponseTime() {
 		return preResponseTime;
 	}
-	public void setPreResponseTime(double preResponseTime) {
+
+
+
+	public void setPreResponseTime(int preResponseTime) {
 		this.preResponseTime = preResponseTime;
 	}
-	public double getCurrentResponseTime() {
+
+
+
+	public int getCurrentResponseTime() {
 		return currentResponseTime;
 	}
-	public void setCurrentResponseTime(double currentResponseTime) {
+
+
+
+	public void setCurrentResponseTime(int currentResponseTime) {
 		this.currentResponseTime = currentResponseTime;
 	}
-	public double getBaseThroughput() {
+
+
+
+	public int getBaseThroughput() {
 		return baseThroughput;
 	}
-	public void setBaseThroughput(double baseThroughput) {
+
+
+
+	public void setBaseThroughput(int baseThroughput) {
 		this.baseThroughput = baseThroughput;
 	}
-	public double getPreThroughput() {
+
+
+
+	public int getPreThroughput() {
 		return preThroughput;
 	}
-	public void setPreThroughput(double preThroughput) {
+
+
+
+	public void setPreThroughput(int preThroughput) {
 		this.preThroughput = preThroughput;
 	}
-	public double getCurrentThroughput() {
+
+
+
+	public int getCurrentThroughput() {
 		return currentThroughput;
 	}
-	public void setCurrentThroughput(double currentThroughput) {
+
+
+
+	public void setCurrentThroughput(int currentThroughput) {
 		this.currentThroughput = currentThroughput;
 	}
+
+
+
+	public void setBaseResponseTime(int baseResponseTime) {
+		this.baseResponseTime = baseResponseTime;
+	}
+
+
+
 	public String getResponeTimeResult() {
 		return responeTimeResult;
 	}
