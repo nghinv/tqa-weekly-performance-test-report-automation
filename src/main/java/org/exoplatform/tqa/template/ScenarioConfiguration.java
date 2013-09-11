@@ -13,6 +13,8 @@ public class ScenarioConfiguration {
 	private String throughputLabel;
 	private String responseLabelId;
 	
+	private BoundaryObject boundaryObject;
+	
 	public String getScenarioName() {
 		return scenarioName;
 	}
@@ -37,6 +39,11 @@ public class ScenarioConfiguration {
 	public void setResponseLabelId(String responseLabelId) {
 		this.responseLabelId = responseLabelId;
 	}
-	
+	public BoundaryObject getBoundaryObject() {
+		return boundaryObject;
+	}
+	public void setBoundaryObject(BoundaryObject boundaryObject) {
+		this.boundaryObject = boundaryObject;
+	}
 	
 }

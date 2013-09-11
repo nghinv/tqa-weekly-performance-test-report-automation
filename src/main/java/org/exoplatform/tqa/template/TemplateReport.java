@@ -45,6 +45,8 @@ public class TemplateReport {
 	
 	private final static String ANALYSIS_FOLDER = "analysis";
 	private final static String ANALYSIS_FILE = "MERGE3-AggregateReport.csv";
+	private final static String ANALYSIS_BOUNDARY_PARENT_GENERAL = "generalinfo";
+	private final static String ANALYSIS_BOUNDARY_PARENT_SCENARIO = "scenario";
 	
 	Configurations configurations;
 	ScenarioConfiguration scenarioConfig;
@@ -176,11 +178,12 @@ public class TemplateReport {
 			NodeList responseAvgColumn = root.getElementsByTagName("responsetime_avg");
 			NodeList errorColumn = root.getElementsByTagName("error");
 			
-			NodeList listScenarioNode = root.getElementsByTagName("name");
+			NodeList listScenarioNode = root.getElementsByTagName("scenario");
+//			NodeList listScenarioNode = root.getElementsByTagName("name");
 			NodeList listResponseLabelIdNode = root.getElementsByTagName("responsetime_label_id");
 			NodeList listResponseLabelNode = root.getElementsByTagName("responsetime_label");
 			NodeList listThroughputLabelNode = root.getElementsByTagName("throughput_label");
-
+			
 			// set values to configurations
 			//Prefix
 			String valueSpacesValues = prefix.item(0).getFirstChild().getNodeValue();
@@ -226,6 +229,29 @@ public class TemplateReport {
 				noditem = listThroughputLabelNode.item(iLevel);
 				scenarioConfig.setThroughputLabel(noditem.getTextContent().trim());
 				
+				Node pNode = noditem.getParentNode();
+				Node siblingNode = pNode.getNextSibling();
+				System.out.println("Sibling:" + pNode.getNodeName());
+				
+				
+				//analysis boundaries
+				NodeList boundaries = root.getElementsByTagName("analysis_boundaries");			
+				for(int i = 0; i < boundaries.getLength(); i++){
+					Element  boundaryElement = (Element) boundaries.item(i);
+					
+					if(boundaryElement.getParentNode().getNodeName().trim().equals(ANALYSIS_BOUNDARY_PARENT_GENERAL)){
+						BoundaryObject boundary = readAnalysisBoundary(boundaryElement);
+						scenarioConfig.setBoundaryObject(boundary);
+						
+					}
+					
+//					if(boundaryElement.getParentNode().getNodeName().trim().equals(ANALYSIS_BOUNDARY_PARENT_SCENARIO)){
+//						BoundaryObject boundary = readAnalysisBoundary(boundaryElement);
+//						configurations.setBoundaryObject(boundary);
+//						break;
+//					}	
+				}
+				
 				listScenario.add(scenarioConfig);
 			}
 			configurations.setScenariosList(listScenario);
@@ -266,7 +292,7 @@ public class TemplateReport {
 			//error
 			valueSpacesValues = errorColumn.item(0).getFirstChild().getNodeValue();
 			configurations.setErrorColumn(Integer.parseInt(valueSpacesValues));	
-			
+					
 		} catch (FileNotFoundException e) {
 			logger.error("ReportInfo readConfig FileNotFoundException error: "
 					+ e.getMessage());
@@ -281,8 +307,77 @@ public class TemplateReport {
 					+ e.getMessage());
 
 		}
-
 	}
+	
+		/**
+		 * 
+		 * Created on: Sep 11, 2013,5:17:11 PM
+		 * Author: QuyenNT
+		 * @param boundaryElement
+		 * @return
+		 */
+	public BoundaryObject readAnalysisBoundary(Element  boundaryElement){
+		BoundaryObject returnObj = new BoundaryObject();
+		
+		//analysis_boundaries		
+		NodeList listNodes = boundaryElement.getElementsByTagName("responsetime");
+		for(int j = 0; j < listNodes.getLength(); j++){
+			//res top
+			Element childElement = (Element) listNodes.item(j);
+			NodeList childNodes = childElement.getElementsByTagName("top");
+			String value = childNodes.item(0).getFirstChild().getNodeValue();
+			returnObj.setResTop(Double.parseDouble(value));
+			
+			//res upper
+			childElement = (Element) listNodes.item(j);
+			childNodes = childElement.getElementsByTagName("upper");
+			value = childNodes.item(0).getFirstChild().getNodeValue();
+			returnObj.setResUpper(Double.parseDouble(value));
+			
+			//res lower
+			childElement = (Element) listNodes.item(j);
+			childNodes = childElement.getElementsByTagName("lower");
+			value = childNodes.item(0).getFirstChild().getNodeValue();
+			returnObj.setResLower(Double.parseDouble(value));
+			
+			//res bottom
+			childElement = (Element) listNodes.item(j);
+			childNodes = childElement.getElementsByTagName("bottom");
+			value = childNodes.item(0).getFirstChild().getNodeValue();
+			returnObj.setResBottom(Double.parseDouble(value));					
+		}
+		
+		//Thruput
+		listNodes = boundaryElement.getElementsByTagName("throughput");
+		for(int j = 0; j < listNodes.getLength(); j++){
+			//thru top
+			Element childElement = (Element) listNodes.item(j);
+			NodeList childNodes = childElement.getElementsByTagName("top");
+			String value = childNodes.item(0).getFirstChild().getNodeValue();
+			returnObj.setThruTop(Double.parseDouble(value));
+			
+			//Thru upper
+			childElement = (Element) listNodes.item(j);
+			childNodes = childElement.getElementsByTagName("upper");
+			value = childNodes.item(0).getFirstChild().getNodeValue();
+			returnObj.setThruUpper(Double.parseDouble(value));
+			
+			//Thru lower
+			childElement = (Element) listNodes.item(j);
+			childNodes = childElement.getElementsByTagName("lower");
+			value = childNodes.item(0).getFirstChild().getNodeValue();
+			returnObj.setThruLower(Double.parseDouble(value));
+			
+			//Thru bottom
+			childElement = (Element) listNodes.item(j);
+			childNodes = childElement.getElementsByTagName("bottom");
+			value = childNodes.item(0).getFirstChild().getNodeValue();
+			returnObj.setThruBottom(Double.parseDouble(value));					
+		}				
+			
+		return returnObj;
+	}
+	
 
 	/**
 	 * Read CSV file and process data
@@ -318,13 +413,58 @@ public class TemplateReport {
 	}
 	
 	/**
-	 * 
+	 * Process data of each scenario
 	 * Created on: Sep 10, 2013,1:57:53 PM
+	 * Author: QuyenNT
+	 * @param scenarioConfig
+	 * @return ScenarioObject
+	 */
+	public ScenarioObject processDataForEachScenario(ScenarioConfiguration scenarioConfig) {
+		ScenarioObject returnObj = readScenarioData(scenarioConfig);
+				
+		double baseResDiff;
+		double preResDiff;
+		double baseThruDiff;
+		double preThruDiff;
+
+		try {
+			baseResDiff =  (double)(returnObj.getCurrentResponseTime() - returnObj.getBaseResponseTime())/returnObj.getBaseResponseTime();
+			preResDiff  =  (double)(returnObj.getCurrentResponseTime() - returnObj.getPreResponseTime())/returnObj.getPreResponseTime();
+			
+			baseThruDiff =  (double)(returnObj.getCurrentThroughput() - returnObj.getBaseThroughput())/returnObj.getBaseThroughput();
+			preThruDiff  =  (double)(returnObj.getCurrentThroughput() - returnObj.getPreThroughput())/returnObj.getPreThroughput();
+			
+			returnObj.setBaseResponseDiff(baseResDiff);
+			returnObj.setPreResponseDiff(preResDiff);	
+			
+			returnObj.setBaseThroughputDiff(baseThruDiff);
+			returnObj.setPreThroughputDiff(preThruDiff);	
+			
+			
+			System.out.println("processDataForEachScenario - name=" + scenarioConfig.getScenarioName());
+			System.out.println("processDataForEachScenario - res base=" + returnObj.getBaseResponseTime());
+			System.out.println("processDataForEachScenario - res pre =" + returnObj.getPreResponseTime());
+			System.out.println("processDataForEachScenario - res this=" + returnObj.getCurrentResponseTime());
+			System.out.println("processDataForEachScenario - res base diff=" + returnObj.getBaseResponseDiff());
+			System.out.println("processDataForEachScenario - res pre diff=" + returnObj.getPreResponseDiff());
+			System.out.println("processDataForEachScenario - thru base diff=" + returnObj.getBaseThroughputDiff());
+			System.out.println("processDataForEachScenario - thru pre diff=" + returnObj.getPreThroughputDiff());
+			System.out.println("processDataForEachScenario - res top =" + scenarioConfig.getBoundaryObject().getResTop());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return returnObj;	
+	}	
+	
+	/**
+	 * Read scnario data from csv files
+	 * Created on: Sep 11, 2013,9:08:29 AM
 	 * Author: QuyenNT
 	 * @param scenarioConfig
 	 * @return
 	 */
-	public ScenarioObject processDataForEachScenario(ScenarioConfiguration scenarioConfig) {
+	public ScenarioObject readScenarioData(ScenarioConfiguration scenarioConfig){
 		ScenarioObject returnObj = new ScenarioObject();
 		String dataFile;
 		BufferedReader br = null;	
@@ -336,12 +476,7 @@ public class TemplateReport {
 		
 		int responseIndex = configurations.getResponseColumn() - 1;
 		int throughputIndex = configurations.getThroughputColumn() - 1;
-		
-		double baseResDiff;
-		double preResDiff;
-		double baseThruDiff;
-		double preThruDiff;
-
+	
 		try {		
 			for(int j = 0; j < scenarioWeekList.size();j ++){
 				//Base
@@ -415,34 +550,10 @@ public class TemplateReport {
 							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioConfig.getResponseLabelId())){
 								returnObj.setCurrentResponseTime(Integer.parseInt(dataArr[responseIndex]));
 							}
-						}
-						
+						}						
 					}					
 				}				
-			}
-			//Caculate
-			baseResDiff =  (double)(100*(returnObj.getCurrentResponseTime() - returnObj.getBaseResponseTime()))/returnObj.getBaseResponseTime();
-			preResDiff  =  (double)(100*(returnObj.getCurrentResponseTime() - returnObj.getPreResponseTime()))/returnObj.getPreResponseTime();
-			
-			baseThruDiff =  (double)(100*(returnObj.getCurrentThroughput() - returnObj.getBaseThroughput()))/returnObj.getBaseThroughput();
-			preThruDiff  =  (double)(100*(returnObj.getCurrentThroughput() - returnObj.getPreThroughput()))/returnObj.getPreThroughput();
-			
-			returnObj.setBaseResponseDiff(baseResDiff);
-			returnObj.setPreResponseDiff(preResDiff);	
-			
-			returnObj.setBaseThroughputDiff(baseThruDiff);
-			returnObj.setPreThroughputDiff(preThruDiff);	
-			
-			
-			System.out.println("processDataForEachScenario - name=" + scenarioConfig.getScenarioName());
-			System.out.println("processDataForEachScenario - res base=" + returnObj.getBaseResponseTime());
-			System.out.println("processDataForEachScenario - res pre =" + returnObj.getPreResponseTime());
-			System.out.println("processDataForEachScenario - res this=" + returnObj.getCurrentResponseTime());
-			System.out.println("processDataForEachScenario - res base diff=" + returnObj.getBaseResponseDiff());
-			System.out.println("processDataForEachScenario - res pre diff=" + returnObj.getPreResponseDiff());
-			System.out.println("processDataForEachScenario - thru base diff=" + returnObj.getBaseThroughputDiff());
-			System.out.println("processDataForEachScenario - thru pre diff=" + returnObj.getPreThroughputDiff());
-			
+			}//End for			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -453,9 +564,9 @@ public class TemplateReport {
 				ex.printStackTrace();
 			}
 		}
-
 		return returnObj;
-	}	
+	} 
+
 	
 	/**
 	 * Get list of folders of test run over weeks under a scenario folder

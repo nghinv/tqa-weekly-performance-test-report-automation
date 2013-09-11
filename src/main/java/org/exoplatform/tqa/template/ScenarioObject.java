@@ -14,9 +14,17 @@ public class ScenarioObject {
 
 	private double preThroughputDiff;
 	private double baseThroughputDiff;	
+		
+	private String baseResponseDiffColor;
+	private String preResponseDiffColor;
+	private String baseResponseDiffIndicator;
+	private String preResponseDiffIndicator;
 	
-	private String responeTimeResult;
-	private String throughputResult;
+	private String baseThruDiffColor;
+	private String preThruDiffColor;
+	private String baseThruDiffIndicator;
+	private String preThruDiffIndicator;	
+	
 	
 	
 	public int getBaseResponseTime() {
@@ -89,20 +97,6 @@ public class ScenarioObject {
 		this.baseResponseTime = baseResponseTime;
 	}
 
-
-
-	public String getResponeTimeResult() {
-		return responeTimeResult;
-	}
-	public void setResponeTimeResult(String responeTimeResult) {
-		this.responeTimeResult = responeTimeResult;
-	}
-	public String getThroughputResult() {
-		return throughputResult;
-	}
-	public void setThroughputResult(String throughputResult) {
-		this.throughputResult = throughputResult;
-	}
 	public double getPreResponseDiff() {
 		return preResponseDiff;
 	}
@@ -127,4 +121,102 @@ public class ScenarioObject {
 	public void setBaseThroughputDiff(double baseThroughputDiff) {
 		this.baseThroughputDiff = baseThroughputDiff;
 	}
+
+
+
+	public String getBaseResponseDiffColor() {
+		return baseResponseDiffColor;
+	}
+
+
+
+	public void setBaseResponseDiffColor(String baseResponseDiffColor) {
+		this.baseResponseDiffColor = baseResponseDiffColor;
+	}
+
+
+
+	public String getPreResponseDiffColor() {
+		return preResponseDiffColor;
+	}
+
+
+
+	public void setPreResponseDiffColor(String preResponseDiffColor) {
+		this.preResponseDiffColor = preResponseDiffColor;
+	}
+
+
+
+	public String getBaseResponseDiffIndicator() {
+		return baseResponseDiffIndicator;
+	}
+
+
+
+	public void setBaseResponseDiffIndicator(String baseResponseDiffIndicator) {
+		this.baseResponseDiffIndicator = baseResponseDiffIndicator;
+	}
+
+
+
+	public String getPreResponseDiffIndicator() {
+		return preResponseDiffIndicator;
+	}
+
+
+
+	public void setPreResponseDiffIndicator(String preResponseDiffIndicator) {
+		this.preResponseDiffIndicator = preResponseDiffIndicator;
+	}
+
+
+
+	public String getBaseThruDiffColor() {
+		return baseThruDiffColor;
+	}
+
+
+
+	public void setBaseThruDiffColor(String baseThruDiffColor) {
+		this.baseThruDiffColor = baseThruDiffColor;
+	}
+
+
+
+	public String getPreThruDiffColor() {
+		return preThruDiffColor;
+	}
+
+
+
+	public void setPreThruDiffColor(String preThruDiffColor) {
+		this.preThruDiffColor = preThruDiffColor;
+	}
+
+
+
+	public String getBaseThruDiffIndicator() {
+		return baseThruDiffIndicator;
+	}
+
+
+
+	public void setBaseThruDiffIndicator(String baseThruDiffIndicator) {
+		this.baseThruDiffIndicator = baseThruDiffIndicator;
+	}
+
+
+
+	public String getPreThruDiffIndicator() {
+		return preThruDiffIndicator;
+	}
+
+
+
+	public void setPreThruDiffIndicator(String preThruDiffIndicator) {
+		this.preThruDiffIndicator = preThruDiffIndicator;
+	}
+	
+	
 }

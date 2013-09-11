@@ -21,6 +21,7 @@ public class Configurations {
 	private int responseAvgColumn;
 	private int errorColumn;
 	
+	private BoundaryObject boundaryObject;
 	
 	public String getGeneratedPath() {
 		return generatedPath;
@@ -121,4 +122,12 @@ public class Configurations {
 	public void setErrorColumn(int errorColumn) {
 		this.errorColumn = errorColumn;
 	}
+	public BoundaryObject getBoundaryObject() {
+		return boundaryObject;
+	}
+	public void setBoundaryObject(BoundaryObject boundaryObject) {
+		this.boundaryObject = boundaryObject;
+	}
+	
+	
 }
