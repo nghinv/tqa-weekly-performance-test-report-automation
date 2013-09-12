@@ -15,14 +15,40 @@ public class Configurations {
 	private String weekBase;
 	private String weekPrevious;
 	private String weekThis;
+	private String versionBase;
+	private String versionWeek;
+	
+	private String imgResPercent;
+	private String imgResValue;
+	private String imgResOver;
+	private String imgResThruWeek;
+	
+	private String imgResPercentLabel;
+	private String imgResValueLabel;
+	private String imgResOverLabel;
+	private String imgResThruWeekLabel;	
+	
+	private String imgThruPercent;
+	private String imgThruValue;
+	private String imgThruOver;
+	private String imgThruThruWeek;
+	
+	private String imgThruPercentLabel;
+	private String imgThruValueLabel;
+	private String imgThruOverLabel;
+	private String imgThruThruWeekLabel;	
+			
+	private String indicatorImgSrc;
+	private String indicatorBug;
+	private String indicatorClear;
+	private String indicatorStorm;
+	private String indicatorAlert;
 	
 	private int responseColumn;
 	private int throughputColumn;
 	private int responseAvgColumn;
 	private int errorColumn;
-	
-	private BoundaryObject boundaryObject;
-	
+		
 	public String getGeneratedPath() {
 		return generatedPath;
 	}
@@ -122,12 +148,142 @@ public class Configurations {
 	public void setErrorColumn(int errorColumn) {
 		this.errorColumn = errorColumn;
 	}
-	public BoundaryObject getBoundaryObject() {
-		return boundaryObject;
+	public String getIndicatorImgSrc() {
+		return indicatorImgSrc;
 	}
-	public void setBoundaryObject(BoundaryObject boundaryObject) {
-		this.boundaryObject = boundaryObject;
+	public void setIndicatorImgSrc(String indicatorImgSrc) {
+		this.indicatorImgSrc = indicatorImgSrc;
 	}
-	
-	
+	public String getIndicatorBug() {
+		return indicatorBug;
+	}
+	public void setIndicatorBug(String indicatorBug) {
+		this.indicatorBug = indicatorBug;
+	}
+	public String getIndicatorClear() {
+		return indicatorClear;
+	}
+	public void setIndicatorClear(String indicatorClear) {
+		this.indicatorClear = indicatorClear;
+	}
+	public String getIndicatorStorm() {
+		return indicatorStorm;
+	}
+	public void setIndicatorStorm(String indicatorStorm) {
+		this.indicatorStorm = indicatorStorm;
+	}
+	public String getIndicatorAlert() {
+		return indicatorAlert;
+	}
+	public void setIndicatorAlert(String indicatorAlert) {
+		this.indicatorAlert = indicatorAlert;
+	}
+	public String getVersionBase() {
+		return versionBase;
+	}
+	public void setVersionBase(String versionBase) {
+		this.versionBase = versionBase;
+	}
+	public String getVersionWeek() {
+		return versionWeek;
+	}
+	public void setVersionWeek(String versionWeek) {
+		this.versionWeek = versionWeek;
+	}
+	public String getImgResPercent() {
+		return imgResPercent;
+	}
+	public void setImgResPercent(String imgResPercent) {
+		this.imgResPercent = imgResPercent;
+	}
+	public String getImgResValue() {
+		return imgResValue;
+	}
+	public void setImgResValue(String imgResValue) {
+		this.imgResValue = imgResValue;
+	}
+	public String getImgResOver() {
+		return imgResOver;
+	}
+	public void setImgResOver(String imgResOver) {
+		this.imgResOver = imgResOver;
+	}
+	public String getImgResThruWeek() {
+		return imgResThruWeek;
+	}
+	public void setImgResThruWeek(String imgResThruWeek) {
+		this.imgResThruWeek = imgResThruWeek;
+	}
+	public String getImgThruPercent() {
+		return imgThruPercent;
+	}
+	public void setImgThruPercent(String imgThruPercent) {
+		this.imgThruPercent = imgThruPercent;
+	}
+	public String getImgThruValue() {
+		return imgThruValue;
+	}
+	public void setImgThruValue(String imgThruValue) {
+		this.imgThruValue = imgThruValue;
+	}
+	public String getImgThruOver() {
+		return imgThruOver;
+	}
+	public void setImgThruOver(String imgThruOver) {
+		this.imgThruOver = imgThruOver;
+	}
+	public String getImgThruThruWeek() {
+		return imgThruThruWeek;
+	}
+	public void setImgThruThruWeek(String imgThruThruWeek) {
+		this.imgThruThruWeek = imgThruThruWeek;
+	}
+	public String getImgResPercentLabel() {
+		return imgResPercentLabel;
+	}
+	public void setImgResPercentLabel(String imgResPercentLabel) {
+		this.imgResPercentLabel = imgResPercentLabel;
+	}
+	public String getImgResValueLabel() {
+		return imgResValueLabel;
+	}
+	public void setImgResValueLabel(String imgResValueLabel) {
+		this.imgResValueLabel = imgResValueLabel;
+	}
+	public String getImgResOverLabel() {
+		return imgResOverLabel;
+	}
+	public void setImgResOverLabel(String imgResOverLabel) {
+		this.imgResOverLabel = imgResOverLabel;
+	}
+	public String getImgResThruWeekLabel() {
+		return imgResThruWeekLabel;
+	}
+	public void setImgResThruWeekLabel(String imgResThruWeekLabel) {
+		this.imgResThruWeekLabel = imgResThruWeekLabel;
+	}
+	public String getImgThruPercentLabel() {
+		return imgThruPercentLabel;
+	}
+	public void setImgThruPercentLabel(String imgThruPercentLabel) {
+		this.imgThruPercentLabel = imgThruPercentLabel;
+	}
+	public String getImgThruValueLabel() {
+		return imgThruValueLabel;
+	}
+	public void setImgThruValueLabel(String imgThruValueLabel) {
+		this.imgThruValueLabel = imgThruValueLabel;
+	}
+	public String getImgThruOverLabel() {
+		return imgThruOverLabel;
+	}
+	public void setImgThruOverLabel(String imgThruOverLabel) {
+		this.imgThruOverLabel = imgThruOverLabel;
+	}
+	public String getImgThruThruWeekLabel() {
+		return imgThruThruWeekLabel;
+	}
+	public void setImgThruThruWeekLabel(String imgThruThruWeekLabel) {
+		this.imgThruThruWeekLabel = imgThruThruWeekLabel;
+	}	
 }

@@ -40,6 +40,7 @@ public class Template {
    * @param args
    */
   public static void main(String[] args) {
+//	  String configFile = "../resources/ReportAccessConfig.xml";
 	   try {
         new Template(args[0]);    	  
         logger.info("report done !");

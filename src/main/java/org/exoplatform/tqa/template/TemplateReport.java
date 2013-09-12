@@ -32,6 +32,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -48,8 +49,22 @@ public class TemplateReport {
 	private final static String ANALYSIS_BOUNDARY_PARENT_GENERAL = "generalinfo";
 	private final static String ANALYSIS_BOUNDARY_PARENT_SCENARIO = "scenario";
 	
+	private final static String CHANGE_STATUS_WORSE = "WORSE";
+	private final static String CHANGE_STATUS_BETTER = "BETTER";
+	private final static String CHANGE_STATUS_THE_SAME  = "THE SAME";
+	private final static String CHANGE_STATUS_DECLINE  = "DECLINE"; 
+	
+	private final static String COLOR_WORSE = "red";
+	private final static String COLOR_BETTER = "blue";
+	private final static String COLOR_THE_SAME  = "black";
+	private final static String COLOR_DECLINE  = "yellow"; 
+	
+	private final static String ENABLE_TRUE = "true";
+	private final static String ENABLE_FALSE = "false";
+	
+	
 	Configurations configurations;
-	ScenarioConfiguration scenarioConfig;
+	ScenarioObject scenarioObject;
 
 	public TemplateReport() {
 
@@ -77,16 +92,15 @@ public class TemplateReport {
 	 * Created on: Sep 9, 2013,10:57:01 AM
 	 * Author: QuyenNT
 	 */
-	public void buildL1Page(){
+	public void buildL1Page(){		
 		File l1Folder = new File(configurations.getGeneratedPath() + "/" + configurations.getPrefix());
 		l1Folder.mkdir();
 		
-		File generalReport = new File(configurations.getGeneratedPath()	+ "/template/GENERAL");
+		File generalReport = new File(configurations.getGeneratedPath()	+ "/template/L1TEMPLATE");
 		String templateGeneralReport;
 		try {
 			templateGeneralReport = readTemplate(generalReport);
 			templateGeneralReport = replaceL1Info(templateGeneralReport);
-			// templateGeneralReport = replaceGeneralInfo(templateGeneralReport);
 			// templateGeneralReport = generatePulishChart(templateGeneralReport);
 			
 			writeTemplateReplaced(templateGeneralReport, l1Folder.toString());			
@@ -104,22 +118,24 @@ public class TemplateReport {
 	 * Author: QuyenNT
 	 */
 	public void buildL2Page(){		
-		List scenarioList = configurations.getScenariosList();
+		List scenarioList = processData();
+		ScenarioObject scenarioObject; 
 		String l1Folder = configurations.getGeneratedPath() + "/"+ configurations.getPrefix();
 		
-        File templateFile = new File(configurations.getGeneratedPath() + "/template/GENERIC");
+        File templateFile = new File(configurations.getGeneratedPath() + "/template/L2TEMPLATE");
 
 //		 for each scnario : read template file, replace and write a new report file
-		 for (int i = 0; i < scenarioList.size(); i++) {		
+		 for (int i = 0; i < scenarioList.size(); i++) {	
+			 scenarioObject = (ScenarioObject) scenarioList.get(i);
 			 String templateToString;
 			try {
 				templateToString = readTemplate(templateFile);
-				templateToString = replaceL2Info(templateToString);
+				templateToString = replaceL2Info(templateToString, scenarioObject);
 				 // templateToString = replaceChart(templateToString, iCase);
 				
 				 //Create L2 folder under L1 folder
 				 File l2Folder = new File(l1Folder +"/" +configurations.getPrefix() +
-						 								"_-_" + scenarioList.get(i).toString().trim());
+						 								"_-_" + scenarioObject.getScenarioName());
 				 l2Folder.mkdir();
 				
 				 writeTemplateReplaced(templateToString, l2Folder.toString());
@@ -141,6 +157,7 @@ public class TemplateReport {
 		ArrayList listScenario = new ArrayList<String>();
 
 		configurations = new Configurations();
+//		scenarioObject = new ScenarioObject();
 		
 		// read config file
 		logger.info("Start loading configuration file..");
@@ -178,11 +195,38 @@ public class TemplateReport {
 			NodeList responseAvgColumn = root.getElementsByTagName("responsetime_avg");
 			NodeList errorColumn = root.getElementsByTagName("error");
 			
+			NodeList versionBase = root.getElementsByTagName("version_base");
+			NodeList versionWeek = root.getElementsByTagName("version_week");
+			
 			NodeList listScenarioNode = root.getElementsByTagName("scenario");
-//			NodeList listScenarioNode = root.getElementsByTagName("name");
+			NodeList listGeneralBoundaryNode = root.getElementsByTagName("analysis_boundaries");
+			NodeList listNameNode = root.getElementsByTagName("name");
 			NodeList listResponseLabelIdNode = root.getElementsByTagName("responsetime_label_id");
 			NodeList listResponseLabelNode = root.getElementsByTagName("responsetime_label");
 			NodeList listThroughputLabelNode = root.getElementsByTagName("throughput_label");
+			NodeList listResponseLabelAlias = root.getElementsByTagName("responsetime_label_alias");
+			NodeList listScenarioAlias = root.getElementsByTagName("alias");
+			NodeList listScenarioUrl = root.getElementsByTagName("url");
+				
+			
+			NodeList indicatorImgSrc = root.getElementsByTagName("image_source");
+			NodeList indicatorBug = root.getElementsByTagName("bug");
+			NodeList indicatorClear = root.getElementsByTagName("weather_clear");
+			NodeList indicatorStorm = root.getElementsByTagName("weather_storm");
+			NodeList indicatorAlert = root.getElementsByTagName("weather_severe_alert");
+			
+			NodeList imgResPercentNode = root.getElementsByTagName("responsetime_comparison_percent");
+			NodeList imgResValueNode = root.getElementsByTagName("responsetime_comparison_value");
+			NodeList imgResOverNode = root.getElementsByTagName("responsetime_overtime");
+			NodeList imgResThruWeekNode = root.getElementsByTagName("responsetime_through_weeks");
+			
+			NodeList imgThruPercentNode = root.getElementsByTagName("throughput_comparison_percent");
+			NodeList imgThruValueNode = root.getElementsByTagName("throughput_comparison_value");
+			NodeList imgThruOverNode = root.getElementsByTagName("throughput_overtime");
+			NodeList imgThruThruWeekNode = root.getElementsByTagName("throughput_through_weeks");
+			
+			
+			
 			
 			// set values to configurations
 			//Prefix
@@ -210,50 +254,59 @@ public class TemplateReport {
 			configurations.setWebdavPath(valueSpacesValues);
 
 			//scenario list
-			valueSpacesValues = listScenarioNode.item(0).getFirstChild().getNodeValue();
-			
 			for (int iLevel = 0; iLevel < listScenarioNode.getLength(); iLevel++) {
-				scenarioConfig = new ScenarioConfiguration();
+				scenarioObject = new ScenarioObject();
+				Element scenarioElement = (Element) listScenarioNode.item(iLevel);
+				
 				//name
-				Node noditem = listScenarioNode.item(iLevel);
-				scenarioConfig.setScenarioName(noditem.getTextContent().trim());
-
+				Node noditem = listNameNode.item(iLevel);
+				scenarioObject.setScenarioName(noditem.getTextContent().trim());
+								
 				noditem = listResponseLabelIdNode.item(iLevel);
-				scenarioConfig.setResponseLabelId(noditem.getTextContent().trim());
+				scenarioObject.setResponseLabelId(noditem.getTextContent().trim());
 				
 				//responseLabel
-				noditem = listResponseLabelNode.item(iLevel);
-				scenarioConfig.setResponseLabel(noditem.getTextContent().trim());
+				noditem = listResponseLabelNode.item(iLevel);				
+				scenarioObject.setResponseLabel(noditem.getTextContent().trim());
+				
+				//responseLabel alias
+				noditem = listResponseLabelAlias.item(iLevel);				
+				scenarioObject.setResponseLabelAlias(noditem.getTextContent().trim());
+				
+				//scenario alias
+				noditem = listScenarioAlias.item(iLevel);				
+				scenarioObject.setScenarioAlias(noditem.getTextContent().trim());
+				
+				//scenario url
+				noditem = listScenarioUrl.item(iLevel);				
+				scenarioObject.setScenarioUrl(noditem.getTextContent().trim());				
+				
 
 				//throughputLabel
 				noditem = listThroughputLabelNode.item(iLevel);
-				scenarioConfig.setThroughputLabel(noditem.getTextContent().trim());
+				scenarioObject.setThroughputLabel(noditem.getTextContent().trim());		
 				
-				Node pNode = noditem.getParentNode();
-				Node siblingNode = pNode.getNextSibling();
-				System.out.println("Sibling:" + pNode.getNodeName());
-				
-				
+				//enable
+				NodeList listEnableNode = scenarioElement.getElementsByTagName("enabled");
+				if(listEnableNode.getLength() > 0){					
+					valueSpacesValues = listEnableNode.item(0).getFirstChild().getNodeValue().trim();					
+					scenarioObject.setEnable(valueSpacesValues);
+				} else {
+					scenarioObject.setEnable("true");
+				}
+								
 				//analysis boundaries
-				NodeList boundaries = root.getElementsByTagName("analysis_boundaries");			
-				for(int i = 0; i < boundaries.getLength(); i++){
-					Element  boundaryElement = (Element) boundaries.item(i);
-					
-					if(boundaryElement.getParentNode().getNodeName().trim().equals(ANALYSIS_BOUNDARY_PARENT_GENERAL)){
-						BoundaryObject boundary = readAnalysisBoundary(boundaryElement);
-						scenarioConfig.setBoundaryObject(boundary);
-						
-					}
-					
-//					if(boundaryElement.getParentNode().getNodeName().trim().equals(ANALYSIS_BOUNDARY_PARENT_SCENARIO)){
-//						BoundaryObject boundary = readAnalysisBoundary(boundaryElement);
-//						configurations.setBoundaryObject(boundary);
-//						break;
-//					}	
+				NodeList resList =  scenarioElement.getElementsByTagName("responsetime");
+				NodeList thruList =  scenarioElement.getElementsByTagName("throughput");
+				
+				if(resList.getLength() > 0){
+					scenarioObject.setBoundaryObject(readScenarioAnalysisBoundary(resList, thruList));					
+				} else {
+					scenarioObject.setBoundaryObject(readGeneralAnalysisBoundary(listGeneralBoundaryNode));
 				}
 				
-				listScenario.add(scenarioConfig);
-			}
+				listScenario.add(scenarioObject);
+			}		
 			configurations.setScenariosList(listScenario);
 
 			//wiki link
@@ -292,6 +345,114 @@ public class TemplateReport {
 			//error
 			valueSpacesValues = errorColumn.item(0).getFirstChild().getNodeValue();
 			configurations.setErrorColumn(Integer.parseInt(valueSpacesValues));	
+			
+			//Indicator Image source
+			valueSpacesValues = indicatorImgSrc.item(0).getFirstChild().getNodeValue();
+			configurations.setIndicatorImgSrc(valueSpacesValues);	
+			
+			//bug
+			valueSpacesValues = indicatorBug.item(0).getFirstChild().getNodeValue();
+			configurations.setIndicatorBug(valueSpacesValues);
+			
+			//Clear
+			valueSpacesValues = indicatorClear.item(0).getFirstChild().getNodeValue();
+			configurations.setIndicatorClear(valueSpacesValues);
+			
+			//Storm
+			valueSpacesValues = indicatorStorm.item(0).getFirstChild().getNodeValue();
+			configurations.setIndicatorStorm(valueSpacesValues);
+			
+			//Alert
+			valueSpacesValues = indicatorAlert.item(0).getFirstChild().getNodeValue();
+			configurations.setIndicatorAlert(valueSpacesValues);
+			
+			//version week
+			valueSpacesValues = versionWeek.item(0).getFirstChild().getNodeValue();
+			configurations.setVersionWeek(valueSpacesValues);
+			
+			//version base
+			valueSpacesValues = versionBase.item(0).getFirstChild().getNodeValue();
+			configurations.setVersionBase(valueSpacesValues);
+			
+			//image response percent
+			Element element = (Element) imgResPercentNode.item(0);
+			NodeList nameNode =  element.getElementsByTagName("file_name");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgResPercent(valueSpacesValues);
+			
+			nameNode =  element.getElementsByTagName("image_label");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgResPercentLabel(valueSpacesValues);
+			
+			//image response value
+			element = (Element) imgResValueNode.item(0);
+			nameNode =  element.getElementsByTagName("file_name");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue();
+			configurations.setImgResValue(valueSpacesValues);
+			
+			nameNode =  element.getElementsByTagName("image_label");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgResValueLabel(valueSpacesValues);	
+			
+			//image response over
+			element = (Element) imgResOverNode.item(0);
+			nameNode =  element.getElementsByTagName("file_name");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue();
+			configurations.setImgResOver(valueSpacesValues);
+			
+			nameNode =  element.getElementsByTagName("image_label");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgResOverLabel(valueSpacesValues);
+			
+			//image response thru weeks
+			element = (Element) imgResThruWeekNode.item(0);
+			nameNode =  element.getElementsByTagName("file_name");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue();
+			configurations.setImgResThruWeek(valueSpacesValues);
+			
+			nameNode =  element.getElementsByTagName("image_label");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgResThruWeekLabel(valueSpacesValues);		
+			
+			//image thru percent
+			element = (Element) imgThruPercentNode.item(0);
+			nameNode =  element.getElementsByTagName("file_name");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgThruPercent(valueSpacesValues);
+			
+			nameNode =  element.getElementsByTagName("image_label");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgThruPercentLabel(valueSpacesValues);
+			
+			//image Thru value
+			element = (Element) imgThruValueNode.item(0);
+			nameNode =  element.getElementsByTagName("file_name");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue();
+			configurations.setImgThruValue(valueSpacesValues);
+			
+			nameNode =  element.getElementsByTagName("image_label");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgThruValueLabel(valueSpacesValues);	
+			
+			//image Thru over
+			element = (Element) imgThruOverNode.item(0);
+			nameNode =  element.getElementsByTagName("file_name");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue();
+			configurations.setImgThruOver(valueSpacesValues);
+			
+			nameNode =  element.getElementsByTagName("image_label");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgThruOverLabel(valueSpacesValues);
+			
+			//image Thru thru weeks
+			element = (Element) imgThruThruWeekNode.item(0);
+			nameNode =  element.getElementsByTagName("file_name");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue();
+			configurations.setImgThruThruWeek(valueSpacesValues);
+			
+			nameNode =  element.getElementsByTagName("image_label");
+			valueSpacesValues = nameNode.item(0).getFirstChild().getNodeValue().trim();
+			configurations.setImgThruThruWeekLabel(valueSpacesValues);			
 					
 		} catch (FileNotFoundException e) {
 			logger.error("ReportInfo readConfig FileNotFoundException error: "
@@ -309,71 +470,132 @@ public class TemplateReport {
 		}
 	}
 	
+	/**
+	 * Read analysis boundaries value of a specific scenario
+	 * Created on: Sep 12, 2013,9:57:11 AM
+	 * Author: QuyenNT
+	 * @param resNodeList
+	 * @param thruNodeList
+	 * @return
+	 */
+	public BoundaryObject readScenarioAnalysisBoundary(NodeList resNodeList, NodeList thruNodeList){
+		BoundaryObject returnObj = new BoundaryObject();
+		
+		//Response time
+		for(int j = 0; j < resNodeList.getLength(); j++){
+			//res top
+			Element childElement = (Element) resNodeList.item(j);
+			NodeList childNode = childElement.getElementsByTagName("top");		
+			String value = childNode.item(0).getFirstChild().getNodeValue();
+			returnObj.setResTop(Double.parseDouble(value));
+			
+			//res upper			
+			childNode = childElement.getElementsByTagName("upper");
+			value = childNode.item(0).getFirstChild().getNodeValue();
+			returnObj.setResUpper(Double.parseDouble(value));	
+			
+			//res lower			
+			childNode = childElement.getElementsByTagName("lower");
+			value = childNode.item(0).getFirstChild().getNodeValue();
+			returnObj.setResLower(Double.parseDouble(value));
+			
+			//res bottom			
+			childNode = childElement.getElementsByTagName("bottom");
+			value = childNode.item(0).getFirstChild().getNodeValue();
+			returnObj.setResBottom(Double.parseDouble(value));					
+		}
+
+		//Thruput
+		for(int j = 0; j < thruNodeList.getLength(); j++){
+			//thru top
+			Element childElement = (Element) thruNodeList.item(j);
+			NodeList childNode = childElement.getElementsByTagName("top");
+			String value = childNode.item(0).getFirstChild().getNodeValue();
+			returnObj.setThruTop(Double.parseDouble(value));
+			
+			//Thru upper			
+			childNode = childElement.getElementsByTagName("upper");
+			value = childNode.item(0).getFirstChild().getNodeValue();
+			returnObj.setThruUpper(Double.parseDouble(value));
+			
+			//Thru lower			
+			childNode = childElement.getElementsByTagName("lower");
+			value = childNode.item(0).getFirstChild().getNodeValue();
+			returnObj.setThruLower(Double.parseDouble(value));
+			
+			//Thru bottom			
+			childNode = childElement.getElementsByTagName("bottom");
+			value = childNode.item(0).getFirstChild().getNodeValue();
+			returnObj.setThruBottom(Double.parseDouble(value));					
+		}		
+		
+		return returnObj;
+	}
+	
 		/**
-		 * 
+		 * Read analysis boundaries value from generalinfor node
 		 * Created on: Sep 11, 2013,5:17:11 PM
 		 * Author: QuyenNT
 		 * @param boundaryElement
 		 * @return
 		 */
-	public BoundaryObject readAnalysisBoundary(Element  boundaryElement){
+	public BoundaryObject readGeneralAnalysisBoundary(NodeList generalBoundaryNodeList){
 		BoundaryObject returnObj = new BoundaryObject();
-		
-		//analysis_boundaries		
-		NodeList listNodes = boundaryElement.getElementsByTagName("responsetime");
-		for(int j = 0; j < listNodes.getLength(); j++){
-			//res top
-			Element childElement = (Element) listNodes.item(j);
-			NodeList childNodes = childElement.getElementsByTagName("top");
-			String value = childNodes.item(0).getFirstChild().getNodeValue();
-			returnObj.setResTop(Double.parseDouble(value));
+		for(int i = 0; i < generalBoundaryNodeList.getLength(); i++){
+			Element boundaryElement = (Element) generalBoundaryNodeList.item(i);
 			
-			//res upper
-			childElement = (Element) listNodes.item(j);
-			childNodes = childElement.getElementsByTagName("upper");
-			value = childNodes.item(0).getFirstChild().getNodeValue();
-			returnObj.setResUpper(Double.parseDouble(value));
-			
-			//res lower
-			childElement = (Element) listNodes.item(j);
-			childNodes = childElement.getElementsByTagName("lower");
-			value = childNodes.item(0).getFirstChild().getNodeValue();
-			returnObj.setResLower(Double.parseDouble(value));
-			
-			//res bottom
-			childElement = (Element) listNodes.item(j);
-			childNodes = childElement.getElementsByTagName("bottom");
-			value = childNodes.item(0).getFirstChild().getNodeValue();
-			returnObj.setResBottom(Double.parseDouble(value));					
+			String parentNode = boundaryElement.getParentNode().getNodeName();
+			if(parentNode.equals(ANALYSIS_BOUNDARY_PARENT_GENERAL)){
+				NodeList listNodes = boundaryElement.getElementsByTagName("responsetime");
+				for(int j = 0; j < listNodes.getLength(); j++){
+					//res top
+					Element childElement = (Element) listNodes.item(j);
+					NodeList childNodes = childElement.getElementsByTagName("top");
+					String value = childNodes.item(0).getFirstChild().getNodeValue();
+					returnObj.setResTop(Double.parseDouble(value));
+					
+					//res upper					
+					childNodes = childElement.getElementsByTagName("upper");
+					value = childNodes.item(0).getFirstChild().getNodeValue();
+					returnObj.setResUpper(Double.parseDouble(value));
+					
+					//res lower
+					childNodes = childElement.getElementsByTagName("lower");
+					value = childNodes.item(0).getFirstChild().getNodeValue();
+					returnObj.setResLower(Double.parseDouble(value));
+					
+					//res bottom					
+					childNodes = childElement.getElementsByTagName("bottom");
+					value = childNodes.item(0).getFirstChild().getNodeValue();
+					returnObj.setResBottom(Double.parseDouble(value));					
+				}
+				
+				//Thruput
+				listNodes = boundaryElement.getElementsByTagName("throughput");
+				for(int j = 0; j < listNodes.getLength(); j++){
+					//thru top
+					Element childElement = (Element) listNodes.item(j);
+					NodeList childNodes = childElement.getElementsByTagName("top");
+					String value = childNodes.item(0).getFirstChild().getNodeValue();
+					returnObj.setThruTop(Double.parseDouble(value));
+					
+					//Thru upper					
+					childNodes = childElement.getElementsByTagName("upper");
+					value = childNodes.item(0).getFirstChild().getNodeValue();
+					returnObj.setThruUpper(Double.parseDouble(value));
+					
+					//Thru lower					
+					childNodes = childElement.getElementsByTagName("lower");
+					value = childNodes.item(0).getFirstChild().getNodeValue();
+					returnObj.setThruLower(Double.parseDouble(value));
+					
+					//Thru bottom					
+					childNodes = childElement.getElementsByTagName("bottom");
+					value = childNodes.item(0).getFirstChild().getNodeValue();
+					returnObj.setThruBottom(Double.parseDouble(value));					
+				}						
+			}
 		}
-		
-		//Thruput
-		listNodes = boundaryElement.getElementsByTagName("throughput");
-		for(int j = 0; j < listNodes.getLength(); j++){
-			//thru top
-			Element childElement = (Element) listNodes.item(j);
-			NodeList childNodes = childElement.getElementsByTagName("top");
-			String value = childNodes.item(0).getFirstChild().getNodeValue();
-			returnObj.setThruTop(Double.parseDouble(value));
-			
-			//Thru upper
-			childElement = (Element) listNodes.item(j);
-			childNodes = childElement.getElementsByTagName("upper");
-			value = childNodes.item(0).getFirstChild().getNodeValue();
-			returnObj.setThruUpper(Double.parseDouble(value));
-			
-			//Thru lower
-			childElement = (Element) listNodes.item(j);
-			childNodes = childElement.getElementsByTagName("lower");
-			value = childNodes.item(0).getFirstChild().getNodeValue();
-			returnObj.setThruLower(Double.parseDouble(value));
-			
-			//Thru bottom
-			childElement = (Element) listNodes.item(j);
-			childNodes = childElement.getElementsByTagName("bottom");
-			value = childNodes.item(0).getFirstChild().getNodeValue();
-			returnObj.setThruBottom(Double.parseDouble(value));					
-		}				
 			
 		return returnObj;
 	}
@@ -388,25 +610,21 @@ public class TemplateReport {
 	public List<ScenarioObject> processData() {
 		List<ScenarioObject> returnList = new ArrayList<ScenarioObject>();
 
-		BufferedReader br = null;		
 		List scenarioList = configurations.getScenariosList();		
-		ScenarioConfiguration scenarioConfig;
+		ScenarioObject scenarioObject;
+		ScenarioObject processedObj;
 		
 		try {
 			for(int i = 0; i < scenarioList.size(); i++){
-				scenarioConfig = (ScenarioConfiguration)scenarioList.get(i);
-				returnList.add(processDataForEachScenario(scenarioConfig));
+				scenarioObject = (ScenarioObject)scenarioList.get(i);
+				if(!scenarioObject.getEnable().equals(ENABLE_TRUE) )
+					continue;
+				processedObj = processDataForEachScenario(scenarioObject);
+				returnList.add(processedObj);
 			}			
 
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null)
-					br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+			e.printStackTrace();		
 		}
 
 		return returnList;
@@ -416,16 +634,31 @@ public class TemplateReport {
 	 * Process data of each scenario
 	 * Created on: Sep 10, 2013,1:57:53 PM
 	 * Author: QuyenNT
-	 * @param scenarioConfig
+	 * @param scenarioObject
 	 * @return ScenarioObject
 	 */
-	public ScenarioObject processDataForEachScenario(ScenarioConfiguration scenarioConfig) {
-		ScenarioObject returnObj = readScenarioData(scenarioConfig);
+	public ScenarioObject processDataForEachScenario(ScenarioObject scenarioObject) {
+		String INDICATOR_WORSE = configurations.getIndicatorImgSrc() + configurations.getIndicatorStorm();
+		String INDICATOR_THE_SAME = configurations.getIndicatorImgSrc() + configurations.getIndicatorClear();
+		String INDICATOR_BETTER = configurations.getIndicatorImgSrc() + configurations.getIndicatorClear();
+		
+		ScenarioObject returnObj = readScenarioData(scenarioObject);
 				
 		double baseResDiff;
 		double preResDiff;
 		double baseThruDiff;
 		double preThruDiff;
+		
+		//Boundary values from config file
+//		double resTopConfig = scenarioObject.getBoundaryObject().getResTop();
+		double resUpperConfig = scenarioObject.getBoundaryObject().getResUpper();
+		double resLowerConfig = scenarioObject.getBoundaryObject().getResLower();
+//		double resBottomConfig = scenarioObject.getBoundaryObject().getResBottom();
+		
+//		double thruTopConfig = scenarioObject.getBoundaryObject().getThruTop();
+		double thruUpperConfig = scenarioObject.getBoundaryObject().getThruUpper();
+		double thruLowerConfig = scenarioObject.getBoundaryObject().getThruLower();
+//		double thruBottomConfig = scenarioObject.getBoundaryObject().getThruBottom();		
 
 		try {
 			baseResDiff =  (double)(returnObj.getCurrentResponseTime() - returnObj.getBaseResponseTime())/returnObj.getBaseResponseTime();
@@ -438,18 +671,96 @@ public class TemplateReport {
 			returnObj.setPreResponseDiff(preResDiff);	
 			
 			returnObj.setBaseThroughputDiff(baseThruDiff);
-			returnObj.setPreThroughputDiff(preThruDiff);	
+			returnObj.setPreThroughputDiff(preThruDiff);
 			
+//			0.1 	10
+//			0.05	5
+//			-0.05	-5
+//			-0.1	-10
+			//NORMAL
+//			Variation in range of [-5%,5%] should be treated as normal for [90% line of response time], [average response time]
+
+			//IMPROVEMENT
+//			Variation out of range [-,-10%] should be treated as an improvement of [90% line of response time], [average response time]
+//			Variation in range of [-10%,-5%] should be considered as a improvement of [90% line of response time], [average response time]
+
+			//DECLINE
+//			Variation in range of [5%,10%] should be considered as a decline of [90% line of response time], [average response time]
+//			Variation out of range [10%,++] should be treated as an decline of [90% line of response time], [average response time]
+
+//		    Blue color -> OK/ BETTER
+//		    Red color -> Perf REGRESSION
+//		    Orange color -> should be treated as an DECLINE
+//		    No color -> THE SAME
 			
-			System.out.println("processDataForEachScenario - name=" + scenarioConfig.getScenarioName());
+			//Compare
+			//Base response
+			if(baseResDiff < resLowerConfig){
+				returnObj.setBaseResponseChangeStatus(CHANGE_STATUS_BETTER);
+				returnObj.setBaseResponseDiffColor(COLOR_BETTER);
+				returnObj.setBaseResponseDiffIndicator(INDICATOR_BETTER);
+			} else if(baseResDiff > resUpperConfig){
+				returnObj.setBaseResponseChangeStatus(CHANGE_STATUS_WORSE);
+				returnObj.setBaseResponseDiffColor(COLOR_WORSE);
+				returnObj.setBaseResponseDiffIndicator(INDICATOR_WORSE);
+			} else {
+				returnObj.setBaseResponseChangeStatus(CHANGE_STATUS_THE_SAME);
+				returnObj.setBaseResponseDiffColor(COLOR_THE_SAME);
+				returnObj.setBaseResponseDiffIndicator(INDICATOR_THE_SAME);
+			}			
+			
+			//Previous response
+			if(preResDiff < resLowerConfig){
+				returnObj.setPreResponseChangeStatus(CHANGE_STATUS_BETTER);
+				returnObj.setPreResponseDiffColor(COLOR_BETTER);
+				returnObj.setPreResponseDiffIndicator(INDICATOR_BETTER);
+			} else if(preResDiff > resUpperConfig){
+				returnObj.setPreResponseChangeStatus(CHANGE_STATUS_WORSE);
+				returnObj.setPreResponseDiffColor(COLOR_WORSE);
+				returnObj.setPreResponseDiffIndicator(INDICATOR_WORSE);
+			} else {
+				returnObj.setPreResponseChangeStatus(CHANGE_STATUS_THE_SAME);
+				returnObj.setPreResponseDiffColor(COLOR_THE_SAME);
+				returnObj.setPreResponseDiffIndicator(INDICATOR_THE_SAME);
+			}
+			
+			//Base Thruput
+			if(baseThruDiff < thruLowerConfig){				
+				returnObj.setBaseThruDiffColor(COLOR_BETTER);
+				returnObj.setBaseThruDiffIndicator(INDICATOR_BETTER);
+			} else if(baseThruDiff > thruUpperConfig){				
+				returnObj.setBaseThruDiffColor(COLOR_WORSE);
+				returnObj.setBaseThruDiffIndicator(INDICATOR_WORSE);
+			} else {				
+				returnObj.setBaseThruDiffColor(COLOR_THE_SAME);
+				returnObj.setBaseThruDiffIndicator(INDICATOR_THE_SAME);
+			}			
+			
+			//Previous Thruput
+			if(preThruDiff < thruLowerConfig){				
+				returnObj.setPreThruDiffColor(COLOR_BETTER);
+				returnObj.setPreThruDiffIndicator(INDICATOR_BETTER);
+			} else if(preThruDiff > thruUpperConfig){				
+				returnObj.setPreThruDiffColor(COLOR_WORSE);
+				returnObj.setPreThruDiffIndicator(INDICATOR_WORSE);
+			} else {				
+				returnObj.setPreThruDiffColor(COLOR_THE_SAME);
+				returnObj.setPreThruDiffIndicator(INDICATOR_THE_SAME);
+			}
+						
+								
+			System.out.println("processDataForEachScenario - name=" + scenarioObject.getScenarioName());
 			System.out.println("processDataForEachScenario - res base=" + returnObj.getBaseResponseTime());
 			System.out.println("processDataForEachScenario - res pre =" + returnObj.getPreResponseTime());
 			System.out.println("processDataForEachScenario - res this=" + returnObj.getCurrentResponseTime());
 			System.out.println("processDataForEachScenario - res base diff=" + returnObj.getBaseResponseDiff());
 			System.out.println("processDataForEachScenario - res pre diff=" + returnObj.getPreResponseDiff());
+			
 			System.out.println("processDataForEachScenario - thru base diff=" + returnObj.getBaseThroughputDiff());
 			System.out.println("processDataForEachScenario - thru pre diff=" + returnObj.getPreThroughputDiff());
-			System.out.println("processDataForEachScenario - res top =" + scenarioConfig.getBoundaryObject().getResTop());
+			
+			System.out.println("processDataForEachScenario - res base status =" + returnObj.getBaseResponseChangeStatus());
+			System.out.println("processDataForEachScenario - res base color =" + returnObj.getBaseResponseDiffColor());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -461,10 +772,10 @@ public class TemplateReport {
 	 * Read scnario data from csv files
 	 * Created on: Sep 11, 2013,9:08:29 AM
 	 * Author: QuyenNT
-	 * @param scenarioConfig
+	 * @param scenarioObject
 	 * @return
 	 */
-	public ScenarioObject readScenarioData(ScenarioConfiguration scenarioConfig){
+	public ScenarioObject readScenarioData(ScenarioObject scenarioObject){
 		ScenarioObject returnObj = new ScenarioObject();
 		String dataFile;
 		BufferedReader br = null;	
@@ -472,16 +783,26 @@ public class TemplateReport {
 		String[] dataArr;
 				
 		//List of test run through weeks of each scenario
-		List<String> scenarioWeekList = listDirNames(scenarioConfig.getScenarioName());
+		List<String> scenarioWeekList = listDirNames(scenarioObject.getScenarioName());
 		
 		int responseIndex = configurations.getResponseColumn() - 1;
 		int throughputIndex = configurations.getThroughputColumn() - 1;
 	
 		try {		
 			for(int j = 0; j < scenarioWeekList.size();j ++){
+				//Set scenario values to returned object				
+				returnObj.setResponseLabel(scenarioObject.getResponseLabel());
+				returnObj.setScenarioName(scenarioObject.getScenarioName());
+				returnObj.setResponseLabelId(scenarioObject.getResponseLabelId());
+				returnObj.setThroughputLabel(scenarioObject.getThroughputLabel());
+				returnObj.setResponseLabelAlias(scenarioObject.getResponseLabelAlias());
+				returnObj.setBoundaryObject(scenarioObject.getBoundaryObject());
+				returnObj.setScenarioAlias(scenarioObject.getScenarioAlias());
+				returnObj.setScenarioUrl(scenarioObject.getScenarioUrl());
+				
 				//Base
 				if(scenarioWeekList.contains(configurations.getWeekBase())){					
-					dataFile = configurations.getDataPath() + "/" + scenarioConfig.getScenarioName() + "/" + 
+					dataFile = configurations.getDataPath() + "/" + scenarioObject.getScenarioName() + "/" + 
 								configurations.getWeekBase() + "/" + ANALYSIS_FOLDER + "/" + ANALYSIS_FILE;
 					
 					br = new BufferedReader(new FileReader(dataFile));
@@ -492,12 +813,12 @@ public class TemplateReport {
 						for (int i = 0; i < dataArr.length; i++) {
 						
 							//base throughput
-							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioConfig.getThroughputLabel())){
+							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioObject.getThroughputLabel())){
 								returnObj.setBaseThroughput(Integer.parseInt(dataArr[throughputIndex]));
 							}							
 							
 							//base responsetime
-							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioConfig.getResponseLabelId())){
+							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioObject.getResponseLabelId())){
 								returnObj.setBaseResponseTime(Integer.parseInt(dataArr[responseIndex]));
 							}							
 						}						
@@ -506,7 +827,7 @@ public class TemplateReport {
 				
 				//Previous
 				if(scenarioWeekList.contains(configurations.getWeekPrevious())){					
-					dataFile = configurations.getDataPath() + "/" + scenarioConfig.getScenarioName() + "/" + 
+					dataFile = configurations.getDataPath() + "/" + scenarioObject.getScenarioName() + "/" + 
 								configurations.getWeekPrevious() + "/" + ANALYSIS_FOLDER + "/" + ANALYSIS_FILE;
 					
 					br = new BufferedReader(new FileReader(dataFile));
@@ -517,12 +838,12 @@ public class TemplateReport {
 						for (int i = 0; i < dataArr.length; i++) {
 						
 							//previous throughput
-							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioConfig.getThroughputLabel())){
+							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioObject.getThroughputLabel())){
 								returnObj.setPreThroughput(Integer.parseInt(dataArr[throughputIndex]));
 							}							
 							
 							//previous responsetime
-							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioConfig.getResponseLabelId())){
+							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioObject.getResponseLabelId())){
 								returnObj.setPreResponseTime(Integer.parseInt(dataArr[responseIndex]));
 							}
 						}						
@@ -531,7 +852,7 @@ public class TemplateReport {
 				
 				//This
 				if(scenarioWeekList.contains(configurations.getWeekThis())){					
-					dataFile = configurations.getDataPath() + "/" + scenarioConfig.getScenarioName() + "/" + 
+					dataFile = configurations.getDataPath() + "/" + scenarioObject.getScenarioName() + "/" + 
 								configurations.getWeekThis() + "/" + ANALYSIS_FOLDER + "/" + ANALYSIS_FILE;
 					
 					br = new BufferedReader(new FileReader(dataFile));
@@ -542,12 +863,12 @@ public class TemplateReport {
 						for (int i = 0; i < dataArr.length; i++) {
 						
 							//this throughput
-							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioConfig.getThroughputLabel())){
+							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioObject.getThroughputLabel())){
 								returnObj.setCurrentThroughput(Integer.parseInt(dataArr[throughputIndex]));
 							}							
 							
 							//this responsetime
-							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioConfig.getResponseLabelId())){
+							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioObject.getResponseLabelId())){
 								returnObj.setCurrentResponseTime(Integer.parseInt(dataArr[responseIndex]));
 							}
 						}						
@@ -582,14 +903,17 @@ public class TemplateReport {
 			
 			String path = configurations.getDataPath() + "/" + scenarioName;
 			File scenarioFolder = new File(path);
-			File[] fileList = scenarioFolder.listFiles();
-
-			for (int i = 0; i < fileList.length; i++) {
-
-				if (fileList[i].isDirectory()) {
-					dirName = fileList[i].getName();
-					dirNameList.add(dirName);					
+			File[] fileList = scenarioFolder.listFiles();	
+			
+			if(fileList!= null){
+				for (int i = 0; i < fileList.length; i++) {
+					if (fileList[i].isDirectory()) {
+						dirName = fileList[i].getName();
+						dirNameList.add(dirName);					
+					}
 				}
+			} else {
+				logger.log(Priority.ERROR, "No folder found");
 			}
 			return dirNameList;
 
@@ -738,110 +1062,81 @@ public class TemplateReport {
 	
 	//Create L1 page
 	String replaceL1Info(String sTemplate) {
-		// String statusStrTemplate =
-		// "| SENA_NUMBER | [[**SENA_NAME**>>SENA_LINK]] |(% style=\"text-align:right;color:PRE_RES_COLOR\" %)PRE_RES_PERCENT% |(% style=\"color:PRE_STATUS_COLOR\" %)PRE_STATUS_RESULT |(% style=\"text-align:right;color:BASE_RES_COLOR\" %)BASE_RES_PERCENT% |(% style=\"color:BASE_STATUS_COLOR\" %)BASE_STATUS_RESULT";
-		String statusStrTemplate = "| SCENA_NUMBER | [[**SCENA_NAME**>>SCENA_LINK]] |";
+		List scenarioList = processData();
+		 String statusStrTemplate =
+		 "| SCENA_NUMBER | [[**SCENA_NAME**>>SCENA_LINK]] |(% style=\"text-align:right;color:PRE_RES_COLOR\" %)" +
+		 "PRE_RES_PERCENT% |(% style=\"color:PRE_RES_COLOR\" %)PRE_STATUS_RESULT |" +
+		 "(% style=\"text-align:right;color:BASE_RES_COLOR\" %)BASE_RES_PERCENT% |" +
+		 "(% style=\"color:BASE_RES_COLOR\" %)BASE_STATUS_RESULT";
+//		String statusStrTemplate = "| SCENA_NUMBER | [[**SCENA_NAME**>>SCENA_LINK]] |";
 		String staticChartStrTemplate = "=== CHART_SCENA_NAME ===";
 		StringBuffer senaStatusBuf = new StringBuffer();
 		StringBuffer senaChartBuf = new StringBuffer();
+		ScenarioObject scenario;
 		int x = 1;
 
-		for (int i = 0; i < configurations.getScenariosList().size(); i++) {
+		for (int i = 0; i < scenarioList.size(); i++) {
+			scenario = (ScenarioObject) scenarioList.get(i);
 			// Build content for STATUS OF WEEK part
 			String tmp = statusStrTemplate;
 			tmp = tmp.replace("SCENA_NUMBER", x + "");
-			tmp = tmp.replace("SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
-			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()
-					+ configurations.getPrefix() + "_"
-					+ configurations.getScenariosList().get(i).toString().trim());
+			tmp = tmp.replace("SCENA_NAME", scenario.getScenarioName());
+			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()+ configurations.getPrefix() 
+												+ "_" + scenario.getScenarioName());
+			tmp = tmp.replace("PRE_RES_COLOR", scenario.getPreResponseDiffColor());
+			tmp = tmp.replace("PRE_RES_PERCENT", scenario.getPreResponseDiff()+"");
+			tmp = tmp.replace("PRE_STATUS_RESULT", scenario.getPreResponseChangeStatus());
+			tmp = tmp.replace("BASE_RES_COLOR", scenario.getBaseResponseDiffColor());
+			tmp = tmp.replace("BASE_RES_PERCENT", scenario.getBaseResponseDiff()+"");
+			tmp = tmp.replace("BASE_STATUS_RESULT", scenario.getBaseResponseChangeStatus());
 
 			senaStatusBuf.append(tmp + "\n");
 			x++;
 
 			// Build content for STATISTICS CHARTS part
 			tmp = staticChartStrTemplate;
-			tmp = tmp.replace("CHART_SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
+			tmp = tmp.replace("CHART_SCENA_NAME", scenario.getScenarioName());
 
 			senaChartBuf.append(tmp + "\n");
 		}
-		sTemplate = sTemplate.replace("@@SCENARIO_STATUS@@",
-				senaStatusBuf.toString());
+		sTemplate = sTemplate.replace("@@SCENARIO_STATUS@@",senaStatusBuf.toString());
 
-		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",
-				senaChartBuf.toString());
+		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",senaChartBuf.toString());
 
-		System.out.println("replaceSenarioInfo-replace string:\n"
-				+ senaStatusBuf.toString());
+		System.out.println("replaceSenarioInfo-replace string:\n"+ senaStatusBuf.toString());
 
 		return sTemplate;
 	}
 	
-	String replaceL2Info(String sTemplate) {
-		// String statusStrTemplate =
-		// "| SENA_NUMBER | [[**SENA_NAME**>>SENA_LINK]] |(% style=\"text-align:right;color:PRE_RES_COLOR\" %)PRE_RES_PERCENT% |(% style=\"color:PRE_STATUS_COLOR\" %)PRE_STATUS_RESULT |(% style=\"text-align:right;color:BASE_RES_COLOR\" %)BASE_RES_PERCENT% |(% style=\"color:BASE_STATUS_COLOR\" %)BASE_STATUS_RESULT";
-		String statusStrTemplate = "| SCENA_NUMBER | [[**SCENA_NAME**>>SCENA_LINK]] |";
-		String staticChartStrTemplate = "=== CHART_SCENA_NAME ===";
-		StringBuffer senaStatusBuf = new StringBuffer();
-		StringBuffer senaChartBuf = new StringBuffer();
-		int x = 1;
-
-		for (int i = 0; i < configurations.getScenariosList().size(); i++) {
-			// Build content for STATUS OF WEEK part
-			String tmp = statusStrTemplate;
-			tmp = tmp.replace("SCENA_NUMBER", x + "");
-			tmp = tmp.replace("SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
-			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()
-					+ configurations.getPrefix() + "_"
-					+ configurations.getScenariosList().get(i).toString().trim());
-
-			senaStatusBuf.append(tmp + "\n");
-			x++;
-
-			// Build content for STATISTICS CHARTS part
-			tmp = staticChartStrTemplate;
-			tmp = tmp.replace("CHART_SCENA_NAME", configurations.getScenariosList().get(i).toString().trim());
-
-			senaChartBuf.append(tmp + "\n");
-		}
-		sTemplate = sTemplate.replace("@@SCENARIO_STATUS@@",
-				senaStatusBuf.toString());
-
-		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",
-				senaChartBuf.toString());
-
-		System.out.println("replaceSenarioInfo-replace string:\n"
-				+ senaStatusBuf.toString());
+	String replaceL2Info(String sTemplate,ScenarioObject scenario) {			
+		//Response
+		sTemplate = sTemplate.replace("@@VERSION_BASE@@",configurations.getVersionBase() + "-BASE");
+		sTemplate = sTemplate.replace("@@REQUEST_PAGE@@", scenario.getResponseLabelAlias());
+		sTemplate = sTemplate.replace("@@REPONSE_BASE_COLOR@@", scenario.getBaseResponseDiffColor());
+		sTemplate = sTemplate.replace("@@REPONSE_BASE_DIFF@@", scenario.getBaseResponseDiff() + "");
+		sTemplate = sTemplate.replace("@@REPONSE_BASE_INDICATOR@@", scenario.getBaseResponseDiffIndicator());
+//		sTemplate = sTemplate.replace("@@REPONSE_BASE_VALUE_COLOR@@", scenario.getBaseResponseDiffColor());
+		sTemplate = sTemplate.replace("@@REPONSE_VALUE@@", scenario.getCurrentResponseTime() + "");
 		
-		processData();
+		sTemplate = sTemplate.replace("@@VERSION_WEEK@@",configurations.getVersionWeek());			
+		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_COLOR@@", scenario.getPreResponseDiffColor());
+		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_DIFF@@", scenario.getPreResponseDiff() + "");
+		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_INDICATOR@@", scenario.getPreResponseDiffIndicator());
+//		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_VALUE_COLOR@@", scenario.getPreResponseDiffColor());					
+	
+		//Thruput
+		sTemplate = sTemplate.replace("@@THRU_BASE_COLOR@@", scenario.getBaseThruDiffColor());
+		sTemplate = sTemplate.replace("@@THRU_BASE_DIFF@@", scenario.getBaseThroughputDiff() + "");
+		sTemplate = sTemplate.replace("@@THRU_BASE_INDICATOR@@", scenario.getBaseThruDiffIndicator());
+		sTemplate = sTemplate.replace("@@THRU_VALUE@@", scenario.getCurrentThroughput() + "");
+							
+		sTemplate = sTemplate.replace("@@THRU_PREVIOUS_COLOR@@", scenario.getPreThruDiffColor());
+		sTemplate = sTemplate.replace("@@THRU_PREVIOUS_DIFF@@", scenario.getPreThroughputDiff() + "");
+		sTemplate = sTemplate.replace("@@THRU_PREVIOUS_INDICATOR@@", scenario.getPreThruDiffIndicator());
 
 		return sTemplate;
 	}	
 
-	/**
-	 * replace general informations
-	 * 
-	 * @param sTemplate
-	 * @param useCase
-	 */
-	String replaceGeneralInfo(String sTemplate) {
-		// // replace root information
-		// sTemplate = sTemplate.replace("root_origin",
-		// getMapGeneralConfig().get("root_replace"));
-		// // replace root information
-		// sTemplate = sTemplate.replace("productversion_origin",
-		// getMapGeneralConfig().get("productversion_replace"));
-		// // replace week information
-		// sTemplate = sTemplate.replace("PLATFORM_ORIGIN",
-		// getMapGeneralConfig().get("platform_replace"));
-		// // replace root information
-		// sTemplate = sTemplate.replace("productbuild_origin",
-		// getMapGeneralConfig().get("productbuild_replace"));
-		// // replace week information
-		// sTemplate = sTemplate.replace("week_origin",
-		// getMapGeneralConfig().get("week_replace"));
-
-		return sTemplate;
-	}
 
 	/**
 	 * generate a chart by replace in excess information and return a

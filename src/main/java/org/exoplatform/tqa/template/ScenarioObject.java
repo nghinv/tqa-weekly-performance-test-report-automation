@@ -1,6 +1,15 @@
 package org.exoplatform.tqa.template;
 
 public class ScenarioObject {
+	
+	private String scenarioName;
+	private String responseLabel;
+	private String throughputLabel;
+	private String responseLabelId;
+	private String responseLabelAlias;
+	private String scenarioAlias;
+	private String scenarioUrl;
+		
 	private int baseResponseTime;
 	private int preResponseTime;
 	private int currentResponseTime;
@@ -17,15 +26,23 @@ public class ScenarioObject {
 		
 	private String baseResponseDiffColor;
 	private String preResponseDiffColor;
+
+	private String baseResponseChangeStatus;
+	private String preResponseChangeStatus;
+	
 	private String baseResponseDiffIndicator;
 	private String preResponseDiffIndicator;
 	
+	
 	private String baseThruDiffColor;
 	private String preThruDiffColor;
+	
 	private String baseThruDiffIndicator;
 	private String preThruDiffIndicator;	
 	
+	private String enable;
 	
+	private BoundaryObject boundaryObject;
 	
 	public int getBaseResponseTime() {
 		return baseResponseTime;
@@ -217,6 +234,137 @@ public class ScenarioObject {
 	public void setPreThruDiffIndicator(String preThruDiffIndicator) {
 		this.preThruDiffIndicator = preThruDiffIndicator;
 	}
-	
-	
+
+
+
+	public String getScenarioName() {
+		return scenarioName;
+	}
+
+
+
+	public void setScenarioName(String scenarioName) {
+		this.scenarioName = scenarioName;
+	}
+
+
+
+	public String getResponseLabel() {
+		return responseLabel;
+	}
+
+
+
+	public void setResponseLabel(String responseLabel) {
+		this.responseLabel = responseLabel;
+	}
+
+
+
+	public String getThroughputLabel() {
+		return throughputLabel;
+	}
+
+
+
+	public void setThroughputLabel(String throughputLabel) {
+		this.throughputLabel = throughputLabel;
+	}
+
+
+
+	public String getResponseLabelId() {
+		return responseLabelId;
+	}
+
+
+
+	public void setResponseLabelId(String responseLabelId) {
+		this.responseLabelId = responseLabelId;
+	}
+
+
+
+	public BoundaryObject getBoundaryObject() {
+		return boundaryObject;
+	}
+
+
+
+	public void setBoundaryObject(BoundaryObject boundaryObject) {
+		this.boundaryObject = boundaryObject;
+	}
+
+
+
+	public String getBaseResponseChangeStatus() {
+		return baseResponseChangeStatus;
+	}
+
+
+
+	public void setBaseResponseChangeStatus(String baseResponseChangeStatus) {
+		this.baseResponseChangeStatus = baseResponseChangeStatus;
+	}
+
+
+
+	public String getPreResponseChangeStatus() {
+		return preResponseChangeStatus;
+	}
+
+
+
+	public void setPreResponseChangeStatus(String preResponseChangeStatus) {
+		this.preResponseChangeStatus = preResponseChangeStatus;
+	}
+
+
+
+	public String getResponseLabelAlias() {
+		return responseLabelAlias;
+	}
+
+
+
+	public void setResponseLabelAlias(String responseLabelAlias) {
+		this.responseLabelAlias = responseLabelAlias;
+	}
+
+
+
+	public String getScenarioAlias() {
+		return scenarioAlias;
+	}
+
+
+
+	public void setScenarioAlias(String scenarioAlias) {
+		this.scenarioAlias = scenarioAlias;
+	}
+
+
+
+	public String getScenarioUrl() {
+		return scenarioUrl;
+	}
+
+
+
+	public void setScenarioUrl(String scenarioUrl) {
+		this.scenarioUrl = scenarioUrl;
+	}
+
+
+
+	public String getEnable() {
+		return enable;
+	}
+
+
+
+	public void setEnable(String enable) {
+		this.enable = enable;
+	}
+
 }
