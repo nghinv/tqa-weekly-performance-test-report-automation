@@ -1,5 +1,7 @@
 package org.exoplatform.tqa.template;
 
+import java.util.List;
+
 public class ScenarioObject {
 	
 	private String scenarioName;
@@ -43,6 +45,8 @@ public class ScenarioObject {
 	private String enable;
 	
 	private BoundaryObject boundaryObject;
+	
+	private List dataLink;
 	
 	public int getBaseResponseTime() {
 		return baseResponseTime;
@@ -367,4 +371,17 @@ public class ScenarioObject {
 		this.enable = enable;
 	}
 
+
+
+	public List getDataLink() {
+		return dataLink;
+	}
+
+
+
+	public void setDataLink(List dataLink) {
+		this.dataLink = dataLink;
+	}
+
+	
 }

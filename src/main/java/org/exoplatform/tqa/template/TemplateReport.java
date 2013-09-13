@@ -24,6 +24,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,8 @@ public class TemplateReport {
 	final static Logger logger = Logger.getLogger(TemplateReport.class);
 	
 	private final static String ANALYSIS_FOLDER = "analysis";
-	private final static String ANALYSIS_FILE = "MERGE3-AggregateReport.csv";
+	private final static String ANALYSIS_FILE = "analysis-AggregateReport.csv";
+	private final static String DATA_LINK_FILE = "links.info";
 	private final static String ANALYSIS_BOUNDARY_PARENT_GENERAL = "generalinfo";
 	private final static String ANALYSIS_BOUNDARY_PARENT_SCENARIO = "scenario";
 	
@@ -62,10 +65,13 @@ public class TemplateReport {
 	private final static String ENABLE_TRUE = "true";
 	private final static String ENABLE_FALSE = "false";
 	
+	private final static String CONCLUSION_THE_SAME = "The result of Throughput and 90% line of response time show that performance of this week package is THE SAME as the previous week one";
+	private final static String CONCLUSION_WORSE = "The result of Throughput and 90% line of response time show that performance of this week package is WORSE than the previous week one";
+	private final static String CONCLUSION_BETTER = "The result of Throughput and 90% line of response time show that performance of this week package is BETTER than the previous week one";
 	
-	Configurations configurations;
-	ScenarioObject scenarioObject;
-
+	private Configurations configurations;
+	private ScenarioObject scenarioObject;
+	
 	public TemplateReport() {
 
 	}
@@ -76,8 +82,7 @@ public class TemplateReport {
 	 * @param configFileXml
 	 * @throws IOException
 	 */
-	void generateReport(String configFileXml) throws IOException {
-
+	void generateReport(String configFileXml) throws IOException {		 
 		// read configuration file
 		readConfig(configFileXml);
 
@@ -97,6 +102,9 @@ public class TemplateReport {
 		l1Folder.mkdir();
 		
 		File generalReport = new File(configurations.getGeneratedPath()	+ "/template/L1TEMPLATE");
+//		 URL f = Template.class.getClassLoader().getResource("configs/L1TEMPLATE");
+//		 File generalReport = new File(f.getFile());
+		 
 		String templateGeneralReport;
 		try {
 			templateGeneralReport = readTemplate(generalReport);
@@ -123,6 +131,8 @@ public class TemplateReport {
 		String l1Folder = configurations.getGeneratedPath() + "/"+ configurations.getPrefix();
 		
         File templateFile = new File(configurations.getGeneratedPath() + "/template/L2TEMPLATE");
+//		 URL f = Template.class.getClassLoader().getResource("configs/L1TEMPLATE");
+//		 File templateFile = new File(f.getFile());
 
 //		 for each scnario : read template file, replace and write a new report file
 		 for (int i = 0; i < scenarioList.size(); i++) {	
@@ -196,7 +206,8 @@ public class TemplateReport {
 			NodeList errorColumn = root.getElementsByTagName("error");
 			
 			NodeList versionBase = root.getElementsByTagName("version_base");
-			NodeList versionWeek = root.getElementsByTagName("version_week");
+			NodeList versionWeekPre = root.getElementsByTagName("version_week_previous");
+			NodeList versionWeekThis = root.getElementsByTagName("version_week_this");
 			
 			NodeList listScenarioNode = root.getElementsByTagName("scenario");
 			NodeList listGeneralBoundaryNode = root.getElementsByTagName("analysis_boundaries");
@@ -206,7 +217,7 @@ public class TemplateReport {
 			NodeList listThroughputLabelNode = root.getElementsByTagName("throughput_label");
 			NodeList listResponseLabelAlias = root.getElementsByTagName("responsetime_label_alias");
 			NodeList listScenarioAlias = root.getElementsByTagName("alias");
-			NodeList listScenarioUrl = root.getElementsByTagName("url");
+//			NodeList listScenarioUrl = root.getElementsByTagName("url");
 				
 			
 			NodeList indicatorImgSrc = root.getElementsByTagName("image_source");
@@ -278,8 +289,8 @@ public class TemplateReport {
 				scenarioObject.setScenarioAlias(noditem.getTextContent().trim());
 				
 				//scenario url
-				noditem = listScenarioUrl.item(iLevel);				
-				scenarioObject.setScenarioUrl(noditem.getTextContent().trim());				
+//				noditem = listScenarioUrl.item(iLevel);				
+//				scenarioObject.setScenarioUrl(noditem.getTextContent().trim());				
 				
 
 				//throughputLabel
@@ -366,9 +377,13 @@ public class TemplateReport {
 			valueSpacesValues = indicatorAlert.item(0).getFirstChild().getNodeValue();
 			configurations.setIndicatorAlert(valueSpacesValues);
 			
-			//version week
-			valueSpacesValues = versionWeek.item(0).getFirstChild().getNodeValue();
-			configurations.setVersionWeek(valueSpacesValues);
+			//version week previous
+			valueSpacesValues = versionWeekPre.item(0).getFirstChild().getNodeValue();
+			configurations.setVersionWeekPre(valueSpacesValues);
+			
+			//version week this
+			valueSpacesValues = versionWeekThis.item(0).getFirstChild().getNodeValue();
+			configurations.setVersionWeekThis(valueSpacesValues);			
 			
 			//version base
 			valueSpacesValues = versionBase.item(0).getFirstChild().getNodeValue();
@@ -643,22 +658,22 @@ public class TemplateReport {
 		String INDICATOR_BETTER = configurations.getIndicatorImgSrc() + configurations.getIndicatorClear();
 		
 		ScenarioObject returnObj = readScenarioData(scenarioObject);
-				
+						
 		double baseResDiff;
 		double preResDiff;
 		double baseThruDiff;
 		double preThruDiff;
 		
 		//Boundary values from config file
-//		double resTopConfig = scenarioObject.getBoundaryObject().getResTop();
+		double resTopConfig = scenarioObject.getBoundaryObject().getResTop();
 		double resUpperConfig = scenarioObject.getBoundaryObject().getResUpper();
 		double resLowerConfig = scenarioObject.getBoundaryObject().getResLower();
-//		double resBottomConfig = scenarioObject.getBoundaryObject().getResBottom();
+		double resBottomConfig = scenarioObject.getBoundaryObject().getResBottom();
 		
-//		double thruTopConfig = scenarioObject.getBoundaryObject().getThruTop();
+		double thruTopConfig = scenarioObject.getBoundaryObject().getThruTop();
 		double thruUpperConfig = scenarioObject.getBoundaryObject().getThruUpper();
 		double thruLowerConfig = scenarioObject.getBoundaryObject().getThruLower();
-//		double thruBottomConfig = scenarioObject.getBoundaryObject().getThruBottom();		
+		double thruBottomConfig = scenarioObject.getBoundaryObject().getThruBottom();		
 
 		try {
 			baseResDiff =  (double)(returnObj.getCurrentResponseTime() - returnObj.getBaseResponseTime())/returnObj.getBaseResponseTime();
@@ -695,11 +710,12 @@ public class TemplateReport {
 			
 			//Compare
 			//Base response
-			if(baseResDiff < resLowerConfig){
+			
+			if(baseResDiff < resBottomConfig){				
 				returnObj.setBaseResponseChangeStatus(CHANGE_STATUS_BETTER);
 				returnObj.setBaseResponseDiffColor(COLOR_BETTER);
 				returnObj.setBaseResponseDiffIndicator(INDICATOR_BETTER);
-			} else if(baseResDiff > resUpperConfig){
+			} else if(baseResDiff > resTopConfig){				
 				returnObj.setBaseResponseChangeStatus(CHANGE_STATUS_WORSE);
 				returnObj.setBaseResponseDiffColor(COLOR_WORSE);
 				returnObj.setBaseResponseDiffIndicator(INDICATOR_WORSE);
@@ -710,11 +726,11 @@ public class TemplateReport {
 			}			
 			
 			//Previous response
-			if(preResDiff < resLowerConfig){
+			if(preResDiff < resBottomConfig){
 				returnObj.setPreResponseChangeStatus(CHANGE_STATUS_BETTER);
 				returnObj.setPreResponseDiffColor(COLOR_BETTER);
 				returnObj.setPreResponseDiffIndicator(INDICATOR_BETTER);
-			} else if(preResDiff > resUpperConfig){
+			} else if(preResDiff > resTopConfig){
 				returnObj.setPreResponseChangeStatus(CHANGE_STATUS_WORSE);
 				returnObj.setPreResponseDiffColor(COLOR_WORSE);
 				returnObj.setPreResponseDiffIndicator(INDICATOR_WORSE);
@@ -725,10 +741,10 @@ public class TemplateReport {
 			}
 			
 			//Base Thruput
-			if(baseThruDiff < thruLowerConfig){				
+			if(baseThruDiff > thruBottomConfig){				
 				returnObj.setBaseThruDiffColor(COLOR_BETTER);
 				returnObj.setBaseThruDiffIndicator(INDICATOR_BETTER);
-			} else if(baseThruDiff > thruUpperConfig){				
+			} else if(baseThruDiff < thruTopConfig){				
 				returnObj.setBaseThruDiffColor(COLOR_WORSE);
 				returnObj.setBaseThruDiffIndicator(INDICATOR_WORSE);
 			} else {				
@@ -737,10 +753,10 @@ public class TemplateReport {
 			}			
 			
 			//Previous Thruput
-			if(preThruDiff < thruLowerConfig){				
+			if(preThruDiff > thruBottomConfig){				
 				returnObj.setPreThruDiffColor(COLOR_BETTER);
 				returnObj.setPreThruDiffIndicator(INDICATOR_BETTER);
-			} else if(preThruDiff > thruUpperConfig){				
+			} else if(preThruDiff < thruTopConfig){				
 				returnObj.setPreThruDiffColor(COLOR_WORSE);
 				returnObj.setPreThruDiffIndicator(INDICATOR_WORSE);
 			} else {				
@@ -809,16 +825,17 @@ public class TemplateReport {
 					br.readLine();//by pass the first line
 					
 					while ((currentLine = br.readLine()) != null) {
-						dataArr = currentLine.split(configurations.getDataDelimiter());						
+						dataArr = currentLine.split(configurations.getDataDelimiter());		
+
 						for (int i = 0; i < dataArr.length; i++) {
 						
 							//base throughput
-							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioObject.getThroughputLabel())){
+							if(i == throughputIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenarioObject.getThroughputLabel())){
 								returnObj.setBaseThroughput(Integer.parseInt(dataArr[throughputIndex]));
 							}							
 							
 							//base responsetime
-							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioObject.getResponseLabelId())){
+							if(i == responseIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenarioObject.getResponseLabelId().trim())){
 								returnObj.setBaseResponseTime(Integer.parseInt(dataArr[responseIndex]));
 							}							
 						}						
@@ -838,12 +855,12 @@ public class TemplateReport {
 						for (int i = 0; i < dataArr.length; i++) {
 						
 							//previous throughput
-							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioObject.getThroughputLabel())){
+							if(i == throughputIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenarioObject.getThroughputLabel())){
 								returnObj.setPreThroughput(Integer.parseInt(dataArr[throughputIndex]));
 							}							
 							
 							//previous responsetime
-							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioObject.getResponseLabelId())){
+							if(i == responseIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenarioObject.getResponseLabelId())){
 								returnObj.setPreResponseTime(Integer.parseInt(dataArr[responseIndex]));
 							}
 						}						
@@ -863,12 +880,12 @@ public class TemplateReport {
 						for (int i = 0; i < dataArr.length; i++) {
 						
 							//this throughput
-							if(i == throughputIndex && dataArr[0].trim().startsWith(scenarioObject.getThroughputLabel())){
+							if(i == throughputIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenarioObject.getThroughputLabel())){
 								returnObj.setCurrentThroughput(Integer.parseInt(dataArr[throughputIndex]));
 							}							
 							
 							//this responsetime
-							if(i == responseIndex && dataArr[0].trim().startsWith(scenarioObject.getResponseLabelId())){
+							if(i == responseIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenarioObject.getResponseLabelId())){
 								returnObj.setCurrentResponseTime(Integer.parseInt(dataArr[responseIndex]));
 							}
 						}						
@@ -888,6 +905,40 @@ public class TemplateReport {
 		return returnObj;
 	} 
 
+	/**
+	 * 
+	 * Created on: Sep 13, 2013,11:32:36 AM
+	 * Author: QuyenNT
+	 * @param scenarioObject
+	 * @return
+	 */
+	public List<String> readLinkInfo(ScenarioObject scenarioObject){	
+		List<String> linkList = new ArrayList<String>();
+		String dataFile;
+		BufferedReader br = null;	
+		String currentLine;
+		
+		try{
+			dataFile = configurations.getDataPath() + "/" + scenarioObject.getScenarioName() + "/" + 
+					configurations.getWeekBase() + "/" + ANALYSIS_FOLDER + "/" + DATA_LINK_FILE;
+			
+			br = new BufferedReader(new FileReader(dataFile));
+					
+			while ((currentLine = br.readLine()) != null) {				
+				linkList.add(currentLine.trim());
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)
+					br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+			return linkList;		 		
+	}
 	
 	/**
 	 * Get list of folders of test run over weeks under a scenario folder
@@ -928,18 +979,17 @@ public class TemplateReport {
 		String webdavPass = configurations.getWebdavPass();
 		String webdavURL = configurations.getWebdavPath();
 
-		// folderLocal =
-		// "/home/annb/java/eXoProjects/access-project/cross-access/target/access-report/WEEKLY_REPORTs_PLF3.5.6-SNAPSHOT/";
-		// String folderLocal = getMapGeneralConfig().get("pathTemplate") +
-		// WEEKLY_REPORT
-		// + mapGeneralConfig.get("platform_replace") +"/";
-		//
-		// String nameParentFolder = WEEKLY_REPORT +
-		// mapGeneralConfig.get("platform_replace");
-		//
-		// SenderWebdav.sendTemlate(webdavLogin, webdavPass, webdavURL,
-		// folderLocal, nameParentFolder);
-		// logger.info("template send by WEBDAV done !");
+//		String folderLocal =
+//		 "/home/annb/java/eXoProjects/access-project/cross-access/target/access-report/WEEKLY_REPORTs_PLF3.5.6-SNAPSHOT/";
+///		 String folderLocal = getMapGeneralConfig().get("pathTemplate") +	 WEEKLY_REPORT
+//				 + mapGeneralConfig.get("platform_replace") +"/";
+//		
+//		 String nameParentFolder = WEEKLY_REPORT +
+//		 mapGeneralConfig.get("platform_replace");
+		
+//		 SenderWebdav.sendTemlate(webdavLogin, webdavPass, webdavURL,
+//		 folderLocal, nameParentFolder);
+//		 logger.info("template send by WEBDAV done !");
 	}
 
 	/**
@@ -1062,21 +1112,26 @@ public class TemplateReport {
 	
 	//Create L1 page
 	String replaceL1Info(String sTemplate) {
+		 DecimalFormat df = new DecimalFormat("#.##");
+		 		 
 		List scenarioList = processData();
 		 String statusStrTemplate =
 		 "| SCENA_NUMBER | [[**SCENA_NAME**>>SCENA_LINK]] |(% style=\"text-align:right;color:PRE_RES_COLOR\" %)" +
 		 "PRE_RES_PERCENT% |(% style=\"color:PRE_RES_COLOR\" %)PRE_STATUS_RESULT |" +
 		 "(% style=\"text-align:right;color:BASE_RES_COLOR\" %)BASE_RES_PERCENT% |" +
 		 "(% style=\"color:BASE_RES_COLOR\" %)BASE_STATUS_RESULT";
-//		String statusStrTemplate = "| SCENA_NUMBER | [[**SCENA_NAME**>>SCENA_LINK]] |";
-		String staticChartStrTemplate = "=== CHART_SCENA_NAME ===";
-		StringBuffer senaStatusBuf = new StringBuffer();
-		StringBuffer senaChartBuf = new StringBuffer();
+		 
+		String staticChartStrTemplate = "=== CHART_SCENA_NAME ===\n" +
+				"|[[image:RES_IMAGE||width=\"600\" height=\"400\" alt=\"90% line of response time (ms) over weeks\"]] " +
+				"|[[image:THRU_IMAGE||width=\"600\" height=\"400\" alt=\"Throughput (requests) over weeks\"]]";
+		StringBuffer scenaStatusBuf = new StringBuffer();
+		StringBuffer scenaChartBuf = new StringBuffer();
 		ScenarioObject scenario;
 		int x = 1;
 
 		for (int i = 0; i < scenarioList.size(); i++) {
 			scenario = (ScenarioObject) scenarioList.get(i);
+			
 			// Build content for STATUS OF WEEK part
 			String tmp = statusStrTemplate;
 			tmp = tmp.replace("SCENA_NUMBER", x + "");
@@ -1084,56 +1139,89 @@ public class TemplateReport {
 			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()+ configurations.getPrefix() 
 												+ "_" + scenario.getScenarioName());
 			tmp = tmp.replace("PRE_RES_COLOR", scenario.getPreResponseDiffColor());
-			tmp = tmp.replace("PRE_RES_PERCENT", scenario.getPreResponseDiff()+"");
+			tmp = tmp.replace("PRE_RES_PERCENT", df.format(scenario.getPreResponseDiff()*100));
 			tmp = tmp.replace("PRE_STATUS_RESULT", scenario.getPreResponseChangeStatus());
 			tmp = tmp.replace("BASE_RES_COLOR", scenario.getBaseResponseDiffColor());
-			tmp = tmp.replace("BASE_RES_PERCENT", scenario.getBaseResponseDiff()+"");
+			tmp = tmp.replace("BASE_RES_PERCENT", df.format(scenario.getBaseResponseDiff()*100));
 			tmp = tmp.replace("BASE_STATUS_RESULT", scenario.getBaseResponseChangeStatus());
 
-			senaStatusBuf.append(tmp + "\n");
+			scenaStatusBuf.append(tmp + "\n");
 			x++;
 
 			// Build content for STATISTICS CHARTS part
 			tmp = staticChartStrTemplate;
 			tmp = tmp.replace("CHART_SCENA_NAME", scenario.getScenarioName());
+			tmp = tmp.replace("RES_IMAGE", scenario.getScenarioName() + "_" + configurations.getImgResThruWeek());
+			tmp = tmp.replace("THRU_IMAGE",scenario.getScenarioName() + "_" + configurations.getImgThruThruWeek());
 
-			senaChartBuf.append(tmp + "\n");
+			scenaChartBuf.append(tmp + "\n");
 		}
-		sTemplate = sTemplate.replace("@@SCENARIO_STATUS@@",senaStatusBuf.toString());
+		sTemplate = sTemplate.replace("@@SCENARIO_STATUS@@",scenaStatusBuf.toString());
 
-		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",senaChartBuf.toString());
+		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",scenaChartBuf.toString());
 
-		System.out.println("replaceSenarioInfo-replace string:\n"+ senaStatusBuf.toString());
+		System.out.println("replaceSenarioInfo-replace string:\n"+ scenaStatusBuf.toString());
 
 		return sTemplate;
 	}
 	
-	String replaceL2Info(String sTemplate,ScenarioObject scenario) {			
+	String replaceL2Info(String sTemplate,ScenarioObject scenario) {	
+		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat intFormat = new DecimalFormat("#,###"); 
+		
 		//Response
 		sTemplate = sTemplate.replace("@@VERSION_BASE@@",configurations.getVersionBase() + "-BASE");
 		sTemplate = sTemplate.replace("@@REQUEST_PAGE@@", scenario.getResponseLabelAlias());
 		sTemplate = sTemplate.replace("@@REPONSE_BASE_COLOR@@", scenario.getBaseResponseDiffColor());
-		sTemplate = sTemplate.replace("@@REPONSE_BASE_DIFF@@", scenario.getBaseResponseDiff() + "");
+		sTemplate = sTemplate.replace("@@REPONSE_BASE_DIFF@@", df.format(scenario.getBaseResponseDiff()*100));
 		sTemplate = sTemplate.replace("@@REPONSE_BASE_INDICATOR@@", scenario.getBaseResponseDiffIndicator());
 //		sTemplate = sTemplate.replace("@@REPONSE_BASE_VALUE_COLOR@@", scenario.getBaseResponseDiffColor());
-		sTemplate = sTemplate.replace("@@REPONSE_VALUE@@", scenario.getCurrentResponseTime() + "");
+		sTemplate = sTemplate.replace("@@REPONSE_VALUE@@", intFormat.format(scenario.getCurrentResponseTime()));
 		
-		sTemplate = sTemplate.replace("@@VERSION_WEEK@@",configurations.getVersionWeek());			
+		sTemplate = sTemplate.replace("@@VERSION_WEEK@@",configurations.getVersionWeekPre());			
 		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_COLOR@@", scenario.getPreResponseDiffColor());
-		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_DIFF@@", scenario.getPreResponseDiff() + "");
+		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_DIFF@@", df.format(scenario.getPreResponseDiff()*100));
 		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_INDICATOR@@", scenario.getPreResponseDiffIndicator());
 //		sTemplate = sTemplate.replace("@@REPONSE_PREVIOUS_VALUE_COLOR@@", scenario.getPreResponseDiffColor());					
 	
 		//Thruput
 		sTemplate = sTemplate.replace("@@THRU_BASE_COLOR@@", scenario.getBaseThruDiffColor());
-		sTemplate = sTemplate.replace("@@THRU_BASE_DIFF@@", scenario.getBaseThroughputDiff() + "");
+		sTemplate = sTemplate.replace("@@THRU_BASE_DIFF@@", df.format(scenario.getBaseThroughputDiff()*100));
 		sTemplate = sTemplate.replace("@@THRU_BASE_INDICATOR@@", scenario.getBaseThruDiffIndicator());
-		sTemplate = sTemplate.replace("@@THRU_VALUE@@", scenario.getCurrentThroughput() + "");
+		sTemplate = sTemplate.replace("@@THRU_VALUE@@", intFormat.format(scenario.getCurrentThroughput()));
 							
 		sTemplate = sTemplate.replace("@@THRU_PREVIOUS_COLOR@@", scenario.getPreThruDiffColor());
-		sTemplate = sTemplate.replace("@@THRU_PREVIOUS_DIFF@@", scenario.getPreThroughputDiff() + "");
+		sTemplate = sTemplate.replace("@@THRU_PREVIOUS_DIFF@@", df.format(scenario.getPreThroughputDiff()*100));
 		sTemplate = sTemplate.replace("@@THRU_PREVIOUS_INDICATOR@@", scenario.getPreThruDiffIndicator());
-
+		
+		sTemplate = sTemplate.replace("@@IMG_TRAN_PER_SECOND@@", configurations.getImgThruOver());
+		sTemplate = sTemplate.replace("@@IMG_RES_OVER@@", configurations.getImgResOver());
+		
+		sTemplate = sTemplate.replace("@@SCENARIO_ALIAS@@", scenario.getScenarioAlias());
+		sTemplate = sTemplate.replace("@@IMG_RES_NAV@@", configurations.getImgResPercent());
+		sTemplate = sTemplate.replace("@@IMG_RES_LOW@@", configurations.getImgResValue());
+		sTemplate = sTemplate.replace("@@IMG_THRU_HIG@@", configurations.getImgThruValue());
+				
+		if(scenario.getBaseResponseChangeStatus().equals(CHANGE_STATUS_BETTER)){
+			sTemplate = sTemplate.replace("@@CONCLUSION_MESSAGE@@", CONCLUSION_BETTER);	
+			sTemplate = sTemplate.replace("@@CONCLUSION_COLOR@@", COLOR_BETTER);
+		}
+		if(scenario.getBaseResponseChangeStatus().equals(CHANGE_STATUS_WORSE)){
+			sTemplate = sTemplate.replace("@@CONCLUSION_MESSAGE@@", CONCLUSION_WORSE);
+			sTemplate = sTemplate.replace("@@CONCLUSION_COLOR@@", COLOR_WORSE);
+		}
+		if(scenario.getBaseResponseChangeStatus().equals(CHANGE_STATUS_THE_SAME)){
+			sTemplate = sTemplate.replace("@@CONCLUSION_MESSAGE@@", CONCLUSION_THE_SAME);
+			sTemplate = sTemplate.replace("@@CONCLUSION_COLOR@@", COLOR_DECLINE);
+		}
+		
+				
+		List<String> dataLink = readLinkInfo(scenarioObject);		
+		sTemplate = sTemplate.replace("@@DATA_LINK1@@", configurations.getVersionWeekThis() + "-1: " + dataLink.get(0));
+		sTemplate = sTemplate.replace("@@DATA_LINK2@@", configurations.getVersionWeekThis() + "-2: " + dataLink.get(1));
+		sTemplate = sTemplate.replace("@@DATA_LINK3@@", configurations.getVersionWeekThis() + "-3: " + dataLink.get(2));
+		sTemplate = sTemplate.replace("@@DATA_LINK4@@", configurations.getVersionWeekThis() + "-BASE: " + dataLink.get(3));
+		
 		return sTemplate;
 	}	
 

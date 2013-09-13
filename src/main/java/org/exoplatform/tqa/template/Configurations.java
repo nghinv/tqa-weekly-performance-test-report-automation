@@ -16,7 +16,8 @@ public class Configurations {
 	private String weekPrevious;
 	private String weekThis;
 	private String versionBase;
-	private String versionWeek;
+	private String versionWeekPre;
+	private String versionWeekThis;
 	
 	private String imgResPercent;
 	private String imgResValue;
@@ -184,11 +185,18 @@ public class Configurations {
 	public void setVersionBase(String versionBase) {
 		this.versionBase = versionBase;
 	}
-	public String getVersionWeek() {
-		return versionWeek;
+	
+	public String getVersionWeekPre() {
+		return versionWeekPre;
 	}
-	public void setVersionWeek(String versionWeek) {
-		this.versionWeek = versionWeek;
+	public void setVersionWeekPre(String versionWeekPre) {
+		this.versionWeekPre = versionWeekPre;
+	}
+	public String getVersionWeekThis() {
+		return versionWeekThis;
+	}
+	public void setVersionWeekThis(String versionWeekThis) {
+		this.versionWeekThis = versionWeekThis;
 	}
 	public String getImgResPercent() {
 		return imgResPercent;
