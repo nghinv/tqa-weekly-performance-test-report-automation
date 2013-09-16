@@ -18,6 +18,7 @@ package org.exoplatform.tqa.template;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -67,8 +68,12 @@ public class TemplateReport {
 	private final static String CONCLUSION_WORSE = "The result of Throughput and 90% line of response time show that performance of this week package is WORSE than the previous week one";
 	private final static String CONCLUSION_BETTER = "The result of Throughput and 90% line of response time show that performance of this week package is BETTER than the previous week one";
 	
+	private final static String L1_TEMPLATE_FILE = "WEEKLY_TEST_REPORT_TEMPLATE_L1";
+	private final static String L2_TEMPLATE_FILE = "WEEKLY_TEST_REPORT_TEMPLATE_L2";
+	
 	private Configurations configurations;
 	private ScenarioObject scenarioObject;
+	
 	
 	public TemplateReport() {
 
@@ -76,12 +81,13 @@ public class TemplateReport {
 
 	/**
 	 * 
-	 * Created on: Sep 16, 2013,9:12:18 AM
+	 * Created on: Sep 16, 2013,11:28:01 AM
 	 * Author: QuyenNT
+	 * @param configFileXml
 	 */
-	void generateReport() {		 
+	void generateReport(String configFileXml) {		 
 		// read configuration file
-		readConfig();
+		readConfig(configFileXml);
 
 		// Generate report
 		logger.info("Generating report");
@@ -96,15 +102,20 @@ public class TemplateReport {
 	 */
 	public void buildL1Page(){		
 		File l1Folder = new File(configurations.getGeneratedPath() + "/" + configurations.getPrefix());
-		l1Folder.mkdir();
+		l1Folder.mkdir();		
 		
-		InputStream inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/L1TEMPLATE");
-		String templateGeneralReport;
+		String generatedReport;
 		try {
-			templateGeneralReport = readTemplate(inputStream);
-			templateGeneralReport = replaceL1Info(templateGeneralReport);
+			if(configurations.getReadTemplateOutsideProject() != null && configurations.getReadTemplateOutsideProject().equals(ENABLE_TRUE)){
+				File templateFile = new File(configurations.getTemplatePath()	+ "/" + L1_TEMPLATE_FILE);			
+				generatedReport = readTemplate(templateFile);
+			} else {
+				InputStream inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/WEEKLY_TEST_REPORT_TEMPLATE_L1");	
+				generatedReport = readTemplate(inputStream);
+			} 			
+			generatedReport = replaceL1Info(generatedReport);
 			
-			writeTemplateReplaced(templateGeneralReport, l1Folder.toString());			
+			writeTemplateReplaced(generatedReport, l1Folder.toString());			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();			
@@ -122,14 +133,23 @@ public class TemplateReport {
 		List<ScenarioObject> scenarioList = processData();
 		ScenarioObject scenarioObject; 
 		String l1Folder = configurations.getGeneratedPath() + "/"+ configurations.getPrefix();
-
+		String templateToString;
+		File templateFile;
+		InputStream inputStream;
+		
 //		 for each scnario : read template file, replace and write a new report file
 		 for (int i = 0; i < scenarioList.size(); i++) {	
 			 scenarioObject = (ScenarioObject) scenarioList.get(i);
-			 String templateToString;
+			
 			try {
-				InputStream inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/L2TEMPLATE");
-				templateToString = readTemplate(inputStream);
+				if(configurations.getReadTemplateOutsideProject()!= null && configurations.getReadTemplateOutsideProject().equals(ENABLE_TRUE)){
+					templateFile = new File(configurations.getTemplatePath()	+ "/" + L2_TEMPLATE_FILE);			
+					templateToString = readTemplate(templateFile);
+				} else {
+					inputStream = ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/WEEKLY_TEST_REPORT_TEMPLATE_L2");
+					templateToString = readTemplate(inputStream);
+				}
+				
 				templateToString = replaceL2Info(templateToString, scenarioObject);
 				
 				 //Create L2 folder under L1 folder
@@ -151,19 +171,28 @@ public class TemplateReport {
 	 * @param configFileXml
 	 * @throws IOException
 	 */
-	void readConfig() {
+	void readConfig(String configFileXml) {
 		// list of scenarios
 		ArrayList<ScenarioObject> listScenario = new ArrayList<ScenarioObject>();
 
 		configurations = new Configurations();
+		InputStream inputStream;
 		
-		// read config file
-		logger.info("Start loading configuration file..");
-		InputStream inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/ReportAccessConfig.xml");
-	
 		// get the factory
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		try {
+			// read config file			
+			if(configFileXml != null){
+				logger.info("Start loading configuration file - outside project...");
+				//Read config file passed by user
+				File file = new File(configFileXml);
+				inputStream = new FileInputStream(file);
+			}else{			
+				//Read config file included in the project
+				logger.info("Start loading configuration file - included in project...");
+				inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/ReportConfig.xml");
+			}
+			
 			// Using factory get an instance of document builder
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			// parse using builder to get DOM representation of the XML file
@@ -174,6 +203,8 @@ public class TemplateReport {
 			NodeList prefix = root.getElementsByTagName("prefix");
 			NodeList generatedPath = root.getElementsByTagName("generated_path");
 			NodeList dataPath = root.getElementsByTagName("data_path");
+			NodeList templatePath = root.getElementsByTagName("template_path");
+			NodeList readTemplateOutsideProject = root.getElementsByTagName("read_template_outside_project");
 
 			// WEBDAV
 			NodeList webdavLogin = root.getElementsByTagName("webdav_login");
@@ -223,9 +254,6 @@ public class TemplateReport {
 			NodeList imgThruOverNode = root.getElementsByTagName("throughput_overtime");
 			NodeList imgThruThruWeekNode = root.getElementsByTagName("throughput_through_weeks");
 			
-			
-			
-			
 			// set values to configurations
 			//Prefix
 			String valueSpacesValues = prefix.item(0).getFirstChild().getNodeValue();
@@ -234,6 +262,18 @@ public class TemplateReport {
 			//generated Path
 			valueSpacesValues = generatedPath.item(0).getFirstChild().getNodeValue();
 			configurations.setGeneratedPath(valueSpacesValues);
+			
+			//template Path
+			if(templatePath != null && templatePath.item(0)!= null){
+				valueSpacesValues = templatePath.item(0).getFirstChild().getNodeValue();
+				configurations.setTemplatePath(valueSpacesValues);
+			}
+			
+			//read_template_outside_project
+			if(readTemplateOutsideProject != null && readTemplateOutsideProject.item(0)!= null){
+				valueSpacesValues = readTemplateOutsideProject.item(0).getFirstChild().getNodeValue();
+				configurations.setReadTemplateOutsideProject(valueSpacesValues);
+			}
 			
 			//data path
 			valueSpacesValues = dataPath.item(0).getFirstChild().getNodeValue();
@@ -457,17 +497,13 @@ public class TemplateReport {
 			configurations.setImgThruThruWeekLabel(valueSpacesValues);			
 					
 		} catch (FileNotFoundException e) {
-			logger.error("ReportInfo readConfig FileNotFoundException error: "
-					+ e.getMessage());
+			logger.error("ReportInfo readConfig FileNotFoundException error: "+ e.getMessage());
 		} catch (ParserConfigurationException e) {
-			logger.error("ReportInfo readConfig ParserConfigurationException error: "
-					+ e.getMessage());
+			logger.error("ReportInfo readConfig ParserConfigurationException error: "+ e.getMessage());
 		} catch (SAXException e) {
-			logger.error("ReportInfo readConfig SAXException error: "
-					+ e.getMessage());
+			logger.error("ReportInfo readConfig SAXException error: "+ e.getMessage());
 		} catch (IOException e) {
-			logger.error("ReportInfo readConfig IOException error: "
-					+ e.getMessage());
+			logger.error("ReportInfo readConfig IOException error: "+ e.getMessage());
 
 		}
 	}
@@ -962,21 +998,22 @@ public class TemplateReport {
 	}
 
 	public void useSenderWebdav() {
-		String webdavLogin = configurations.getWebdavLogin();
-		String webdavPass = configurations.getWebdavPass();
-		String webdavURL = configurations.getWebdavPath();
+		try {
+			String webdavLogin = configurations.getWebdavLogin().trim();
+			String webdavPass = configurations.getWebdavPass().trim();
+			String webdavURL = configurations.getWebdavPath().trim();
+			
 
-//		String folderLocal =
-//		 "/home/annb/java/eXoProjects/access-project/cross-access/target/access-report/WEEKLY_REPORTs_PLF3.5.6-SNAPSHOT/";
-///		 String folderLocal = getMapGeneralConfig().get("pathTemplate") +	 WEEKLY_REPORT
-//				 + mapGeneralConfig.get("platform_replace") +"/";
-//		
-//		 String nameParentFolder = WEEKLY_REPORT +
-//		 mapGeneralConfig.get("platform_replace");
-		
-//		 SenderWebdav.sendTemlate(webdavLogin, webdavPass, webdavURL,
-//		 folderLocal, nameParentFolder);
-//		 logger.info("template send by WEBDAV done !");
+			String folderLocal = configurations.getGeneratedPath().trim() + "/" + configurations.getPrefix().trim();			 
+			
+			String nameParentFolder = configurations.getPrefix().trim();
+			
+			SenderWebdav.sendTemlate(webdavLogin, webdavPass, webdavURL, folderLocal, nameParentFolder);
+			logger.info("template sent by WEBDAV done !");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -995,6 +1032,24 @@ public class TemplateReport {
 		return new String(buffer);
 
 	}
+	
+	/**
+	 * 
+	 * Created on: Sep 16, 2013,11:12:42 AM
+	 * Author: QuyenNT
+	 * @param templateFile
+	 * @return
+	 * @throws IOException
+	 */
+	private String readTemplate(File templateFile) throws IOException {
+		FileInputStream fileInput = new FileInputStream(templateFile);
+		int byteAvailble = fileInput.available();
+		byte buffer[] = new byte[byteAvailble];
+		fileInput.read(buffer);
+		fileInput.close();
+		return new String(buffer);
+
+	}	
 
 	/**
 	 * write to a new report file with a replaced template file

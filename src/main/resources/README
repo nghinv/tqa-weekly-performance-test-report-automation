@@ -1,0 +1,12 @@
+-To generate the reports with default configuration, type the following command:
+	java - jar autoReportTqa.jar
+-To pass a configuration file to the program, (plz name the config file as "ReportConfig.xml"):
+ 	+set the <read_template_outside_project> value in the config file to "true".
+ 	+set the <template_path> value in the config file to your path.
+	+run:
+		java - jar autoReportTqa.jar "pathToConfigFile"
+		for ex: java - jar autoReportTqa.jar "home/quyennt/Desktop/ReportConfig.xml"
+		
+-To encrypt password used in the config file, run:
+		java -jar encrypt.jar "yourPassword";		
+	

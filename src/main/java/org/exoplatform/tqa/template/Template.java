@@ -21,15 +21,15 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 public class Template {
-  static Logger           logger = Logger.getLogger("org.exoplatform.cross.accessibility.report.Template");
+  static Logger  logger = Logger.getLogger("org.exoplatform.tqa.template.Template");
   TemplateReport reportInfo;
     
-  public Template(){	  
-    reportInfo = new TemplateReport();
-    reportInfo.generateReport();
-    
-    //send template through WEBDAV
-    //reportInfo.useSenderWebdav();  
+  public Template(String configFile){	  	  
+	  reportInfo = new TemplateReport();
+	  reportInfo.generateReport(configFile);
+	    
+	  //send template through WEBDAV	  
+	  reportInfo.useSenderWebdav(); 
   }
   
   
@@ -37,13 +37,20 @@ public class Template {
    * @param args
  * @throws IOException 
    */
-  public static void main(String[] args){
+  public static void main(String[] args){	  
 	    try {
-	    	new Template();
+	    	if(args[0] != null){
+	    		new Template(args[0]);
+	    	} 
 	    	logger.info("report done !");
 	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    	logger.error(e.getMessage());
+	    	try{
+	    		new Template(null);
+	    		logger.info("report done !");
+	    	} catch(Exception ex) {
+	    		ex.printStackTrace();
+	    		logger.error(ex.getMessage());
+	    	}	    	
 	    }
       System.exit(0);
     }

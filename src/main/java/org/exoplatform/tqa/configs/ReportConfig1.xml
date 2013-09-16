@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<generalinfo>
+		<data_delimiter>,</data_delimiter>
+	   <prefix>WP_PLF_4.0.x_-_2013-W34</prefix>
+	    <data_path>/mnt/nfs4/performancetest-data/results/</data_path>
+	    <generated_path>/home/quyennt/workspace/TQA/report</generated_path>	    
+	    <read_template_outside_project>false</read_template_outside_project>
+	    <template_path>/home/quyennt/workspace/TQA/report/template</template_path>
+	    
+	    <weeks>
+	      <base>W32-20130807-BASE</base>
+	      <previous>W35-20130829</previous>
+	      <this>W36-20130904</this>
+	    </weeks>
+		
+		<wiki_link>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/</wiki_link>
+				
+		<version_week_previous>PLF40x-W35</version_week_previous>
+		<version_week_this>PLF40x-W36</version_week_this>
+		<version_base>PLF402</version_base>		
+
+		<!-- use to send template through WEBDAV -->
+		<webdav_path>http://int.exoplatform.org/rest/private/jcr/repository/collaboration/Groups/spaces/team_tqa/ApplicationData/eXoWiki/WikiHome/PERFORMANCE/Weekly_Performance_Tests
+		</webdav_path>
+		<webdav_login>quyennt</webdav_login>
+		<!-- use EncryptService to generate pass -->
+		<webdav_pass>aed5589e44f07b550299d2e730e4d783</webdav_pass>		
+		
+		<data_column_indexes>
+			<responsetime>5</responsetime>
+			<throughput>2</throughput>
+			<responsetime_avg>5</responsetime_avg>
+			<error>8</error>
+		</data_column_indexes>
+		
+		<analysis_boundaries>
+			<responsetime>
+				<top>0.1</top>
+				<upper>0.05</upper>
+				<lower>-0.05</lower>
+				<bottom>-0.1</bottom>
+			</responsetime>
+			<throughput>
+				<top>0.5</top>
+				<upper>0.03</upper>
+				<lower>-0.03</lower>
+				<bottom>-0.5</bottom>
+			</throughput>
+		</analysis_boundaries>
+		
+		<analysis_indicators>
+			<image_source>http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/</image_source>
+			<bug>bug.png</bug>
+			<weather_clear>weather_clear.png</weather_clear>
+			<weather_storm>weather_storm.png</weather_storm>
+			<weather_severe_alert>weatherseverealert.png</weather_severe_alert>
+		</analysis_indicators>
+		
+		<graphs>
+			<responsetime_comparison_percent>
+				<file_name>responsetime_comparison_percent.png</file_name>
+				<image_label>[90% line of response time] comparison - % negative is
+					better</image_label>
+			</responsetime_comparison_percent>
+			<responsetime_comparison_value>
+				<file_name>responsetime_comparison_value.png</file_name>
+				<image_label>[90% line of response time] comparison - lower is
+					better</image_label>
+			</responsetime_comparison_value>
+			<responsetime_overtime>
+				<file_name>responsetime_overtime.png</file_name>
+				<image_label>[90% line of response time] overtime comparison
+				</image_label>
+			</responsetime_overtime>
+			<responsetime_through_weeks>
+				<file_name>responsetime_through_weeks.png</file_name>
+				<image_label>[90% line of response time] through weeks</image_label>
+			</responsetime_through_weeks>
+			<throughput_comparison_percent>
+				<file_name>throughput_comparison_percent.png</file_name>
+				<image_label>[throughput] comparison - % negative is better
+				</image_label>
+			</throughput_comparison_percent>
+			<throughput_comparison_value>
+				<file_name>throughput_comparison_value.png</file_name>
+				<image_label>[throughput] comparison - lower is better</image_label>
+			</throughput_comparison_value>
+			<throughput_overtime>
+				<file_name>throughput_overtime.png</file_name>
+				<image_label>[throughput] overtime comparison</image_label>
+			</throughput_overtime>
+			<throughput_through_weeks>
+				<file_name>throughput_through_weeks.png</file_name>
+				<image_label>[throughput] through weeks</image_label>
+			</throughput_through_weeks>
+		</graphs>
+	</generalinfo>
+	
+	
+  <scenarios>
+    <scenario>
+      <name>PERF_PLF_ENT_INTRANET_ECMS_READ_FILE_EXPLORER_BROWSE</name>
+      <alias>ECMS READ FILE EXPLORER</alias>
+      <responsetime_label_id>3000</responsetime_label_id>
+      <responsetime_label>Site Explorer Folder</responsetime_label>
+      <responsetime_label_alias>Goto SiteExplorerFolder</responsetime_label_alias>
+      <throughput_label>TOTAL</throughput_label>
+      <test>
+        <duration>3600</duration>
+        <VU>20</VU>
+      </test>
+      <enabled>true</enabled>
+    </scenario>
+    <scenario>
+      <name>PERF_PLF_ENT_INTRANET_FORUM_READ_TOPIC</name>
+      <alias>FORUM READ TOPIC</alias>
+      <responsetime_label_id>3000</responsetime_label_id>
+      <responsetime_label>Goto Forum Topic</responsetime_label>
+      <responsetime_label_alias>GotoForumTopic</responsetime_label_alias>
+      <throughput_label>TOTAL</throughput_label>
+      <test>
+        <duration>3600</duration>
+        <VU>20</VU>
+      </test>
+      <enabled>true</enabled>
+    </scenario>
+    <scenario>
+      <name>PERF_PLF_ENT_INTRANET_LOGIN_SERVICE</name>
+      <alias>LOGIN SERVICE</alias>
+      <responsetime_label_id>1000</responsetime_label_id>
+      <responsetime_label>Login_Load home page</responsetime_label>
+      <responsetime_label_alias>Login_Load home page</responsetime_label_alias>
+      <throughput_label>TOTAL</throughput_label>
+      <test>
+        <duration>3600</duration>
+        <VU>10</VU>
+      </test>
+      <enabled>true</enabled>
+    </scenario>
+    <scenario>
+      <name>PERF_PLF_ENT_INTRANET_SOCIAL_READ_HOME</name>
+      <alias>SOCIAL READ HOME</alias>
+      <responsetime_label_id>3000</responsetime_label_id>
+      <responsetime_label>Goto Intranet Home</responsetime_label>
+      <responsetime_label_alias>Goto Intranet Home</responsetime_label_alias>
+      <throughput_label>TOTAL</throughput_label>
+      <test>
+        <duration>3600</duration>
+        <VU>10</VU>
+      </test>
+      <enabled>true</enabled>
+    </scenario>
+    <scenario>
+      <name>PERF_PLF_ENT_INTRANET_SOCIAL_READ_PROFILE</name>
+      <alias>SOCIAL READ PROFILE</alias>
+      <responsetime_label_id>3000</responsetime_label_id>
+      <responsetime_label>Goto my profile</responsetime_label>
+      <responsetime_label_alias>Goto myprofile</responsetime_label_alias>
+      <throughput_label>TOTAL</throughput_label>
+      <test>
+        <duration>3600</duration>
+        <VU>10</VU>
+      </test>
+      <enabled>true</enabled>
+    </scenario>
+    <scenario>
+      <name>PERF_PLF_ENT_INTRANET_SOCIAL_READ_SPACE_HOME</name>
+      <alias>SOCIAL READ SPACE HOME</alias>
+      <responsetime_label_id>3000</responsetime_label_id>
+      <responsetime_label>Goto SpaceId</responsetime_label>
+      <responsetime_label_alias>Goto SpaceId</responsetime_label_alias>
+      <throughput_label>TOTAL</throughput_label>
+      <test>
+        <duration>3600</duration>
+        <VU>20</VU>
+      </test>
+      <enabled>true</enabled>
+    </scenario>
+    <scenario>
+      <name>PERF_PLF_ENT_INTRANET_WIKI_READ_PAGE</name>
+      <alias>WIKI READ PAGE</alias>
+      <responsetime_label_id>3000</responsetime_label_id>
+      <responsetime_label>Goto WikiPage</responsetime_label>
+      <responsetime_label_alias>Goto WikiPage</responsetime_label_alias>
+      <throughput_label>TOTAL</throughput_label>
+      <test>
+        <duration>3600</duration>
+        <VU>5</VU>
+      </test>
+      <enabled>true</enabled>
+    </scenario>
+  </scenarios>
+</config>

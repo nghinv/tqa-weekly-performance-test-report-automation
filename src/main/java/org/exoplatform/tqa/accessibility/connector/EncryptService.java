@@ -74,5 +74,8 @@ public class EncryptService {
     }
     return hexString.toString();
   }
-
-}
+  
+  public static void main(String arg[]) throws Exception{
+	  System.out.println("Encrypted pass:" + encrypt("123456"));
+  }
+ }

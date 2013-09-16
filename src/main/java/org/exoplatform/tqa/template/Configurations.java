@@ -5,6 +5,9 @@ import java.util.List;
 public class Configurations {
 	private String generatedPath;
 	private String dataPath;
+	private String templatePath;
+	private String readTemplateOutsideProject;
+	
 	private List scenariosList;
 	private String wikiLink;
 	private String webdavLogin;
@@ -293,5 +296,19 @@ public class Configurations {
 	}
 	public void setImgThruThruWeekLabel(String imgThruThruWeekLabel) {
 		this.imgThruThruWeekLabel = imgThruThruWeekLabel;
-	}	
+	}
+	public String getTemplatePath() {
+		return templatePath;
+	}
+	public void setTemplatePath(String templatePath) {
+		this.templatePath = templatePath;
+	}
+	public String getReadTemplateOutsideProject() {
+		return readTemplateOutsideProject;
+	}
+	public void setReadTemplateOutsideProject(String readTemplateOutsideProject) {
+		this.readTemplateOutsideProject = readTemplateOutsideProject;
+	}
+	
+	
 }

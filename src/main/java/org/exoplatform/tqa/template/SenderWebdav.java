@@ -54,7 +54,8 @@ public class SenderWebdav {
   }
   
   
-  public static void sendTemlate(String webdavLogin, String webdavPass, String webdavURL, String folderLocal, String nameParentFolder) {
+  public static void sendTemlate(String webdavLogin, String webdavPass, 
+		  						String webdavURL, String folderLocal, String nameParentFolder) {
     
     rootFolder = nameParentFolder;
 
@@ -65,7 +66,7 @@ public class SenderWebdav {
       client.getState().setCredentials(AuthScope.ANY, creds);
       
       //delete parent folder
-      deleteFolder(client, webdavURL, rootFolder);
+//      deleteFolder(client, webdavURL, rootFolder);
       
       //create parent folder
       createFolder(client, webdavURL, rootFolder); 
@@ -73,7 +74,8 @@ public class SenderWebdav {
       
       SearchAllFiles(new File(folderLocal), client, webdavURL, nameParentFolder);
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+    	e.printStackTrace();
+    	LOGGER.error(e.getMessage());
     }
 
   }
@@ -106,13 +108,13 @@ public class SenderWebdav {
  * @throws IOException
  */
   static void createFile(HttpClient client, String pathRESTWithFolder, File fileLocal) throws HttpException, IOException{  
-  String fileWEBDAV = pathRESTWithFolder + "/" + fileLocal.getName();
-  
-  PutMethod method = new PutMethod(fileWEBDAV);
-  RequestEntity requestEntity = new InputStreamRequestEntity( new FileInputStream(fileLocal));
-  method.setRequestEntity(requestEntity);
-  client.executeMethod(method);
-  LOGGER.info("CREATE file: " + fileWEBDAV);
+	  String fileWEBDAV = pathRESTWithFolder + "/" + fileLocal.getName();
+	  
+	  PutMethod method = new PutMethod(fileWEBDAV);
+	  RequestEntity requestEntity = new InputStreamRequestEntity( new FileInputStream(fileLocal));
+	  method.setRequestEntity(requestEntity);
+	  client.executeMethod(method);
+	  LOGGER.info("CREATE file: " + fileWEBDAV);
   }
   
   
