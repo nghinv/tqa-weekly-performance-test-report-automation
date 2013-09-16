@@ -18,13 +18,11 @@ package org.exoplatform.tqa.template;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,14 +75,13 @@ public class TemplateReport {
 	}
 
 	/**
-	 * generate all report
 	 * 
-	 * @param configFileXml
-	 * @throws IOException
+	 * Created on: Sep 16, 2013,9:12:18 AM
+	 * Author: QuyenNT
 	 */
-	void generateReport(String configFileXml) throws IOException {		 
+	void generateReport() {		 
 		// read configuration file
-		readConfig(configFileXml);
+		readConfig();
 
 		// Generate report
 		logger.info("Generating report");
@@ -101,15 +98,11 @@ public class TemplateReport {
 		File l1Folder = new File(configurations.getGeneratedPath() + "/" + configurations.getPrefix());
 		l1Folder.mkdir();
 		
-		File generalReport = new File(configurations.getGeneratedPath()	+ "/template/L1TEMPLATE");
-//		 URL f = Template.class.getClassLoader().getResource("configs/L1TEMPLATE");
-//		 File generalReport = new File(f.getFile());
-		 
+		InputStream inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/L1TEMPLATE");
 		String templateGeneralReport;
 		try {
-			templateGeneralReport = readTemplate(generalReport);
+			templateGeneralReport = readTemplate(inputStream);
 			templateGeneralReport = replaceL1Info(templateGeneralReport);
-			// templateGeneralReport = generatePulishChart(templateGeneralReport);
 			
 			writeTemplateReplaced(templateGeneralReport, l1Folder.toString());			
 		} catch (IOException e) {
@@ -126,22 +119,18 @@ public class TemplateReport {
 	 * Author: QuyenNT
 	 */
 	public void buildL2Page(){		
-		List scenarioList = processData();
+		List<ScenarioObject> scenarioList = processData();
 		ScenarioObject scenarioObject; 
 		String l1Folder = configurations.getGeneratedPath() + "/"+ configurations.getPrefix();
-		
-        File templateFile = new File(configurations.getGeneratedPath() + "/template/L2TEMPLATE");
-//		 URL f = Template.class.getClassLoader().getResource("configs/L1TEMPLATE");
-//		 File templateFile = new File(f.getFile());
 
 //		 for each scnario : read template file, replace and write a new report file
 		 for (int i = 0; i < scenarioList.size(); i++) {	
 			 scenarioObject = (ScenarioObject) scenarioList.get(i);
 			 String templateToString;
 			try {
-				templateToString = readTemplate(templateFile);
+				InputStream inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/L2TEMPLATE");
+				templateToString = readTemplate(inputStream);
 				templateToString = replaceL2Info(templateToString, scenarioObject);
-				 // templateToString = replaceChart(templateToString, iCase);
 				
 				 //Create L2 folder under L1 folder
 				 File l2Folder = new File(l1Folder +"/" +configurations.getPrefix() +
@@ -162,21 +151,19 @@ public class TemplateReport {
 	 * @param configFileXml
 	 * @throws IOException
 	 */
-	void readConfig(String configFileXml) {
+	void readConfig() {
 		// list of scenarios
-		ArrayList listScenario = new ArrayList<String>();
+		ArrayList<ScenarioObject> listScenario = new ArrayList<ScenarioObject>();
 
 		configurations = new Configurations();
-//		scenarioObject = new ScenarioObject();
 		
 		// read config file
 		logger.info("Start loading configuration file..");
-		File file = new File(configFileXml);
-		InputStream inputStream;
+		InputStream inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/ReportAccessConfig.xml");
+	
 		// get the factory
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		try {
-			inputStream = new FileInputStream(file);
 			// Using factory get an instance of document builder
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			// parse using builder to get DOM representation of the XML file
@@ -243,7 +230,7 @@ public class TemplateReport {
 			//Prefix
 			String valueSpacesValues = prefix.item(0).getFirstChild().getNodeValue();
 			configurations.setPrefix(valueSpacesValues);
-
+			
 			//generated Path
 			valueSpacesValues = generatedPath.item(0).getFirstChild().getNodeValue();
 			configurations.setGeneratedPath(valueSpacesValues);
@@ -993,18 +980,18 @@ public class TemplateReport {
 	}
 
 	/**
-	 * Read template file and return a string
 	 * 
-	 * @param templateFile
+	 * Created on: Sep 16, 2013,9:32:22 AM
+	 * Author: QuyenNT
+	 * @param inputStream
 	 * @return
 	 * @throws IOException
 	 */
-	private String readTemplate(File templateFile) throws IOException {
-		FileInputStream fileInput = new FileInputStream(templateFile);
-		int byteAvailble = fileInput.available();
+	private String readTemplate(InputStream inputStream) throws IOException {
+		int byteAvailble = inputStream.available();
 		byte buffer[] = new byte[byteAvailble];
-		fileInput.read(buffer);
-		fileInput.close();
+		inputStream.read(buffer);
+		inputStream.close();
 		return new String(buffer);
 
 	}
@@ -1035,81 +1022,7 @@ public class TemplateReport {
 		}
 	}
 
-	/**
-	 * replace chart informations
-	 * 
-	 * @param sTemplate
-	 * @param useCase
-	 * @param level
-	 */
-	String replaceChart(String sTemplate, int useCase) {
-//		// replace chart type FailedPassed
-//		// LEVELONE A originA
-//		// LEVELTWO AA originAA
-//		// LEVELTREE AAA originAAA
-//		//
-//
-//		sTemplate = sTemplate.replace(
-//				"FailedPassed_LEVELONE",
-//				generatePulishChart(getListFailedPassedImgA_replace().get(
-//						useCase)));
-//		sTemplate = sTemplate.replace(
-//				"FailedPassed_LEVELTWO",
-//				generatePulishChart(getListFailedPassedImgAA_replace().get(
-//						useCase)));
-//		sTemplate = sTemplate.replace(
-//				"FailedPassed_LEVELTREE",
-//				generatePulishChart(getListFailedPassedImgAAA_replace().get(
-//						useCase)));
-//		sTemplate = sTemplate.replace(
-//				"FailedPassed_origin508",
-//				generatePulishChart(getListFailedPassedImg508_replace().get(
-//						useCase)));
-//
-//		// replace chart type Percentage
-//		sTemplate = sTemplate.replace("Percentage_LEVELONE",
-//				generatePulishChart(getListPercentageImgA_replace()
-//						.get(useCase)));
-//		sTemplate = sTemplate.replace(
-//				"Percentage_LEVELTWO",
-//				generatePulishChart(getListPercentageImgAA_replace().get(
-//						useCase)));
-//		sTemplate = sTemplate.replace(
-//				"Percentage_LEVELTREE",
-//				generatePulishChart(getListPercentageImgAAA_replace().get(
-//						useCase)));
-//		sTemplate = sTemplate.replace(
-//				"Percentage_origin508",
-//				generatePulishChart(getListPercentageImg508_replace().get(
-//						useCase)));
-//
-//		// replace chart type PotentialKnown
-//		sTemplate = sTemplate.replace(
-//				"PotentialKnown_LEVELONE",
-//				generatePulishChart(getListPotentialKnownImgA_replace().get(
-//						useCase)));
-//		sTemplate = sTemplate.replace(
-//				"PotentialKnown_LEVELTWO",
-//				generatePulishChart(getListPotentialKnownImgAA_replace().get(
-//						useCase)));
-//		sTemplate = sTemplate.replace(
-//				"PotentialKnown_LEVELTREE",
-//				generatePulishChart(getListPotentialKnownImgAAA_replace().get(
-//						useCase)));
-//		sTemplate = sTemplate.replace(
-//				"PotentialKnown_origin508",
-//				generatePulishChart(getListPotentialKnownImg508_replace().get(
-//						useCase)));
-//
-//		// replace USECASE_ORIGIN
-//		sTemplate = sTemplate.replace("USECASE_ORIGIN",
-//				getListSenario().get(useCase));
-//		// replace ICASE
-//		sTemplate = sTemplate.replace("ICASE_ORIGIN", useCase + 1 + "");
 
-		return sTemplate;
-	}
-	
 	//Create L1 page
 	String replaceL1Info(String sTemplate) {
 		 DecimalFormat df = new DecimalFormat("#.##");

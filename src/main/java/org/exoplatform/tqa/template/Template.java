@@ -16,10 +16,7 @@
  */
 package org.exoplatform.tqa.template;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import org.apache.log4j.Logger;
 
@@ -27,13 +24,12 @@ public class Template {
   static Logger           logger = Logger.getLogger("org.exoplatform.cross.accessibility.report.Template");
   TemplateReport reportInfo;
     
-  public Template(String configFileXml) throws IOException{	  
+  public Template(){	  
     reportInfo = new TemplateReport();
-    reportInfo.generateReport(configFileXml); 
+    reportInfo.generateReport();
     
     //send template through WEBDAV
-    reportInfo.useSenderWebdav();   
-  
+    //reportInfo.useSenderWebdav();  
   }
   
   
@@ -41,17 +37,14 @@ public class Template {
    * @param args
  * @throws IOException 
    */
-  public static void main(String[] args) throws IOException {	 
-	   URL f = Template.class.getClassLoader().getResource("org/exoplatform/tqa/resources/ReportAccessConfig.xml");       
+  public static void main(String[] args){
 	    try {
-//        new Template(f.getFile());
-	    new Template(args[0]);
-        logger.info("report done !");
-      } catch (FileNotFoundException e) {
-        logger.error("FileNotFoundException" + e.getMessage());
-      } catch (IOException e) {
-        logger.error("FileNotFoundException" + e.getMessage());
-      }
+	    	new Template();
+	    	logger.info("report done !");
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	logger.error(e.getMessage());
+	    }
       System.exit(0);
     }
 }

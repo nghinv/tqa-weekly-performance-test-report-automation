@@ -1,0 +1,32 @@
+{{panel }}
+|= Throughput Over Time|= Response Times Over Time 
+|[[image:@@IMG_TRAN_PER_SECOND@@||width="550" height="300" || alt="Transaction Per Second"]]|[[image:@@IMG_RES_OVER@@||width="550" height="300" || alt="Response Times Over Time"]]
+
+*  **Response time
+|= Compare to |= Request |= % different |=  [[Indicator>>http://int.exoplatform.org/portal/intranet/wiki/group/spaces/team_tqa/WP_PLF_Report_reference]] |= Note
+|= @@VERSION_BASE@@ | @@REQUEST_PAGE@@ |(% style="text-align:right;color:@@REPONSE_BASE_COLOR@@" %)@@REPONSE_BASE_DIFF@@% | [[image:@@REPONSE_BASE_INDICATOR@@]] |this week value: (% style="text-align:right;color:@@REPONSE_BASE_COLOR@@" %)@@REPONSE_VALUE@@ ms
+|= @@VERSION_WEEK@@ (previous week) | @@REQUEST_PAGE@@ |(% style="text-align:right;color:@@REPONSE_PREVIOUS_COLOR@@" %)@@REPONSE_PREVIOUS_DIFF@@% | [[image:@@REPONSE_PREVIOUS_INDICATOR@@]] |this week value: (% style="text-align:right;color:@@REPONSE_PREVIOUS_COLOR@@" %)@@REPONSE_VALUE@@ ms
+
+* **Throughput
+|= Compare to |=  % different |=  [[Indicator>>http://int.exoplatform.org/portal/intranet/wiki/group/spaces/team_tqa/WP_PLF_Report_reference]] |= Note
+|= @@VERSION_BASE@@ |(% style="text-align:right;color:@@THRU_BASE_COLOR@@" %)@@THRU_BASE_DIFF@@% | [[image:@@THRU_BASE_INDICATOR@@]] |this week value: (% style="text-align:right;color:@@THRU_BASE_COLOR@@" %)@@THRU_VALUE@@
+|= @@VERSION_WEEK@@ (previous week) |(% style="text-align:right;color:@@THRU_PREVIOUS_COLOR@@" %)@@THRU_PREVIOUS_DIFF@@% | [[image:@@THRU_PREVIOUS_INDICATOR@@]] |this week value: (% style="text-align:right;color:@@THRU_PREVIOUS_COLOR@@" %)@@THRU_VALUE@@
+*  **Error rate
+|=[[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] | (% style="color:blue %) There is no error in running test.
+* **Stability
+|= - |= Stability |=  [[Indicator>>http://int.exoplatform.org/portal/intranet/wiki/group/spaces/team_tqa/WP_PLF_Report_reference]]
+| stability of environment (confirmed by tests on PLF402-W32) |(% style="color:blue %) stable | [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] 
+| new package stability (PLF40x-W34) |(% style="color:blue %) stable | [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] 
+* **Conclusion: 
+(% style="color:@@CONCLUSION_COLOR@@ %)@@CONCLUSION_MESSAGE@@
+{{/panel}}
+* **More comparison charts: 
+*1. [[90% line of response time comparison (% - negative is better) - @@SCENARIO_ALIAS@@>>attach:@@IMG_RES_NAV@@]]
+*1. [[90% line of response time comparison (lower is better) - @@SCENARIO_ALIAS@@>>attach:@@IMG_RES_LOW@@]]
+*1. [[Throughput comparison (higher is better) - @@SCENARIO_ALIAS@@>>attach:@@IMG_THRU_HIG@@]]
+
+* **More Detail of JVM, JMeter :
+*1. @@DATA_LINK1@@
+*1. @@DATA_LINK2@@
+*1. @@DATA_LINK3@@
+*1. @@DATA_LINK4@@
