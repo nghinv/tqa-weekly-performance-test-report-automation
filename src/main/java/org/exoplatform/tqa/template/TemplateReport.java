@@ -764,10 +764,10 @@ public class TemplateReport {
 			}
 			
 			//Base Thruput
-			if(baseThruDiff > thruBottomConfig){				
+			if(baseThruDiff > thruTopConfig){				
 				returnObj.setBaseThruDiffColor(COLOR_BETTER);
 				returnObj.setBaseThruDiffIndicator(INDICATOR_BETTER);
-			} else if(baseThruDiff < thruTopConfig){				
+			} else if(baseThruDiff < thruBottomConfig){				
 				returnObj.setBaseThruDiffColor(COLOR_WORSE);
 				returnObj.setBaseThruDiffIndicator(INDICATOR_WORSE);
 			} else {				
@@ -776,10 +776,10 @@ public class TemplateReport {
 			}			
 			
 			//Previous Thruput
-			if(preThruDiff > thruBottomConfig){				
+			if(preThruDiff > thruTopConfig){				
 				returnObj.setPreThruDiffColor(COLOR_BETTER);
 				returnObj.setPreThruDiffIndicator(INDICATOR_BETTER);
-			} else if(preThruDiff < thruTopConfig){				
+			} else if(preThruDiff < thruBottomConfig){				
 				returnObj.setPreThruDiffColor(COLOR_WORSE);
 				returnObj.setPreThruDiffIndicator(INDICATOR_WORSE);
 			} else {				
@@ -792,9 +792,14 @@ public class TemplateReport {
 			System.out.println("processDataForEachScenario - res base=" + returnObj.getBaseResponseTime());
 			System.out.println("processDataForEachScenario - res pre =" + returnObj.getPreResponseTime());
 			System.out.println("processDataForEachScenario - res this=" + returnObj.getCurrentResponseTime());
+			
+			System.out.println("processDataForEachScenario - res top=" + resTopConfig);
+			System.out.println("processDataForEachScenario - res bottoom=" + resBottomConfig);
 			System.out.println("processDataForEachScenario - res base diff=" + returnObj.getBaseResponseDiff());
 			System.out.println("processDataForEachScenario - res pre diff=" + returnObj.getPreResponseDiff());
-			
+
+			System.out.println("processDataForEachScenario - thru top=" + resTopConfig);
+			System.out.println("processDataForEachScenario - thru bottoom=" + resBottomConfig);
 			System.out.println("processDataForEachScenario - thru base diff=" + returnObj.getBaseThroughputDiff());
 			System.out.println("processDataForEachScenario - thru pre diff=" + returnObj.getPreThroughputDiff());
 			
@@ -838,7 +843,7 @@ public class TemplateReport {
 				returnObj.setBoundaryObject(scenarioObject.getBoundaryObject());
 				returnObj.setScenarioAlias(scenarioObject.getScenarioAlias());
 				returnObj.setScenarioUrl(scenarioObject.getScenarioUrl());
-				
+								
 				//Base
 				if(scenarioWeekList.contains(configurations.getWeekBase())){					
 					dataFile = configurations.getDataPath() + "/" + scenarioObject.getScenarioName() + "/" + 
@@ -943,7 +948,7 @@ public class TemplateReport {
 		
 		try{
 			dataFile = configurations.getDataPath() + "/" + scenarioObject.getScenarioName() + "/" + 
-					configurations.getWeekBase() + "/" + ANALYSIS_FOLDER + "/" + DATA_LINK_FILE;
+					configurations.getWeekThis() + "/" + ANALYSIS_FOLDER + "/" + DATA_LINK_FILE;
 			
 			br = new BufferedReader(new FileReader(dataFile));
 					
@@ -1184,7 +1189,8 @@ public class TemplateReport {
 		}
 		
 				
-		List<String> dataLink = readLinkInfo(scenarioObject);		
+		List<String> dataLink = readLinkInfo(scenario);	
+		System.out.println("Data link 1:" + dataLink.get(0));
 		sTemplate = sTemplate.replace("@@DATA_LINK1@@", configurations.getVersionWeekThis() + "-1: " + dataLink.get(0));
 		sTemplate = sTemplate.replace("@@DATA_LINK2@@", configurations.getVersionWeekThis() + "-2: " + dataLink.get(1));
 		sTemplate = sTemplate.replace("@@DATA_LINK3@@", configurations.getVersionWeekThis() + "-3: " + dataLink.get(2));
