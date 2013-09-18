@@ -12,13 +12,13 @@
 |= @@VERSION_BASE@@ |(% style="text-align:right;color:@@THRU_BASE_COLOR@@" %)@@THRU_BASE_DIFF@@% | [[image:@@THRU_BASE_INDICATOR@@]] |this week value: (% style="text-align:right;color:@@THRU_BASE_COLOR@@" %)@@THRU_VALUE@@
 |= @@VERSION_WEEK@@ (previous week) |(% style="text-align:right;color:@@THRU_PREVIOUS_COLOR@@" %)@@THRU_PREVIOUS_DIFF@@% | [[image:@@THRU_PREVIOUS_INDICATOR@@]] |this week value: (% style="text-align:right;color:@@THRU_PREVIOUS_COLOR@@" %)@@THRU_VALUE@@
 *  **Error rate
-|=[[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] | (% style="color:blue %) There is no error in running test.
+|=[[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] | (% style="color:blue" %) There is no error in running test.
 * **Stability
 |= - |= Stability |=  [[Indicator>>http://int.exoplatform.org/portal/intranet/wiki/group/spaces/team_tqa/WP_PLF_Report_reference]]
-| stability of environment (confirmed by tests on PLF402-W32) |(% style="color:blue %) stable | [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] 
-| new package stability (PLF40x-W34) |(% style="color:blue %) stable | [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] 
+| stability of environment (confirmed by tests on PLF402-W32) |(% style="color:blue" %) stable | [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] 
+| new package stability (@@STABILITY_THIS@@) |(% style="color:blue" %) stable | [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] 
 * **Conclusion: 
-(% style="color:@@CONCLUSION_COLOR@@ %)@@CONCLUSION_MESSAGE@@
+(% style="color:@@CONCLUSION_COLOR@@" %)@@CONCLUSION_MESSAGE@@
 {{/panel}}
 * **More comparison charts: 
 *1. [[90% line of response time comparison (% - negative is better) - @@SCENARIO_ALIAS@@>>attach:@@IMG_RES_NAV@@]]

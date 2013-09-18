@@ -834,15 +834,16 @@ public class TemplateReport {
 	
 		try {		
 			for(int j = 0; j < scenarioWeekList.size();j ++){
+				returnObj = scenarioObject;
 				//Set scenario values to returned object				
-				returnObj.setResponseLabel(scenarioObject.getResponseLabel());
-				returnObj.setScenarioName(scenarioObject.getScenarioName());
-				returnObj.setResponseLabelId(scenarioObject.getResponseLabelId());
-				returnObj.setThroughputLabel(scenarioObject.getThroughputLabel());
-				returnObj.setResponseLabelAlias(scenarioObject.getResponseLabelAlias());
-				returnObj.setBoundaryObject(scenarioObject.getBoundaryObject());
-				returnObj.setScenarioAlias(scenarioObject.getScenarioAlias());
-				returnObj.setScenarioUrl(scenarioObject.getScenarioUrl());
+//				returnObj.setResponseLabel(scenarioObject.getResponseLabel());
+//				returnObj.setScenarioName(scenarioObject.getScenarioName());
+//				returnObj.setResponseLabelId(scenarioObject.getResponseLabelId());
+//				returnObj.setThroughputLabel(scenarioObject.getThroughputLabel());
+//				returnObj.setResponseLabelAlias(scenarioObject.getResponseLabelAlias());
+//				returnObj.setBoundaryObject(scenarioObject.getBoundaryObject());
+//				returnObj.setScenarioAlias(scenarioObject.getScenarioAlias());
+//				returnObj.setScenarioUrl(scenarioObject.getScenarioUrl());
 								
 				//Base
 				if(scenarioWeekList.contains(configurations.getWeekBase())){					
@@ -1174,16 +1175,18 @@ public class TemplateReport {
 		sTemplate = sTemplate.replace("@@IMG_RES_NAV@@", configurations.getImgResPercent());
 		sTemplate = sTemplate.replace("@@IMG_RES_LOW@@", configurations.getImgResValue());
 		sTemplate = sTemplate.replace("@@IMG_THRU_HIG@@", configurations.getImgThruValue());
-				
-		if(scenario.getBaseResponseChangeStatus().equals(CHANGE_STATUS_BETTER)){
+		
+		sTemplate = sTemplate.replace("@@STABILITY_THIS@@", configurations.getVersionWeekThis());
+						
+		if(scenario.getPreResponseChangeStatus().equals(CHANGE_STATUS_BETTER)){
 			sTemplate = sTemplate.replace("@@CONCLUSION_MESSAGE@@", CONCLUSION_BETTER);	
 			sTemplate = sTemplate.replace("@@CONCLUSION_COLOR@@", COLOR_BETTER);
 		}
-		if(scenario.getBaseResponseChangeStatus().equals(CHANGE_STATUS_WORSE)){
+		if(scenario.getPreResponseChangeStatus().equals(CHANGE_STATUS_WORSE)){
 			sTemplate = sTemplate.replace("@@CONCLUSION_MESSAGE@@", CONCLUSION_WORSE);
 			sTemplate = sTemplate.replace("@@CONCLUSION_COLOR@@", COLOR_WORSE);
 		}
-		if(scenario.getBaseResponseChangeStatus().equals(CHANGE_STATUS_THE_SAME)){
+		if(scenario.getPreResponseChangeStatus().equals(CHANGE_STATUS_THE_SAME)){
 			sTemplate = sTemplate.replace("@@CONCLUSION_MESSAGE@@", CONCLUSION_THE_SAME);
 			sTemplate = sTemplate.replace("@@CONCLUSION_COLOR@@", COLOR_DECLINE);
 		}

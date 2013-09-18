@@ -2,13 +2,13 @@
 <config>
   <generalinfo>
     <data_delimiter>,</data_delimiter>
-    <prefix>WP_PLF_4.0.x_-_2013-W36</prefix>
+    <prefix>WP_PLF_4.0.x_-_2013-W37</prefix>
     <data_path>/mnt/nfs4/performancetest-data/results/</data_path>
     <generated_path>/home/quyennt/workspace/TQA/report</generated_path>
     <weeks>
       <base>W32-20130807-BASE</base>
       <previous>W35-20130829</previous>
-      <this>W36-20130904</this>
+      <this>W37-20130911</this>
     </weeks>
 		<wiki_link>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/</wiki_link>
 				
