@@ -55,8 +55,7 @@ public class SenderWebdav {
   
   
   public static void sendTemlate(String webdavLogin, String webdavPass, 
-		  						String webdavURL, String folderLocal, String nameParentFolder) {
-    
+		  						String webdavURL, String folderLocal, String nameParentFolder) {    
     rootFolder = nameParentFolder;
 
     HttpClient client = new HttpClient();
@@ -95,7 +94,7 @@ public class SenderWebdav {
       String folderWEBDAV = pathREST + "/" + nameFolder + "/";
       MkColMethod folderCreate = new MkColMethod(folderWEBDAV);
       client.executeMethod(folderCreate);
-      LOGGER.info("CREATE folder: " + folderWEBDAV);
+//      LOGGER.info("CREATE folder: " + folderWEBDAV);
     }
   }
 
@@ -114,7 +113,7 @@ public class SenderWebdav {
 	  RequestEntity requestEntity = new InputStreamRequestEntity( new FileInputStream(fileLocal));
 	  method.setRequestEntity(requestEntity);
 	  client.executeMethod(method);
-	  LOGGER.info("CREATE file: " + fileWEBDAV);
+//	  LOGGER.info("CREATE file: " + fileWEBDAV);
   }
   
   

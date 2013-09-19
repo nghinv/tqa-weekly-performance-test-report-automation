@@ -49,8 +49,7 @@ public class TemplateReport {
 	private final static String ANALYSIS_FILE = "analysis-AggregateReport.csv";
 	private final static String DATA_LINK_FILE = "links.info";
 	private final static String ANALYSIS_BOUNDARY_PARENT_GENERAL = "generalinfo";
-	private final static String ANALYSIS_BOUNDARY_PARENT_SCENARIO = "scenario";
-	
+		
 	private final static String CHANGE_STATUS_WORSE = "WORSE";
 	private final static String CHANGE_STATUS_BETTER = "BETTER";
 	private final static String CHANGE_STATUS_THE_SAME  = "THE SAME";
@@ -92,7 +91,12 @@ public class TemplateReport {
 		// Generate report
 		logger.info("Generating report");
 		buildL1Page();
-		buildL2Page();
+		buildL2Page();		
+	    
+		//send template through WEBDAV	
+		if(configurations.getPushToDav().trim().equals(ENABLE_TRUE)){
+			useSenderWebdav(); 
+		}
 	}
 	
 	/**
@@ -254,6 +258,8 @@ public class TemplateReport {
 			NodeList imgThruOverNode = root.getElementsByTagName("throughput_overtime");
 			NodeList imgThruThruWeekNode = root.getElementsByTagName("throughput_through_weeks");
 			
+			NodeList pushToDav = root.getElementsByTagName("push_to_dav");
+			
 			// set values to configurations
 			//Prefix
 			String valueSpacesValues = prefix.item(0).getFirstChild().getNodeValue();
@@ -279,6 +285,10 @@ public class TemplateReport {
 			valueSpacesValues = dataPath.item(0).getFirstChild().getNodeValue();
 			configurations.setDataPath(valueSpacesValues);
 
+			//push to dav
+			valueSpacesValues = pushToDav.item(0).getFirstChild().getNodeValue();
+			configurations.setPushToDav(valueSpacesValues);
+			
 			//webdav login
 			valueSpacesValues = webdavLogin.item(0).getFirstChild().getNodeValue();
 			configurations.setWebdavLogin(valueSpacesValues);
@@ -1014,8 +1024,9 @@ public class TemplateReport {
 			
 			String nameParentFolder = configurations.getPrefix().trim();
 			
+			logger.info("Start sending report to WEBDAV....");
 			SenderWebdav.sendTemlate(webdavLogin, webdavPass, webdavURL, folderLocal, nameParentFolder);
-			logger.info("template sent by WEBDAV done !");
+			logger.info("Sending report to WEBDAV done !");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1067,7 +1078,7 @@ public class TemplateReport {
 		try {
 			File folderfile = new File(fileTemplateReplacedName);
 			folderfile.mkdir();
-			logger.info("Create folder" + fileTemplateReplacedName);
+//			logger.info("Create folder" + fileTemplateReplacedName);
 			FileOutputStream os = new FileOutputStream(fileTemplateReplacedName	+ "/content");
 			for (int i = 0; i < sTemplate.length(); i++) {
 				os.write(sTemplate.charAt(i));
@@ -1134,7 +1145,7 @@ public class TemplateReport {
 
 		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",scenaChartBuf.toString());
 
-		System.out.println("replaceSenarioInfo-replace string:\n"+ scenaStatusBuf.toString());
+//		System.out.println("replaceSenarioInfo-replace string:\n"+ scenaStatusBuf.toString());
 
 		return sTemplate;
 	}
@@ -1193,7 +1204,6 @@ public class TemplateReport {
 		
 				
 		List<String> dataLink = readLinkInfo(scenario);	
-		System.out.println("Data link 1:" + dataLink.get(0));
 		sTemplate = sTemplate.replace("@@DATA_LINK1@@", configurations.getVersionWeekThis() + "-1: " + dataLink.get(0));
 		sTemplate = sTemplate.replace("@@DATA_LINK2@@", configurations.getVersionWeekThis() + "-2: " + dataLink.get(1));
 		sTemplate = sTemplate.replace("@@DATA_LINK3@@", configurations.getVersionWeekThis() + "-3: " + dataLink.get(2));
@@ -1201,22 +1211,5 @@ public class TemplateReport {
 		
 		return sTemplate;
 	}	
-
-
-	/**
-	 * generate a chart by replace in excess information and return a
-	 * !imagechart! to copy to Wiki doc
-	 * 
-	 * @param sGoogleChart
-	 * @return
-	 */
-
-	String generatePulishChart(String sGoogleChart) {
-		// String keyGoogledoc = mapGeneralConfig.get("keygoogledoc");
-		// sGoogleChart = sGoogleChart.replace("KEYGOOGLEDOC", keyGoogledoc);
-
-		sGoogleChart = sGoogleChart.replace("<img src=\"", "");
-		sGoogleChart = sGoogleChart.replace("\" />", "");
-		return sGoogleChart;
-	}
+	
 }

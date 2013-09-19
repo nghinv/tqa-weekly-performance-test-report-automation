@@ -52,6 +52,8 @@ public class Configurations {
 	private int throughputColumn;
 	private int responseAvgColumn;
 	private int errorColumn;
+	
+	private String pushToDav;
 		
 	public String getGeneratedPath() {
 		return generatedPath;
@@ -309,6 +311,11 @@ public class Configurations {
 	public void setReadTemplateOutsideProject(String readTemplateOutsideProject) {
 		this.readTemplateOutsideProject = readTemplateOutsideProject;
 	}
-	
+	public String getPushToDav() {
+		return pushToDav;
+	}
+	public void setPushToDav(String pushToDav) {
+		this.pushToDav = pushToDav;
+	}
 	
 }

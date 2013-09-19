@@ -27,9 +27,6 @@ public class Template {
   public Template(String configFile){	  	  
 	  reportInfo = new TemplateReport();
 	  reportInfo.generateReport(configFile);
-	    
-	  //send template through WEBDAV	  
-	  reportInfo.useSenderWebdav(); 
   }
   
   

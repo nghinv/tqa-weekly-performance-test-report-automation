@@ -21,6 +21,7 @@
 		<webdav_path>http://int.exoplatform.org/rest/private/jcr/repository/collaboration/Groups/spaces/team_tqa/ApplicationData/eXoWiki/WikiHome/PERFORMANCE/Weekly_Performance_Tests
 		</webdav_path>
 		-->
+		<push_to_dav>false</push_to_dav>
 		<webdav_path>http://localhost:8080/rest/private/jcrwiki/repository/collaboration/exo:applications/eXoWiki/wikis/intranet/WikiHome
 		</webdav_path>
 		<webdav_login>quyennt</webdav_login>
