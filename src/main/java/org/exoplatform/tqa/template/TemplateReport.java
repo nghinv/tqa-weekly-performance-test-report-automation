@@ -1122,7 +1122,7 @@ public class TemplateReport {
 			tmp = tmp.replace("SCENA_NUMBER", x + "");
 			tmp = tmp.replace("SCENA_NAME", scenario.getScenarioName());
 			tmp = tmp.replace("SCENA_LINK", configurations.getWikiLink()+ configurations.getPrefix() 
-												+ "_" + scenario.getScenarioName());
+												+ "_-_" + scenario.getScenarioName());
 			tmp = tmp.replace("PRE_RES_COLOR", scenario.getPreResponseDiffColor());
 			tmp = tmp.replace("PRE_RES_PERCENT", df.format(scenario.getPreResponseDiff()*100));
 			tmp = tmp.replace("PRE_STATUS_RESULT", scenario.getPreResponseChangeStatus());
