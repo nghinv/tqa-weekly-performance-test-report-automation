@@ -94,7 +94,7 @@ public class TemplateReport {
 		buildL2Page();		
 	    
 		//send template through WEBDAV	
-		if(configurations.getPushToDav().trim().equals(ENABLE_TRUE)){
+		if((configurations.getPushToDav() != null) && configurations.getPushToDav().trim().equals(ENABLE_TRUE)){
 			useSenderWebdav(); 
 		}
 	}
@@ -118,7 +118,7 @@ public class TemplateReport {
 				generatedReport = readTemplate(inputStream);
 			} 			
 			generatedReport = replaceL1Info(generatedReport);
-			
+			logger.info("Building L1 - " + l1Folder.toString());
 			writeTemplateReplaced(generatedReport, l1Folder.toString());			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -160,7 +160,7 @@ public class TemplateReport {
 				 File l2Folder = new File(l1Folder +"/" +configurations.getPrefix() +
 						 								"_-_" + scenarioObject.getScenarioName());
 				 l2Folder.mkdir();
-				
+				 logger.info("Building L2:" + l2Folder.toString());
 				 writeTemplateReplaced(templateToString, l2Folder.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -187,13 +187,13 @@ public class TemplateReport {
 		try {
 			// read config file			
 			if(configFileXml != null){
-				logger.info("Start loading configuration file - outside project...");
+				logger.info("Start loading configuration file - outside project... - configFile name:" + configFileXml);
 				//Read config file passed by user
 				File file = new File(configFileXml);
 				inputStream = new FileInputStream(file);
 			}else{			
 				//Read config file included in the project
-				logger.info("Start loading configuration file - included in project...");
+				logger.info("Start loading configuration file - included in project... - configFile name: org/exoplatform/tqa/configs/ReportConfig.xml");
 				inputStream=ClassLoader.getSystemResourceAsStream("org/exoplatform/tqa/configs/ReportConfig.xml");
 			}
 			
@@ -286,9 +286,11 @@ public class TemplateReport {
 			configurations.setDataPath(valueSpacesValues);
 
 			//push to dav
-			valueSpacesValues = pushToDav.item(0).getFirstChild().getNodeValue();
-			configurations.setPushToDav(valueSpacesValues);
-			
+			if(pushToDav != null && pushToDav.item(0)!= null){
+				valueSpacesValues = pushToDav.item(0).getFirstChild().getNodeValue();
+				configurations.setPushToDav(valueSpacesValues);				
+			}
+		
 			//webdav login
 			valueSpacesValues = webdavLogin.item(0).getFirstChild().getNodeValue();
 			configurations.setWebdavLogin(valueSpacesValues);

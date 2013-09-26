@@ -47,7 +47,9 @@ public class Template {
 	    	} catch(Exception ex) {
 	    		ex.printStackTrace();
 	    		logger.error(ex.getMessage());
-	    	}	    	
+	    		ex.printStackTrace();
+	    	}
+	    	e.printStackTrace();
 	    }
       System.exit(0);
     }
