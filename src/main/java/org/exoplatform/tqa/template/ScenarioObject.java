@@ -16,13 +16,32 @@ public class ScenarioObject {
 	private int preResponseTime;
 	private int currentResponseTime;
 	
+	private int thisWeekResponseTime1;
+	private int thisWeekResponseTime2;
+	private int thisWeekResponseTime3;
+	
+	private int base1h;
+	private int base1hStability;
+	
+	private int weekStability;
+	private int baseStability;
+	
+	private String weekStabilityDisplay;
+	private String baseStabilityDisplay;
+	
+	private String weekStabilityColor;
+	private String baseStabilityColor;
+	
+	private String weekStabilityIndi;
+	private String baseStabilityIndi;
+	
 	private int baseThroughput;
 	private int preThroughput;
 	private int currentThroughput;
 	
 	private double preResponseDiff;
 	private double baseResponseDiff;
-
+	
 	private double preThroughputDiff;
 	private double baseThroughputDiff;	
 		
@@ -381,6 +400,162 @@ public class ScenarioObject {
 
 	public void setDataLink(List dataLink) {
 		this.dataLink = dataLink;
+	}
+
+
+
+	public int getThisWeekResponseTime1() {
+		return thisWeekResponseTime1;
+	}
+
+
+
+	public void setThisWeekResponseTime1(int thisWeekResponseTime1) {
+		this.thisWeekResponseTime1 = thisWeekResponseTime1;
+	}
+
+
+
+	public int getThisWeekResponseTime2() {
+		return thisWeekResponseTime2;
+	}
+
+
+
+	public void setThisWeekResponseTime2(int thisWeekResponseTime2) {
+		this.thisWeekResponseTime2 = thisWeekResponseTime2;
+	}
+
+
+
+	public int getThisWeekResponseTime3() {
+		return thisWeekResponseTime3;
+	}
+
+
+
+	public void setThisWeekResponseTime3(int thisWeekResponseTime3) {
+		this.thisWeekResponseTime3 = thisWeekResponseTime3;
+	}
+
+
+
+	public int getBase1h() {
+		return base1h;
+	}
+
+
+
+	public void setBase1h(int base1h) {
+		this.base1h = base1h;
+	}
+
+
+
+	public int getBase1hStability() {
+		return base1hStability;
+	}
+
+
+
+	public void setBase1hStability(int base1hStability) {
+		this.base1hStability = base1hStability;
+	}
+
+
+
+	public int getWeekStability() {
+		return weekStability;
+	}
+
+
+
+	public void setWeekStability(int weekStability) {
+		this.weekStability = weekStability;
+	}
+
+
+
+	public int getBaseStability() {
+		return baseStability;
+	}
+
+
+
+	public void setBaseStability(int baseStability) {
+		this.baseStability = baseStability;
+	}
+
+
+
+	public String getWeekStabilityDisplay() {
+		return weekStabilityDisplay;
+	}
+
+
+
+	public void setWeekStabilityDisplay(String weekStabilityDisplay) {
+		this.weekStabilityDisplay = weekStabilityDisplay;
+	}
+
+
+
+	public String getBaseStabilityDisplay() {
+		return baseStabilityDisplay;
+	}
+
+
+
+	public void setBaseStabilityDisplay(String baseStabilityDisplay) {
+		this.baseStabilityDisplay = baseStabilityDisplay;
+	}
+
+
+
+	public String getWeekStabilityColor() {
+		return weekStabilityColor;
+	}
+
+
+
+	public void setWeekStabilityColor(String weekStabilityColor) {
+		this.weekStabilityColor = weekStabilityColor;
+	}
+
+
+
+	public String getBaseStabilityColor() {
+		return baseStabilityColor;
+	}
+
+
+
+	public void setBaseStabilityColor(String baseStabilityColor) {
+		this.baseStabilityColor = baseStabilityColor;
+	}
+
+
+
+	public String getWeekStabilityIndi() {
+		return weekStabilityIndi;
+	}
+
+
+
+	public void setWeekStabilityIndi(String weekStabilityIndi) {
+		this.weekStabilityIndi = weekStabilityIndi;
+	}
+
+
+
+	public String getBaseStabilityIndi() {
+		return baseStabilityIndi;
+	}
+
+
+
+	public void setBaseStabilityIndi(String baseStabilityIndi) {
+		this.baseStabilityIndi = baseStabilityIndi;
 	}
 
 	

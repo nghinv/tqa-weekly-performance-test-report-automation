@@ -26,7 +26,7 @@ public class Template {
     
   public Template(String configFile){	  	  
 	  reportInfo = new TemplateReport();
-	  reportInfo.generateReport(configFile);
+	  reportInfo.generateReport(configFile);	  
   }
   
   
@@ -49,7 +49,7 @@ public class Template {
 	    		logger.error(ex.getMessage());
 	    		ex.printStackTrace();
 	    	}
-	    	e.printStackTrace();
+	    	logger.error(e.getMessage());	    	
 	    }
       System.exit(0);
     }

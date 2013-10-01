@@ -47,13 +47,18 @@ public class TemplateReport {
 	
 	private final static String ANALYSIS_FOLDER = "analysis";
 	private final static String ANALYSIS_FILE = "analysis-AggregateReport.csv";
+//	private final static String ANALYSIS_FILE = "MERGE3-AggregateReport.csv";
+	
+	private final static String WEEK_AGG_FILE = "weekstability-AggregateReport.csv";
+	private final static String BASE_AGG_FILE = "basestability-AggregateReport.csv";
+	
 	private final static String DATA_LINK_FILE = "links.info";
 	private final static String ANALYSIS_BOUNDARY_PARENT_GENERAL = "generalinfo";
 		
 	private final static String CHANGE_STATUS_WORSE = "WORSE";
 	private final static String CHANGE_STATUS_BETTER = "BETTER";
 	private final static String CHANGE_STATUS_THE_SAME  = "THE SAME";
-	private final static String CHANGE_STATUS_DECLINE  = "DECLINE"; 
+//	private final static String CHANGE_STATUS_DECLINE  = "DECLINE"; 
 	
 	private final static String COLOR_WORSE = "red";
 	private final static String COLOR_BETTER = "blue";
@@ -61,8 +66,22 @@ public class TemplateReport {
 	private final static String COLOR_DECLINE  = "yellow"; 
 	
 	private final static String ENABLE_TRUE = "true";
-	private final static String ENABLE_FALSE = "false";
+//	private final static String ENABLE_FALSE = "false";
 	
+	private final static int STABILITY_STABLE = 0;
+	private final static int STABILITY_STABLE_ABIT = 1;
+	private final static int STABILITY_NOT_STABLE = 2;
+	private final static int STABILITY_BAD = 3;
+	
+	private final static String STABILITY_STABLE_STRING = "Stable";
+	private final static String STABILITY_STABLE_ABIT_STRING = "A bit unstable";
+	private final static String STABILITY_NOT_STABLE_STRING = "Unstable";
+	private final static String STABILITY_BAD_STRING= "Bad";	
+	
+	private final static int STABILITY_KEY[] = {STABILITY_STABLE,STABILITY_STABLE_ABIT,STABILITY_NOT_STABLE,STABILITY_BAD};
+													
+	private final static String STABILITY_VALUE[] = {STABILITY_STABLE_STRING,STABILITY_STABLE_ABIT_STRING,STABILITY_NOT_STABLE_STRING,STABILITY_BAD_STRING}; 
+		
 	private final static String CONCLUSION_THE_SAME = "The result of Throughput and 90% line of response time show that performance of this week package is THE SAME as the previous week one";
 	private final static String CONCLUSION_WORSE = "The result of Throughput and 90% line of response time show that performance of this week package is WORSE than the previous week one";
 	private final static String CONCLUSION_BETTER = "The result of Throughput and 90% line of response time show that performance of this week package is BETTER than the previous week one";
@@ -670,6 +689,7 @@ public class TemplateReport {
 				if(!scenarioObject.getEnable().equals(ENABLE_TRUE) )
 					continue;
 				processedObj = processDataForEachScenario(scenarioObject);
+				
 				returnList.add(processedObj);
 			}			
 
@@ -691,34 +711,41 @@ public class TemplateReport {
 		String INDICATOR_WORSE = configurations.getIndicatorImgSrc() + configurations.getIndicatorStorm();
 		String INDICATOR_THE_SAME = configurations.getIndicatorImgSrc() + configurations.getIndicatorClear();
 		String INDICATOR_BETTER = configurations.getIndicatorImgSrc() + configurations.getIndicatorClear();
+		String INDICATOR_ALERT = configurations.getIndicatorImgSrc() + configurations.getIndicatorAlert();
 		
 		ScenarioObject returnObj = readScenarioData(scenarioObject);
 						
 		double baseResDiff;
 		double preResDiff;
+				
 		double baseThruDiff;
 		double preThruDiff;
 		
 		//Boundary values from config file
 		double resTopConfig = scenarioObject.getBoundaryObject().getResTop();
-		double resUpperConfig = scenarioObject.getBoundaryObject().getResUpper();
-		double resLowerConfig = scenarioObject.getBoundaryObject().getResLower();
+//		double resUpperConfig = scenarioObject.getBoundaryObject().getResUpper();
+//		double resLowerConfig = scenarioObject.getBoundaryObject().getResLower();
 		double resBottomConfig = scenarioObject.getBoundaryObject().getResBottom();
 		
 		double thruTopConfig = scenarioObject.getBoundaryObject().getThruTop();
-		double thruUpperConfig = scenarioObject.getBoundaryObject().getThruUpper();
-		double thruLowerConfig = scenarioObject.getBoundaryObject().getThruLower();
-		double thruBottomConfig = scenarioObject.getBoundaryObject().getThruBottom();		
+//		double thruUpperConfig = scenarioObject.getBoundaryObject().getThruUpper();
+//		double thruLowerConfig = scenarioObject.getBoundaryObject().getThruLower();
+		double thruBottomConfig = scenarioObject.getBoundaryObject().getThruBottom();	
+		
+		int stability[];
 
 		try {
+			//diff of this week compared to the base
 			baseResDiff =  (double)(returnObj.getCurrentResponseTime() - returnObj.getBaseResponseTime())/returnObj.getBaseResponseTime();
+			//diff of this week compared to the previous
 			preResDiff  =  (double)(returnObj.getCurrentResponseTime() - returnObj.getPreResponseTime())/returnObj.getPreResponseTime();
-			
+						
 			baseThruDiff =  (double)(returnObj.getCurrentThroughput() - returnObj.getBaseThroughput())/returnObj.getBaseThroughput();
 			preThruDiff  =  (double)(returnObj.getCurrentThroughput() - returnObj.getPreThroughput())/returnObj.getPreThroughput();
 			
-			returnObj.setBaseResponseDiff(baseResDiff);
-			returnObj.setPreResponseDiff(preResDiff);	
+			returnObj.setBaseResponseDiff(baseResDiff);			
+			returnObj.setPreResponseDiff(preResDiff);
+			
 			
 			returnObj.setBaseThroughputDiff(baseThruDiff);
 			returnObj.setPreThroughputDiff(preThruDiff);
@@ -798,31 +825,121 @@ public class TemplateReport {
 				returnObj.setPreThruDiffColor(COLOR_THE_SAME);
 				returnObj.setPreThruDiffIndicator(INDICATOR_THE_SAME);
 			}
-						
+			
+			//Calculate stability
+			returnObj = readStabilityData(returnObj);
+			
+			stability = caculateStability(returnObj, resTopConfig);
+			returnObj.setWeekStabilityDisplay(STABILITY_VALUE[stability[0]]);
+			returnObj.setBaseStabilityDisplay(STABILITY_VALUE[stability[1]]);
+			
+			if(stability[0] == STABILITY_STABLE){
+				returnObj.setWeekStabilityColor(COLOR_BETTER);
+				returnObj.setWeekStabilityIndi(INDICATOR_BETTER);				
+			} else if (stability[0] == STABILITY_STABLE_ABIT){
+				returnObj.setWeekStabilityColor(COLOR_DECLINE);
+				returnObj.setWeekStabilityIndi(INDICATOR_ALERT);	
+			} else if (stability[0] == STABILITY_NOT_STABLE){
+				returnObj.setWeekStabilityColor(COLOR_WORSE);
+				returnObj.setWeekStabilityIndi(INDICATOR_WORSE);	
+			} else if (stability[0] == STABILITY_BAD){
+				returnObj.setWeekStabilityColor(COLOR_WORSE);
+				returnObj.setWeekStabilityIndi(INDICATOR_WORSE);	
+			}
+			
+			//Stability base
+			if(stability[1] == STABILITY_STABLE){
+				returnObj.setBaseStabilityColor(COLOR_BETTER);
+				returnObj.setBaseStabilityIndi(INDICATOR_BETTER);				
+			} else if (stability[1] == STABILITY_STABLE_ABIT){
+				returnObj.setBaseStabilityColor(COLOR_DECLINE);
+				returnObj.setBaseStabilityIndi(INDICATOR_ALERT);	
+			} else if (stability[1] == STABILITY_NOT_STABLE){
+				returnObj.setBaseStabilityColor(COLOR_WORSE);
+				returnObj.setBaseStabilityIndi(INDICATOR_WORSE);	
+			} else if (stability[1] == STABILITY_BAD){
+				returnObj.setBaseStabilityColor(COLOR_WORSE);
+				returnObj.setBaseStabilityIndi(INDICATOR_WORSE);	
+			}			
 								
-			System.out.println("processDataForEachScenario - name=" + scenarioObject.getScenarioName());
-			System.out.println("processDataForEachScenario - res base=" + returnObj.getBaseResponseTime());
-			System.out.println("processDataForEachScenario - res pre =" + returnObj.getPreResponseTime());
-			System.out.println("processDataForEachScenario - res this=" + returnObj.getCurrentResponseTime());
+			logger.info("processDataForEachScenario - name=" + scenarioObject.getScenarioName());
+			logger.info("processDataForEachScenario - res base=" + returnObj.getBaseResponseTime());
+			logger.info("processDataForEachScenario - res pre =" + returnObj.getPreResponseTime());
+			logger.info("processDataForEachScenario - res this=" + returnObj.getCurrentResponseTime());
 			
-			System.out.println("processDataForEachScenario - res top=" + resTopConfig);
-			System.out.println("processDataForEachScenario - res bottoom=" + resBottomConfig);
-			System.out.println("processDataForEachScenario - res base diff=" + returnObj.getBaseResponseDiff());
-			System.out.println("processDataForEachScenario - res pre diff=" + returnObj.getPreResponseDiff());
+			logger.info("processDataForEachScenario - res top=" + resTopConfig);
+			logger.info("processDataForEachScenario - res bottoom=" + resBottomConfig);
+			logger.info("processDataForEachScenario - res base diff=" + returnObj.getBaseResponseDiff());
+			logger.info("processDataForEachScenario - res pre diff=" + returnObj.getPreResponseDiff());
 
-			System.out.println("processDataForEachScenario - thru top=" + resTopConfig);
-			System.out.println("processDataForEachScenario - thru bottoom=" + resBottomConfig);
-			System.out.println("processDataForEachScenario - thru base diff=" + returnObj.getBaseThroughputDiff());
-			System.out.println("processDataForEachScenario - thru pre diff=" + returnObj.getPreThroughputDiff());
+			logger.info("processDataForEachScenario - thru top=" + resTopConfig);
+			logger.info("processDataForEachScenario - thru bottoom=" + resBottomConfig);
+			logger.info("processDataForEachScenario - thru base diff=" + returnObj.getBaseThroughputDiff());
+			logger.info("processDataForEachScenario - thru pre diff=" + returnObj.getPreThroughputDiff());
 			
-			System.out.println("processDataForEachScenario - res base status =" + returnObj.getBaseResponseChangeStatus());
-			System.out.println("processDataForEachScenario - res base color =" + returnObj.getBaseResponseDiffColor());
+			logger.info("processDataForEachScenario - res base status =" + returnObj.getBaseResponseChangeStatus());
+			logger.info("processDataForEachScenario - res base color =" + returnObj.getBaseResponseDiffColor());
+			
+			logger.info("processDataForEachScenario - week stability =" + returnObj.getWeekStability());
+			logger.info("processDataForEachScenario - base stability =" + returnObj.getBaseStability());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 		return returnObj;	
 	}	
+	
+	/**
+	 * 
+	 * Created on: Sep 30, 2013,9:48:48 AM
+	 * Author: QuyenNT
+	 * @param scenario
+	 * @param resTopConfig
+	 * @return
+	 */
+	public int[] caculateStability(ScenarioObject scenario, double resTopConfig){
+		int result = 0;
+		double dif2To1;
+		double dif3To1;
+		double dif3To2;
+		
+		double baseDiff;
+		
+		int returnStability[] = new int[2];
+		
+		try {		
+			dif2To1 =  (double)(scenario.getThisWeekResponseTime2() - scenario.getThisWeekResponseTime1())/scenario.getThisWeekResponseTime1();
+			dif3To1 =  (double)(scenario.getThisWeekResponseTime3() - scenario.getThisWeekResponseTime1())/scenario.getThisWeekResponseTime1();
+			dif3To2 =  (double)(scenario.getThisWeekResponseTime3() - scenario.getThisWeekResponseTime2())/scenario.getThisWeekResponseTime2();
+			
+			baseDiff =  (double)(scenario.getBase1hStability() - scenario.getBase1h())/scenario.getBase1h();
+			
+			if(dif2To1 > resTopConfig){				
+				result++;	
+			}
+			
+			if(dif3To1 > resTopConfig){				
+				result++;	
+			}
+			
+			if(dif3To2 > resTopConfig){				
+				result++;	
+			}
+			
+			returnStability[0] = STABILITY_KEY[result];
+			
+			//Base stability
+			if(baseDiff > resTopConfig){				
+				returnStability[1] = STABILITY_KEY[STABILITY_NOT_STABLE];	
+			} else {
+				returnStability[1] = STABILITY_KEY[STABILITY_STABLE];
+			}
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return returnStability;
+	}
 	
 	/**
 	 * Read scnario data from csv files
@@ -847,16 +964,7 @@ public class TemplateReport {
 		try {		
 			for(int j = 0; j < scenarioWeekList.size();j ++){
 				returnObj = scenarioObject;
-				//Set scenario values to returned object				
-//				returnObj.setResponseLabel(scenarioObject.getResponseLabel());
-//				returnObj.setScenarioName(scenarioObject.getScenarioName());
-//				returnObj.setResponseLabelId(scenarioObject.getResponseLabelId());
-//				returnObj.setThroughputLabel(scenarioObject.getThroughputLabel());
-//				returnObj.setResponseLabelAlias(scenarioObject.getResponseLabelAlias());
-//				returnObj.setBoundaryObject(scenarioObject.getBoundaryObject());
-//				returnObj.setScenarioAlias(scenarioObject.getScenarioAlias());
-//				returnObj.setScenarioUrl(scenarioObject.getScenarioUrl());
-								
+										
 				//Base
 				if(scenarioWeekList.contains(configurations.getWeekBase())){					
 					dataFile = configurations.getDataPath() + "/" + scenarioObject.getScenarioName() + "/" + 
@@ -932,7 +1040,8 @@ public class TemplateReport {
 						}						
 					}					
 				}				
-			}//End for			
+			}//End for	
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -945,7 +1054,103 @@ public class TemplateReport {
 		}
 		return returnObj;
 	} 
-
+	
+	/**
+	 * 
+	 * Created on: Sep 30, 2013,5:12:13 PM
+	 * Author: QuyenNT
+	 * @param scenario
+	 * @return
+	 */
+	public ScenarioObject readStabilityData(ScenarioObject scenario){
+		String dataFile;
+		BufferedReader br = null;	
+		String currentLine;
+		String[] dataArr;
+		
+		int responseIndex = configurations.getResponseColumn() - 1;
+		int runNumber = 1;
+		
+		try {
+			//Read week stability aggregate file
+			dataFile = configurations.getDataPath() + "/" + scenario.getScenarioName() + "/" + 
+					configurations.getWeekThis() + "/" + ANALYSIS_FOLDER + "/" + WEEK_AGG_FILE;
+			
+			br = new BufferedReader(new FileReader(dataFile));
+				
+			br.readLine();//by pass the first line
+				
+			while ((currentLine = br.readLine()) != null) {
+				dataArr = currentLine.split(configurations.getDataDelimiter());						
+				for (int i = 0; i < dataArr.length; i++) {					
+					if(runNumber == 1 && i == responseIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenario.getResponseLabelId())){
+						scenario.setThisWeekResponseTime1(Integer.parseInt(dataArr[responseIndex]));	
+						runNumber ++;	
+						break;
+					}
+					
+					if(runNumber == 2 && i == responseIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenario.getResponseLabelId())){
+						scenario.setThisWeekResponseTime2(Integer.parseInt(dataArr[responseIndex]));
+						runNumber ++;
+						break;
+					}
+					
+					if(runNumber == 3 && i == responseIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenario.getResponseLabelId())){
+						scenario.setThisWeekResponseTime3(Integer.parseInt(dataArr[responseIndex]));	
+						runNumber = 1;
+						break;
+					}					
+				}						
+			}
+			
+			//Read base stability aggregate file
+			dataFile = configurations.getDataPath() + "/" + scenario.getScenarioName() + "/" + 
+					configurations.getWeekThis() + "/" + ANALYSIS_FOLDER + "/" + BASE_AGG_FILE;
+			
+			br = new BufferedReader(new FileReader(dataFile));
+				
+			br.readLine();//by pass the first line
+				
+			while ((currentLine = br.readLine()) != null) {
+				dataArr = currentLine.split(configurations.getDataDelimiter());						
+				for (int i = 0; i < dataArr.length; i++) {					
+					if(runNumber == 1 && i == responseIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenario.getResponseLabelId())){
+						scenario.setBase1h(Integer.parseInt(dataArr[responseIndex]));	
+						runNumber ++;	
+						break;
+					}
+					
+					if(runNumber == 2 && i == responseIndex && dataArr[0].trim().replaceAll("\"", "").startsWith(scenario.getResponseLabelId())){
+						scenario.setBase1hStability(Integer.parseInt(dataArr[responseIndex]));
+						runNumber =1;
+						break;
+					}
+								
+				}						
+			}
+			logger.info("_________________Read stability data - " + scenario.getScenarioName());			
+			logger.info("This week run 1 = " + scenario.getThisWeekResponseTime1());
+			logger.info("This week run 2 = " + scenario.getThisWeekResponseTime2());
+			logger.info("This week run 3 = " + scenario.getThisWeekResponseTime3());
+			
+			logger.info("Base 1H = " + scenario.getBase1h());
+			logger.info("Base 1H stability = " + scenario.getBase1hStability());
+			
+			logger.info("");
+			
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}					
+		return scenario;
+	}
+		
 	/**
 	 * 
 	 * Created on: Sep 13, 2013,11:32:36 AM
@@ -1147,7 +1352,7 @@ public class TemplateReport {
 
 		sTemplate = sTemplate.replace("@@STATISTICS_CHARTS@@",scenaChartBuf.toString());
 
-//		System.out.println("replaceSenarioInfo-replace string:\n"+ scenaStatusBuf.toString());
+//		logger.info("replaceSenarioInfo-replace string:\n"+ scenaStatusBuf.toString());
 
 		return sTemplate;
 	}
@@ -1190,6 +1395,15 @@ public class TemplateReport {
 		sTemplate = sTemplate.replace("@@IMG_THRU_HIG@@", configurations.getImgThruValue());
 		
 		sTemplate = sTemplate.replace("@@STABILITY_THIS@@", configurations.getVersionWeekThis());
+		
+		sTemplate = sTemplate.replace("@@STABILITY_BASE_DISPLAY@@", scenario.getBaseStabilityDisplay());
+		sTemplate = sTemplate.replace("@@STABILITY_THIS_DISPLAY@@", scenario.getWeekStabilityDisplay());
+		
+		sTemplate = sTemplate.replace("@@STABILITY_BASE_INDICATOR@@", scenario.getBaseStabilityIndi());
+		sTemplate = sTemplate.replace("@@STABILITY_THIS_INDICATOR@@", scenario.getWeekStabilityIndi());
+		
+		sTemplate = sTemplate.replace("@@STABILITY_BASE_COLOR@@", scenario.getBaseStabilityColor());
+		sTemplate = sTemplate.replace("@@STABILITY_THIS_COLOR@@", scenario.getWeekStabilityColor());
 						
 		if(scenario.getPreResponseChangeStatus().equals(CHANGE_STATUS_BETTER)){
 			sTemplate = sTemplate.replace("@@CONCLUSION_MESSAGE@@", CONCLUSION_BETTER);	

@@ -15,8 +15,8 @@
 |=[[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] | (% style="color:blue" %) There is no error in running test.
 * **Stability
 |= - |= Stability |=  [[Indicator>>http://int.exoplatform.org/portal/intranet/wiki/group/spaces/team_tqa/WP_PLF_Report_reference]]
-| stability of environment (confirmed by tests on PLF402-W32) |(% style="color:blue" %) stable | [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] 
-| new package stability (@@STABILITY_THIS@@) |(% style="color:blue" %) stable | [[image:http://int.exoplatform.org/portal/rest/wiki/images/group/space/spaces/team_tqa/page/WP_PLF_Report_reference/weather_clear.png]] 
+| stability of environment (confirmed by tests on PLF402-W32) |(% style="color:@@STABILITY_BASE_COLOR@@" %) @@STABILITY_BASE_DISPLAY@@ | [[image:@@STABILITY_BASE_INDICATOR@@]] 
+| new package stability (@@STABILITY_THIS@@) |(% style="color:@@STABILITY_THIS_COLOR@@" %) @@STABILITY_THIS_DISPLAY@@ | [[image:@@STABILITY_THIS_INDICATOR@@]] 
 * **Conclusion: 
 (% style="color:@@CONCLUSION_COLOR@@" %)@@CONCLUSION_MESSAGE@@
 {{/panel}}

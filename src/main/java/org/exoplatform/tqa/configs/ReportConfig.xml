@@ -3,17 +3,19 @@
   <generalinfo>
     <data_delimiter>,</data_delimiter>
     <prefix>WP_PLF_4.0.x_-_2013-W37</prefix>
-    <data_path>/mnt/nfs4/performancetest-data/results/</data_path>
+    <data_path>/home/quyennt/workspace/TQA/one/</data_path>
     <generated_path>/home/quyennt/workspace/TQA/report</generated_path>
+    
+    <!-- Name of folders containing data used to generate report -->
     <weeks>
       <base>W32-20130807-BASE</base>
-      <previous>W35-20130829</previous>
-      <this>W37-20130911</this>
+      <previous>W33-20130815</previous>
+      <this>W34-20130821</this>
     </weeks>
 		<wiki_link>http://int.exoplatform.org/portal/g/:spaces:team_tqa/team_tqa/wiki/</wiki_link>
 				
-		<version_week_previous>PLF40x-W35</version_week_previous>
-		<version_week_this>PLF40x-W36</version_week_this>
+		<version_week_previous>PLF40x-W34</version_week_previous>
+		<version_week_this>PLF40x-W33</version_week_this>
 		<version_base>PLF402</version_base>		
 
 		<!-- use to send template through WEBDAV -->
@@ -24,9 +26,9 @@
 		<push_to_dav>false</push_to_dav>
 		<webdav_path>http://localhost:8080/rest/private/jcrwiki/repository/collaboration/exo:applications/eXoWiki/wikis/intranet/WikiHome
 		</webdav_path>
-		<webdav_login>quyennt</webdav_login>
+		<webdav_login>yourName</webdav_login>
 		<!-- use EncryptService to generate pass -->
-		<webdav_pass>77ddf1bec80e7a22</webdav_pass>		
+		<webdav_pass>yourEncryptedPass</webdav_pass>		
 
     <data_column_indexes>
       <responsetime>5</responsetime>
@@ -102,7 +104,7 @@
         <duration>3600</duration>
         <VU>20</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
     </scenario>
     <scenario>
       <name>PERF_PLF_ENT_INTRANET_FORUM_READ_TOPIC</name>
@@ -141,7 +143,7 @@
         <duration>3600</duration>
         <VU>10</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
     </scenario>
     <scenario>
       <name>PERF_PLF_ENT_INTRANET_SOCIAL_READ_PROFILE</name>
@@ -154,7 +156,7 @@
         <duration>3600</duration>
         <VU>10</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
     </scenario>
     <scenario>
       <name>PERF_PLF_ENT_INTRANET_SOCIAL_READ_SPACE_HOME</name>
@@ -167,7 +169,7 @@
         <duration>3600</duration>
         <VU>20</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
     </scenario>
 
     <scenario>
@@ -181,7 +183,7 @@
         <duration>3600</duration>
         <VU>5</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
       <analysis_boundaries>
         <responsetime>
           <top>0.35</top>
@@ -208,7 +210,7 @@
         <duration>3600</duration>
         <VU>5</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
       <analysis_boundaries>
         <responsetime>
           <top>0.3</top>
@@ -235,7 +237,7 @@
         <duration>3600</duration>
         <VU>5</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
       <analysis_boundaries>
         <responsetime>
           <top>0.235</top>
@@ -262,7 +264,7 @@
         <duration>3600</duration>
         <VU>2</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
       <analysis_boundaries>
         <responsetime>
           <top>0.3</top>
@@ -289,7 +291,7 @@
         <duration>3600</duration>
         <VU>2</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
       <analysis_boundaries>
         <responsetime>
           <top>0.1</top>
@@ -316,7 +318,7 @@
         <duration>3600</duration>
         <VU>2</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
       <analysis_boundaries>
         <responsetime>
           <top>0.39</top>
@@ -343,7 +345,7 @@
         <duration>3600</duration>
         <VU>2</VU>
       </test>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
       <analysis_boundaries>
         <responsetime>
           <top>0.245</top>
