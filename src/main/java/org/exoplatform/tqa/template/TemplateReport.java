@@ -46,8 +46,8 @@ public class TemplateReport {
 	final static Logger logger = Logger.getLogger(TemplateReport.class);
 	
 	private final static String ANALYSIS_FOLDER = "analysis";
-	private final static String ANALYSIS_FILE = "analysis-AggregateReport.csv";
-//	private final static String ANALYSIS_FILE = "MERGE3-AggregateReport.csv";
+//	private final static String ANALYSIS_FILE = "analysis-AggregateReport.csv";
+	private final static String ANALYSIS_FILE = "MERGE3-AggregateReport.csv";
 	
 	private final static String WEEK_AGG_FILE = "weekstability-AggregateReport.csv";
 	private final static String BASE_AGG_FILE = "basestability-AggregateReport.csv";
@@ -880,8 +880,8 @@ public class TemplateReport {
 			logger.info("processDataForEachScenario - res base status =" + returnObj.getBaseResponseChangeStatus());
 			logger.info("processDataForEachScenario - res base color =" + returnObj.getBaseResponseDiffColor());
 			
-			logger.info("processDataForEachScenario - week stability =" + returnObj.getWeekStability());
-			logger.info("processDataForEachScenario - base stability =" + returnObj.getBaseStability());
+			logger.info("processDataForEachScenario - week stability =" + returnObj.getWeekStabilityDisplay());
+			logger.info("processDataForEachScenario - base stability =" + returnObj.getBaseStabilityDisplay());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

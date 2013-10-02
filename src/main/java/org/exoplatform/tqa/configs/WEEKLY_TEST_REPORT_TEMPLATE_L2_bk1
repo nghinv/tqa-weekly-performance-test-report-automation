@@ -21,7 +21,9 @@
 (% style="color:@@CONCLUSION_COLOR@@" %)@@CONCLUSION_MESSAGE@@
 {{/panel}}
 * **More comparison charts: 
-| [[[[image:@@IMG_RES_NAV@@||height="100" width="100"]]>>attach:@@IMG_RES_NAV@@]]|  [[[[image:@@IMG_RES_LOW@@||height="100" width="100"]]>>attach:@@IMG_RES_LOW@@]] | [[[[image:@@IMG_THRU_HIG@@||height="100" width="100"]]>>attach:@@IMG_THRU_HIG@@]]
+*1. [[90% line of response time comparison (% - negative is better) - @@SCENARIO_ALIAS@@>>attach:@@IMG_RES_NAV@@]]
+*1. [[90% line of response time comparison (lower is better) - @@SCENARIO_ALIAS@@>>attach:@@IMG_RES_LOW@@]]
+*1. [[Throughput comparison (higher is better) - @@SCENARIO_ALIAS@@>>attach:@@IMG_THRU_HIG@@]]
 
 * **More Detail of JVM, JMeter :
 *1. @@DATA_LINK1@@
